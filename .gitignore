@@ -6,3 +6,7 @@ target
 
 schema.sql
 src-gen
+
+*.db
+
+**/src/main/frontend
