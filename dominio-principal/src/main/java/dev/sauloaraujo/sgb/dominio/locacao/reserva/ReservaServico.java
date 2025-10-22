@@ -9,19 +9,25 @@ import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Categoria;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.cliente.Cliente;
+import dev.sauloaraujo.sgb.dominio.locacao.cliente.ClienteRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.PeriodoLocacao;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusReserva;
 
 public class ReservaServico {
     private static final BigDecimal FATOR_ALTA_DEMANDA = BigDecimal.valueOf(1.25);
-	private final ReservaRepositorio reservaRepositorio;
-	private final CategoriaRepositorio categoriaRepositorio;
+    private final ReservaRepositorio reservaRepositorio;
+    private final CategoriaRepositorio categoriaRepositorio;
+    private final ClienteRepositorio clienteRepositorio;
 
-	public ReservaServico(ReservaRepositorio reservaRepositorio, CategoriaRepositorio categoriaRepositorio) {
-		this.reservaRepositorio = Objects.requireNonNull(reservaRepositorio, "Repositorio de reservas é obrigatório");
-		this.categoriaRepositorio = Objects.requireNonNull(categoriaRepositorio,
-				"Repositorio de categorias é obrigatório");
-	}
+    public ReservaServico(ReservaRepositorio reservaRepositorio, CategoriaRepositorio categoriaRepositorio,
+            ClienteRepositorio clienteRepositorio) {
+        this.reservaRepositorio = Objects.requireNonNull(reservaRepositorio,
+                "Repositorio de reservas é obrigatório");
+        this.categoriaRepositorio = Objects.requireNonNull(categoriaRepositorio,
+                "Repositorio de categorias é obrigatório");
+        this.clienteRepositorio = Objects.requireNonNull(clienteRepositorio,
+                "Repositorio de clientes é obrigatório");
+    }
 
 	public InformacaoReserva obterInformacoesReserva() {
 		return new InformacaoReserva(true, true, true, true);
@@ -42,14 +48,16 @@ public class ReservaServico {
 
 		validarDisponibilidade(categoriaCodigo, periodo, categoria.getQuantidadeDisponivel());
 
-		var valorEstimado = calcularValorEstimado(categoria.getDiaria(), periodo, categoriaCodigo,
-				categoria.getQuantidadeDisponivel());
-		var reserva = new Reserva(codigo, categoriaCodigo, cidadeRetirada, periodo, valorEstimado, StatusReserva.ATIVA,
-				cliente);
-		reservaRepositorio.salvar(reserva);
+        var valorEstimado = calcularValorEstimado(categoria.getDiaria(), periodo, categoriaCodigo,
+                categoria.getQuantidadeDisponivel());
+        registrarClienteSeNecessario(cliente);
 
-		return reserva;
-	}
+        var reserva = new Reserva(codigo, categoriaCodigo, cidadeRetirada, periodo, valorEstimado,
+                StatusReserva.ATIVA, cliente);
+        reservaRepositorio.salvar(reserva);
+
+        return reserva;
+    }
 
     private void validarDisponibilidade(CategoriaCodigo categoriaCodigo, PeriodoLocacao periodo,
             int capacidadeCategoria) {
@@ -88,13 +96,19 @@ public class ReservaServico {
                 .filter(reserva -> periodosConflitantes(reserva.getPeriodo(), periodo)).count());
     }
 
-    private boolean periodosConflitantes(PeriodoLocacao existente, PeriodoLocacao desejado) {
-        LocalDateTime inicioExistente = existente.getRetirada();
-        LocalDateTime fimExistente = existente.getDevolucao();
-        LocalDateTime inicioNovo = desejado.getRetirada();
-        LocalDateTime fimNovo = desejado.getDevolucao();
-        return !inicioNovo.isAfter(fimExistente) && !fimNovo.isBefore(inicioExistente);
-    }
+	private boolean periodosConflitantes(PeriodoLocacao existente, PeriodoLocacao desejado) {
+		LocalDateTime inicioExistente = existente.getRetirada();
+		LocalDateTime fimExistente = existente.getDevolucao();
+		LocalDateTime inicioNovo = desejado.getRetirada();
+		LocalDateTime fimNovo = desejado.getDevolucao();
+		return !inicioNovo.isAfter(fimExistente) && !fimNovo.isBefore(inicioExistente);
+	}
+
+	private void registrarClienteSeNecessario(Cliente cliente) {
+		var documento = cliente.getCpfOuCnpj();
+		var existente = clienteRepositorio.buscarPorDocumento(documento);
+		existente.ifPresentOrElse(c -> {}, () -> clienteRepositorio.salvar(cliente));
+	}
 
 	private Categoria obterCategoria(CategoriaCodigo categoria) {
 		return categoriaRepositorio.buscarPorCodigo(categoria)

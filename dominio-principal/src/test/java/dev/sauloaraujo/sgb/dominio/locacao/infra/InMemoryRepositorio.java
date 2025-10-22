@@ -11,17 +11,20 @@ import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Veiculo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.VeiculoRepositorio;
+import dev.sauloaraujo.sgb.dominio.locacao.cliente.Cliente;
+import dev.sauloaraujo.sgb.dominio.locacao.cliente.ClienteRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.operacao.Locacao;
 import dev.sauloaraujo.sgb.dominio.locacao.operacao.LocacaoRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.reserva.Reserva;
 import dev.sauloaraujo.sgb.dominio.locacao.reserva.ReservaRepositorio;
 
-public class InMemoryRepositorio
-		implements CategoriaRepositorio, VeiculoRepositorio, ReservaRepositorio, LocacaoRepositorio {
+public class InMemoryRepositorio implements CategoriaRepositorio, VeiculoRepositorio, ReservaRepositorio,
+		LocacaoRepositorio, ClienteRepositorio {
 	private final Map<CategoriaCodigo, Categoria> categorias = new HashMap<>();
 	private final Map<String, Veiculo> veiculos = new HashMap<>();
 	private final Map<String, Reserva> reservas = new HashMap<>();
 	private final Map<String, Locacao> locacoes = new HashMap<>();
+	private final Map<String, Cliente> clientes = new HashMap<>();
 
 	@Override
 	public void salvar(Categoria categoria) {
@@ -65,6 +68,8 @@ public class InMemoryRepositorio
 	@Override
 	public void salvar(Reserva reserva) {
 		reservas.put(reserva.getCodigo(), reserva);
+		var documento = reserva.getCliente().getCpfOuCnpj();
+		clientes.put(documento, reserva.getCliente());
 	}
 
 	@Override
@@ -97,5 +102,21 @@ public class InMemoryRepositorio
 		veiculos.clear();
 		reservas.clear();
 		locacoes.clear();
+		clientes.clear();
+	}
+
+	@Override
+	public void salvar(Cliente cliente) {
+		clientes.put(cliente.getCpfOuCnpj(), cliente);
+	}
+
+	@Override
+	public Optional<Cliente> buscarPorDocumento(String cpfOuCnpj) {
+		return Optional.ofNullable(clientes.get(cpfOuCnpj));
+	}
+
+	@Override
+	public List<Cliente> listarClientes() {
+		return new ArrayList<>(clientes.values());
 	}
 }
