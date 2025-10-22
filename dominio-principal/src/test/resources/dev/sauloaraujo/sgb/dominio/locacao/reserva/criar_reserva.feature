@@ -20,3 +20,14 @@ Funcionalidade: Criar reserva de veículo
     E deve ver categoria "EXECUTIVO" disponível
     E deve ver categoria "PREMIUM" disponível
     E deve ver categoria "SUV" disponível
+
+  Cenario: Registrar dados do cliente ao criar reserva
+    Dado a categoria "ECONOMICO" com diaria base 120
+    E existem 1 veiculos disponiveis da categoria "ECONOMICO"
+    E existem 0 reservas ativas da categoria "ECONOMICO" de "2026-01-05T10:00" ate "2026-01-08T10:00"
+    Quando eu crio uma reserva da categoria "ECONOMICO" de "2026-01-05T10:00" ate "2026-01-08T10:00"
+      | nome         | cpf         | cnh         | email              | cidade    |
+      | Ana Cliente | 12345678901 | 12345678901 | ana@example.com    | Recife    |
+    Entao a reserva e criada com sucesso
+    E o cliente da reserva possui cpf "12345678901"
+    E o cliente da reserva possui email "ana@example.com"

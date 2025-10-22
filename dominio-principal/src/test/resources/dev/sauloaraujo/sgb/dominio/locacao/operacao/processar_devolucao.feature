@@ -14,6 +14,7 @@ Funcionalidade: Processar devolucao de locacoes
     E a reserva "R100001" foi convertida em locacao com o veiculo "HJK3L45" na data "2026-04-01T09:50" com odometro 20000 e combustivel 100
     Quando eu processo a devolucao da reserva "R100001" na data "2026-04-04T09:30" com odometro 20300 e combustivel 100 sem danos
     Entao o valor final da locacao deve ser igual ao valor estimado da reserva
+    E o veiculo "HJK3L45" retorna ao patio da cidade "São Paulo"
     E o veiculo "HJK3L45" fica disponivel para nova locacao
 
   Cenario: Cobrar taxas por atraso e avarias enviando veiculo para manutencao

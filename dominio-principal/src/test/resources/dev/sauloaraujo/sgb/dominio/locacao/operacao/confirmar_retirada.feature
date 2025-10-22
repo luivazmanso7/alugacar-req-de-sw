@@ -25,3 +25,15 @@ Funcionalidade: Confirmar retirada e gerar locacao
       | combustivel | odometro | notas              |
       | 90          | 52000    | veiculo com alerta |
     Entao ocorre um erro de negocio com a mensagem "Veículo selecionado precisa passar por manutenção"
+
+  Cenario: Impedir retirada com veiculo vendido
+    Dado que o catalogo de categorias esta limpo
+    E que nao existem reservas cadastradas
+    E que nao existem contratos de locacao ativos
+    E a categoria "SUV" com diaria base 220
+    E existe um veiculo vendido da categoria "SUV" com placa "VND9Z99"
+    E existe uma reserva confirmada "R000003" da categoria "SUV" de "2026-03-20T09:00" ate "2026-03-25T09:00" para o cliente "98765432100"
+    Quando eu confirmo a retirada da reserva "R000003" com o veiculo "VND9Z99"
+      | combustivel | odometro | notas           |
+      | 70          | 60000    | tentativa venda |
+    Entao ocorre um erro de negocio com a mensagem "Veículo vendido não pode ser locado"

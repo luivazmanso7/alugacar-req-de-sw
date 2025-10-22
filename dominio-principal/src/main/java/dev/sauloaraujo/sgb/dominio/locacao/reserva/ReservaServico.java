@@ -8,13 +8,14 @@ import java.util.Objects;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Categoria;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaRepositorio;
+import dev.sauloaraujo.sgb.dominio.locacao.cliente.Cliente;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.PeriodoLocacao;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusReserva;
 
 public class ReservaServico {
     private static final BigDecimal FATOR_ALTA_DEMANDA = BigDecimal.valueOf(1.25);
-    private final ReservaRepositorio reservaRepositorio;
-    private final CategoriaRepositorio categoriaRepositorio;
+	private final ReservaRepositorio reservaRepositorio;
+	private final CategoriaRepositorio categoriaRepositorio;
 
 	public ReservaServico(ReservaRepositorio reservaRepositorio, CategoriaRepositorio categoriaRepositorio) {
 		this.reservaRepositorio = Objects.requireNonNull(reservaRepositorio, "Repositorio de reservas é obrigatório");
@@ -34,20 +35,21 @@ public class ReservaServico {
 		return new RequisitosCriacaoReserva(true, true, true, true);
 	}
 
-    public Reserva criarReserva(String codigo, CategoriaCodigo categoriaCodigo, String cidadeRetirada,
-            PeriodoLocacao periodo) {
-        Objects.requireNonNull(codigo, "O código é obrigatório");
-        var categoria = obterCategoria(categoriaCodigo);
+	public Reserva criarReserva(String codigo, CategoriaCodigo categoriaCodigo, String cidadeRetirada,
+			PeriodoLocacao periodo, Cliente cliente) {
+		Objects.requireNonNull(codigo, "O código é obrigatório");
+		var categoria = obterCategoria(categoriaCodigo);
 
-        validarDisponibilidade(categoriaCodigo, periodo, categoria.getQuantidadeDisponivel());
+		validarDisponibilidade(categoriaCodigo, periodo, categoria.getQuantidadeDisponivel());
 
-        var valorEstimado = calcularValorEstimado(categoria.getDiaria(), periodo, categoriaCodigo,
-                categoria.getQuantidadeDisponivel());
-        var reserva = new Reserva(codigo, categoriaCodigo, cidadeRetirada, periodo, valorEstimado, StatusReserva.ATIVA);
-        reservaRepositorio.salvar(reserva);
+		var valorEstimado = calcularValorEstimado(categoria.getDiaria(), periodo, categoriaCodigo,
+				categoria.getQuantidadeDisponivel());
+		var reserva = new Reserva(codigo, categoriaCodigo, cidadeRetirada, periodo, valorEstimado, StatusReserva.ATIVA,
+				cliente);
+		reservaRepositorio.salvar(reserva);
 
-        return reserva;
-    }
+		return reserva;
+	}
 
     private void validarDisponibilidade(CategoriaCodigo categoriaCodigo, PeriodoLocacao periodo,
             int capacidadeCategoria) {

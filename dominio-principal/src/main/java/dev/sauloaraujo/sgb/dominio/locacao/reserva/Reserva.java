@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
+import dev.sauloaraujo.sgb.dominio.locacao.cliente.Cliente;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.PeriodoLocacao;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusReserva;
 
@@ -13,15 +14,18 @@ public class Reserva {
 	private final CategoriaCodigo categoria;
 	private final String cidadeRetirada;
 	private PeriodoLocacao periodo;
+	private final Cliente cliente;
 	private BigDecimal valorEstimado;
 	private StatusReserva status;
 
-	public Reserva(CategoriaCodigo categoria, String cidadeRetirada, PeriodoLocacao periodo, BigDecimal valorEstimado) {
-		this(UUID.randomUUID().toString(), categoria, cidadeRetirada, periodo, valorEstimado, StatusReserva.ATIVA);
+	public Reserva(CategoriaCodigo categoria, String cidadeRetirada, PeriodoLocacao periodo, BigDecimal valorEstimado,
+			Cliente cliente) {
+		this(UUID.randomUUID().toString(), categoria, cidadeRetirada, periodo, valorEstimado, StatusReserva.ATIVA,
+				cliente);
 	}
 
 	public Reserva(String codigo, CategoriaCodigo categoria, String cidadeRetirada, PeriodoLocacao periodo,
-			BigDecimal valorEstimado, StatusReserva status) {
+			BigDecimal valorEstimado, StatusReserva status, Cliente cliente) {
 		this.codigo = Objects.requireNonNull(codigo, "O código da reserva é obrigatório");
 		this.categoria = Objects.requireNonNull(categoria, "A categoria é obrigatória");
 		this.cidadeRetirada = Objects.requireNonNull(cidadeRetirada, "A cidade de retirada é obrigatória");
@@ -31,6 +35,7 @@ public class Reserva {
 			throw new IllegalArgumentException("O valor estimado deve ser positivo");
 		}
 		this.status = Objects.requireNonNull(status, "O status é obrigatório");
+		this.cliente = Objects.requireNonNull(cliente, "O cliente da reserva é obrigatório");
 	}
 
 	public String getCodigo() {
@@ -51,6 +56,10 @@ public class Reserva {
 
 	public BigDecimal getValorEstimado() {
 		return valorEstimado;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
 	}
 
 	public StatusReserva getStatus() {

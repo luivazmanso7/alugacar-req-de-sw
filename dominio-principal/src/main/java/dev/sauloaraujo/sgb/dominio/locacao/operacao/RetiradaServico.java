@@ -6,6 +6,7 @@ import dev.sauloaraujo.sgb.dominio.locacao.catalogo.VeiculoRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.reserva.ReservaRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusReserva;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusVeiculo;
+import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusVeiculo;
 
 public class RetiradaServico {
 	private final ReservaRepositorio reservaRepositorio;
@@ -35,6 +36,10 @@ public class RetiradaServico {
 
 		var veiculo = veiculoRepositorio.buscarPorPlaca(command.getPlacaVeiculo())
 				.orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado"));
+
+		if (veiculo.getStatus() == StatusVeiculo.VENDIDO) {
+			throw new IllegalStateException("Veículo vendido não pode ser locado");
+		}
 
 		if (veiculo.getStatus() == StatusVeiculo.EM_MANUTENCAO) {
 			throw new IllegalStateException("Veículo selecionado precisa passar por manutenção");

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import dev.sauloaraujo.sgb.dominio.locacao.patio.Patio;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusVeiculo;
 
 public class Veiculo {
@@ -15,6 +16,7 @@ public class Veiculo {
 	private StatusVeiculo status;
 	private LocalDateTime manutencaoPrevista;
 	private String manutencaoNota;
+	private Patio patio;
 
 	public Veiculo(String placa, String modelo, CategoriaCodigo categoria, String cidade, BigDecimal diaria,
 			StatusVeiculo status) {
@@ -28,6 +30,7 @@ public class Veiculo {
 		}
 
 		this.status = Objects.requireNonNull(status, "O status do veículo é obrigatório");
+		this.patio = new Patio("PATIO-" + this.cidade.toUpperCase(), this.cidade);
 	}
 
 	private String validarPlaca(String placa) {
@@ -62,6 +65,10 @@ public class Veiculo {
 		return status;
 	}
 
+	public Patio getPatio() {
+		return patio;
+	}
+
 	public LocalDateTime getManutencaoPrevista() {
 		return manutencaoPrevista;
 	}
@@ -78,6 +85,9 @@ public class Veiculo {
 		if (!status.disponivel()) {
 			throw new IllegalStateException("O veículo não está disponível para reserva");
 		}
+		if (status == StatusVeiculo.VENDIDO) {
+			throw new IllegalStateException("Veículo vendido não pode ser reservado");
+		}
 		status = StatusVeiculo.RESERVADO;
 	}
 
@@ -85,15 +95,21 @@ public class Veiculo {
 		if (status == StatusVeiculo.LOCADO) {
 			throw new IllegalStateException("O veículo já está locado");
 		}
+		if (status == StatusVeiculo.VENDIDO) {
+			throw new IllegalStateException("Veículo vendido não pode ser locado");
+		}
 		status = StatusVeiculo.LOCADO;
+		removerDoPatio();
 	}
 
-	public void devolver() {
+	public void devolver(Patio patioDestino) {
 		status = StatusVeiculo.DISPONIVEL;
+		this.patio = Objects.requireNonNull(patioDestino, "O pátio é obrigatório");
 	}
 
 	public void enviarParaManutencao() {
 		status = StatusVeiculo.EM_MANUTENCAO;
+		removerDoPatio();
 	}
 
 	public void agendarManutencao(LocalDateTime previsao, String nota) {
@@ -103,7 +119,14 @@ public class Veiculo {
 		if (!status.disponivel()) {
 			throw new IllegalStateException("Veículo não pode entrar em manutenção enquanto reservado ou locado");
 		}
+		if (status == StatusVeiculo.VENDIDO) {
+			throw new IllegalStateException("Veículo vendido não pode entrar em manutenção");
+		}
 
 		status = StatusVeiculo.EM_MANUTENCAO;
+	}
+
+	public void removerDoPatio() {
+		patio = null;
 	}
 }

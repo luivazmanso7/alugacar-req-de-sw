@@ -67,12 +67,20 @@ public class ProcessarDevolucaoFuncionalidade extends AlugacarFuncionalidade {
         assertTrue(faturamento.total().compareTo(reservaProcessada.getValorEstimado()) > 0);
     }
 
-    @Entao("o veiculo {string} deve ser enviado para manutencao")
-    public void veiculo_enviado_para_manutencao(String placa) {
-        var veiculo = repositorio.buscarPorPlaca(placa)
-                .orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado"));
-        assertEquals(StatusVeiculo.EM_MANUTENCAO, veiculo.getStatus());
-    }
+	@Entao("o veiculo {string} deve ser enviado para manutencao")
+	public void veiculo_enviado_para_manutencao(String placa) {
+		var veiculo = repositorio.buscarPorPlaca(placa)
+				.orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado"));
+		assertEquals(StatusVeiculo.EM_MANUTENCAO, veiculo.getStatus());
+	}
+
+	@Entao("o veiculo {string} retorna ao patio da cidade {string}")
+	public void veiculo_retorna_ao_patio(String placa, String cidade) {
+		var veiculo = repositorio.buscarPorPlaca(placa)
+				.orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado"));
+		assertNotNull(veiculo.getPatio());
+		assertEquals(cidade, veiculo.getPatio().getCidade());
+	}
 
 	private void processarDevolucao(String codigoReserva, String dataDevolucao, Integer odometro, Integer combustivel,
 	        boolean possuiAvarias, BigDecimal taxaAdicional) {

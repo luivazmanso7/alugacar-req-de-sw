@@ -14,6 +14,7 @@ import dev.sauloaraujo.sgb.dominio.locacao.AlugacarFuncionalidade;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Categoria;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Veiculo;
+import dev.sauloaraujo.sgb.dominio.locacao.cliente.Cliente;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.PeriodoLocacao;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusReserva;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusVeiculo;
@@ -69,37 +70,38 @@ public class AlterarPeriodoReservaFuncionalidade extends AlugacarFuncionalidade 
 
     @E("existem {int} veiculos disponiveis da categoria {string}")
     public void existem_veiculos_disponiveis_da_categoria(Integer quantidade, String codigoCategoria) {
-        var categoriaCodigo = CategoriaCodigo.fromTexto(codigoCategoria);
-        quantidadesCategoria.put(categoriaCodigo, quantidade);
-        registrarCategoria(categoriaCodigo);
-        var diaria = valoresDiaria.getOrDefault(categoriaCodigo, BigDecimal.valueOf(100));
-        criarVeiculosDisponiveis(categoriaCodigo, quantidade, diaria);
+		var categoriaCodigo = CategoriaCodigo.fromTexto(codigoCategoria);
+		quantidadesCategoria.put(categoriaCodigo, quantidade);
+		registrarCategoria(categoriaCodigo);
+		var diaria = valoresDiaria.getOrDefault(categoriaCodigo, BigDecimal.valueOf(100));
+		criarVeiculosDisponiveis(categoriaCodigo, quantidade, diaria);
     }
 
     @E("existem {int} reservas ativas da categoria {string} de {string} ate {string}")
     public void existem_reservas_ativas_da_categoria(Integer quantidade, String codigoCategoria, String inicio,
             String fim) {
-        var categoriaCodigo = CategoriaCodigo.fromTexto(codigoCategoria);
-        for (int indice = 0; indice < quantidade; indice++) {
-            var periodo = new PeriodoLocacao(LocalDateTime.parse(inicio), LocalDateTime.parse(fim));
-            var codigo = "ATV-" + codigoCategoria + "-" + indice;
-            var valorDiaria = valoresDiaria.getOrDefault(categoriaCodigo, BigDecimal.valueOf(100));
-            var reserva = new Reserva(codigo, categoriaCodigo, "São Paulo", periodo,
-                    valorDiaria.multiply(BigDecimal.valueOf(periodo.dias())), StatusReserva.ATIVA);
-            repositorio.salvar(reserva);
-        }
+		var categoriaCodigo = CategoriaCodigo.fromTexto(codigoCategoria);
+		for (int indice = 0; indice < quantidade; indice++) {
+			var periodo = new PeriodoLocacao(LocalDateTime.parse(inicio), LocalDateTime.parse(fim));
+			var codigo = "ATV-" + codigoCategoria + "-" + indice;
+			var valorDiaria = valoresDiaria.getOrDefault(categoriaCodigo, BigDecimal.valueOf(100));
+			var reserva = new Reserva(codigo, categoriaCodigo, "São Paulo", periodo,
+					valorDiaria.multiply(BigDecimal.valueOf(periodo.dias())), StatusReserva.ATIVA,
+					clientePadrao("reserva-" + codigo + "@example.com"));
+			repositorio.salvar(reserva);
+		}
     }
 
     @E("existe uma reserva confirmada {string} da categoria {string} de {string} ate {string} para o cliente {string}")
     public void existe_uma_reserva_confirmada(String codigoReserva, String codigoCategoria, String inicio, String fim,
             String cliente) {
-        var categoriaCodigo = CategoriaCodigo.fromTexto(codigoCategoria);
-        registrarCategoriaSeNecessario(categoriaCodigo);
-        var periodo = new PeriodoLocacao(LocalDateTime.parse(inicio), LocalDateTime.parse(fim));
-        var diaria = valoresDiaria.getOrDefault(categoriaCodigo, BigDecimal.valueOf(100));
-        var reserva = new Reserva(codigoReserva, categoriaCodigo, "São Paulo", periodo,
-                diaria.multiply(BigDecimal.valueOf(periodo.dias())), StatusReserva.ATIVA);
-        repositorio.salvar(reserva);
+		var categoriaCodigo = CategoriaCodigo.fromTexto(codigoCategoria);
+		registrarCategoriaSeNecessario(categoriaCodigo);
+		var periodo = new PeriodoLocacao(LocalDateTime.parse(inicio), LocalDateTime.parse(fim));
+		var diaria = valoresDiaria.getOrDefault(categoriaCodigo, BigDecimal.valueOf(100));
+		var reserva = new Reserva(codigoReserva, categoriaCodigo, "São Paulo", periodo,
+				diaria.multiply(BigDecimal.valueOf(periodo.dias())), StatusReserva.ATIVA, clientePadrao(cliente));
+		repositorio.salvar(reserva);
     }
 
     @E("existe um veiculo elegivel para manutencao da categoria {string} com placa {string}")
@@ -107,15 +109,20 @@ public class AlterarPeriodoReservaFuncionalidade extends AlugacarFuncionalidade 
         criarVeiculoIndividual(codigoCategoria, placa, StatusVeiculo.DISPONIVEL);
     }
 
-    @E("existe um veiculo com manutencao pendente da categoria {string} com placa {string}")
-    public void existe_um_veiculo_com_manutencao_pendente_da_categoria(String codigoCategoria, String placa) {
-        criarVeiculoIndividual(codigoCategoria, placa, StatusVeiculo.EM_MANUTENCAO);
-    }
+	@E("existe um veiculo com manutencao pendente da categoria {string} com placa {string}")
+	public void existe_um_veiculo_com_manutencao_pendente_da_categoria(String codigoCategoria, String placa) {
+		criarVeiculoIndividual(codigoCategoria, placa, StatusVeiculo.EM_MANUTENCAO);
+	}
 
-    @E("existe um veiculo disponivel da categoria {string} com placa {string}")
-    public void existe_um_veiculo_disponivel_da_categoria(String codigoCategoria, String placa) {
-        criarVeiculoIndividual(codigoCategoria, placa, StatusVeiculo.DISPONIVEL);
-    }
+	@E("existe um veiculo disponivel da categoria {string} com placa {string}")
+	public void existe_um_veiculo_disponivel_da_categoria(String codigoCategoria, String placa) {
+		criarVeiculoIndividual(codigoCategoria, placa, StatusVeiculo.DISPONIVEL);
+	}
+
+	@E("existe um veiculo vendido da categoria {string} com placa {string}")
+	public void existe_um_veiculo_vendido_da_categoria(String codigoCategoria, String placa) {
+		criarVeiculoIndividual(codigoCategoria, placa, StatusVeiculo.VENDIDO);
+	}
 
     @E("a reserva {string} foi convertida em locacao com o veiculo {string} na data {string} com odometro {int} e combustivel {int}")
     public void reserva_convertida_em_locacao(String codigoReserva, String placa, String dataRetirada, Integer odometro,
@@ -174,7 +181,7 @@ public class AlterarPeriodoReservaFuncionalidade extends AlugacarFuncionalidade 
         reservaCriada = null;
         try {
             reservaCriada = reservaServico.criarReserva("RES-DIN-" + System.nanoTime(), categoriaCodigo,
-                    extrairCidade(dados), periodo);
+                    extrairCidade(dados), periodo, extrairCliente(dados));
         } catch (RuntimeException ex) {
             erro = ex;
         }
@@ -189,7 +196,7 @@ public class AlterarPeriodoReservaFuncionalidade extends AlugacarFuncionalidade 
         reservaCriada = null;
         try {
             reservaCriada = reservaServico.criarReserva("RES-DIN-" + System.nanoTime(), categoriaCodigo,
-                    extrairCidade(dados), periodo);
+                    extrairCidade(dados), periodo, extrairCliente(dados));
         } catch (RuntimeException ex) {
             erro = ex;
         }
@@ -251,10 +258,22 @@ public class AlterarPeriodoReservaFuncionalidade extends AlugacarFuncionalidade 
         assertEquals(statusEsperado, reserva.getStatus().name());
     }
 
-    @Entao("a reserva e criada com sucesso")
-    public void a_reserva_e_criada_com_sucesso() {
-        assertNotNull(reservaCriada);
-    }
+	@Entao("a reserva e criada com sucesso")
+	public void a_reserva_e_criada_com_sucesso() {
+		assertNotNull(reservaCriada);
+	}
+
+	@Entao("o cliente da reserva possui cpf {string}")
+	public void o_cliente_da_reserva_possui_cpf(String cpf) {
+		assertNotNull(reservaCriada);
+		assertEquals(cpf.replaceAll("\\D", ""), reservaCriada.getCliente().getCpfOuCnpj());
+	}
+
+	@Entao("o cliente da reserva possui email {string}")
+	public void o_cliente_da_reserva_possui_email(String email) {
+		assertNotNull(reservaCriada);
+		assertEquals(email, reservaCriada.getCliente().getEmail());
+	}
 
     @Entao("o valor final deve ser maior que {int}")
     public void o_valor_final_deve_ser_maior_que(Integer valorMinimo) {
@@ -292,16 +311,27 @@ public class AlterarPeriodoReservaFuncionalidade extends AlugacarFuncionalidade 
         }
     }
 
-    private void criarVeiculoIndividual(String codigoCategoria, String placa, StatusVeiculo status) {
-        var categoriaCodigo = CategoriaCodigo.fromTexto(codigoCategoria);
-        quantidadesCategoria.putIfAbsent(categoriaCodigo, 1);
-        registrarCategoriaSeNecessario(categoriaCodigo);
-        var diaria = valoresDiaria.getOrDefault(categoriaCodigo, BigDecimal.valueOf(100));
-        var veiculo = new Veiculo(placa, "Modelo " + categoriaCodigo, categoriaCodigo, "São Paulo", diaria, status);
-        repositorio.salvar(veiculo);
-    }
+	private void criarVeiculoIndividual(String codigoCategoria, String placa, StatusVeiculo status) {
+		var categoriaCodigo = CategoriaCodigo.fromTexto(codigoCategoria);
+		quantidadesCategoria.putIfAbsent(categoriaCodigo, 1);
+		registrarCategoriaSeNecessario(categoriaCodigo);
+		var diaria = valoresDiaria.getOrDefault(categoriaCodigo, BigDecimal.valueOf(100));
+		var veiculo = new Veiculo(placa, "Modelo " + categoriaCodigo, categoriaCodigo, "São Paulo", diaria, status);
+		repositorio.salvar(veiculo);
+	}
 
-    private String extrairCidade(io.cucumber.datatable.DataTable dados) {
-        return dados.asMaps().get(0).getOrDefault("cidade", "São Paulo");
-    }
+	private String extrairCidade(io.cucumber.datatable.DataTable dados) {
+		return dados.asMaps().get(0).getOrDefault("cidade", "São Paulo");
+	}
+
+	private Cliente extrairCliente(io.cucumber.datatable.DataTable dados) {
+		var linha = dados.asMaps().get(0);
+		return new Cliente(linha.getOrDefault("nome", "Cliente AlugaCar"),
+				linha.getOrDefault("cpf", "12345678901"), linha.getOrDefault("cnh", "12345678901"),
+				linha.getOrDefault("email", "cliente@example.com"));
+	}
+
+	private Cliente clientePadrao(String email) {
+		return new Cliente("Cliente AlugaCar", "12345678901", "12345678901", email);
+	}
 }

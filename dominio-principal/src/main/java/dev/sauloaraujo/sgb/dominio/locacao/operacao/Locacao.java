@@ -84,7 +84,10 @@ public class Locacao {
 		if (enviarParaManutencao) {
 			veiculo.enviarParaManutencao();
 		} else {
-			veiculo.devolver();
+			var cidade = reserva.getCidadeRetirada();
+			var patioDestino = new dev.sauloaraujo.sgb.dominio.locacao.patio.Patio(
+					"PATIO-" + cidade.toUpperCase(), cidade);
+			veiculo.devolver(patioDestino);
 		}
 
 		return new Faturamento(total, diarias, valorAtraso, multaAtraso, taxa);
