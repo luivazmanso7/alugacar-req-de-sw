@@ -1,0 +1,83 @@
+ContextMap "AlugaCarContextMap" {
+  boundedContext CatalogoContext {
+    type = CORE_DOMAIN
+    domainVisionStatement "Gerencia categorias e disponibilidade da frota para suportar decisões comerciais."
+    responsibilities {
+      "Cadastrar e classificar categorias de veículos"
+      "Publicar disponibilidade de veículos por cidade e período"
+    }
+    aggregates {
+      aggregate CategoriaCatalogo
+      aggregate FrotaDisponivel
+    }
+  }
+
+  boundedContext ReservaContext {
+    type = SUPPORTING_DOMAIN
+    domainVisionStatement "Orquestra o ciclo de vida das reservas até a criação do contrato de locação."
+    responsibilities {
+      "Capturar dados obrigatórios para a reserva"
+      "Calcular valores estimados e status das reservas"
+    }
+    aggregates {
+      aggregate Reserva {
+        entity Reserva
+        valueObject PeriodoLocacao
+      }
+    }
+  }
+
+  boundedContext OperacaoLocacaoContext {
+    type = SUPPORTING_DOMAIN
+    domainVisionStatement "Executa processos operacionais de retirada e devolução garantindo faturamento correto."
+    responsibilities {
+      "Validar documentos e liberar veículos na retirada"
+      "Gerenciar vistorias e faturamento na devolução"
+    }
+    aggregates {
+      aggregate Locacao {
+        entity Locacao
+        entity ChecklistVistoria
+      }
+      aggregate Faturamento {
+        valueObject Faturamento
+      }
+    }
+  }
+
+  relationships {
+    CatalogoContext -> ReservaContext {
+      type = UPSTREAM_DOWNSTREAM
+      implementationTechnology = "REST/Domain Events"
+      upstream {
+        role = SUPPLIER
+      }
+      downstream {
+        role = CUSTOMER
+        exposedAggregates = [CategoriaCatalogo]
+      }
+    }
+
+    ReservaContext -> OperacaoLocacaoContext {
+      type = UPSTREAM_DOWNSTREAM
+      upstream {
+        role = SUPPLIER
+        exposedAggregates = [Reserva]
+      }
+      downstream {
+        role = CUSTOMER
+      }
+    }
+
+    CatalogoContext -> OperacaoLocacaoContext {
+      type = UPSTREAM_DOWNSTREAM
+      upstream {
+        role = OPEN_HOST_SERVICE
+        exposedAggregates = [FrotaDisponivel]
+      }
+      downstream {
+        role = CUSTOMER
+      }
+    }
+  }
+}
