@@ -1,14 +1,31 @@
 ContextMap "AlugaCarContextMap" {
   boundedContext CatalogoContext {
     type = CORE_DOMAIN
-    domainVisionStatement "Gerencia categorias e disponibilidade da frota para suportar decisões comerciais."
+    domainVisionStatement "Gerencia a frota física, suas categorias e pátios para garantir disponibilidade consistente."
     responsibilities {
-      "Cadastrar e classificar categorias de veículos"
+      "Catalogar categorias de veículos e suas tarifas base"
+      "Controlar status do veículo (Disponível, Reservado, Locado, Em Manutenção, Vendido)"
+      "Gerenciar pátios e movimentação de veículos"
       "Publicar disponibilidade de veículos por cidade e período"
     }
     aggregates {
-      aggregate CategoriaCatalogo
-      aggregate FrotaDisponivel
+      aggregate Frota {
+        entity Veiculo
+        valueObject Categoria
+        valueObject Patio
+      }
+    }
+  }
+
+  boundedContext ClienteContext {
+    type = SUPPORTING_DOMAIN
+    domainVisionStatement "Mantém o cadastro confiável de clientes e seus documentos para suportar reservas e locações."
+    responsibilities {
+      "Cadastrar dados pessoais (nome, CPF/CNPJ, CNH, e-mail)"
+      "Consultar cliente por CPF/CNPJ durante o atendimento"
+    }
+    aggregates {
+      aggregate Cliente
     }
   }
 
@@ -16,8 +33,9 @@ ContextMap "AlugaCarContextMap" {
     type = SUPPORTING_DOMAIN
     domainVisionStatement "Orquestra o ciclo de vida das reservas até a criação do contrato de locação."
     responsibilities {
-      "Capturar dados obrigatórios para a reserva"
-      "Calcular valores estimados e status das reservas"
+      "Capturar dados obrigatórios do cliente e da reserva"
+      "Calcular valores estimados considerando disponibilidade e políticas dinâmicas"
+      "Replanejar e cancelar reservas conforme regras de negócio"
     }
     aggregates {
       aggregate Reserva {
@@ -32,7 +50,9 @@ ContextMap "AlugaCarContextMap" {
     domainVisionStatement "Executa processos operacionais de retirada e devolução garantindo faturamento correto."
     responsibilities {
       "Validar documentos e liberar veículos na retirada"
-      "Gerenciar vistorias e faturamento na devolução"
+      "Gerenciar vistorias de retirada e devolução"
+      "Calcular faturamento final com taxas adicionais, multas e devolução ao pátio"
+      "Encaminhar veículos para manutenção quando necessário"
     }
     aggregates {
       aggregate Locacao {
@@ -46,15 +66,25 @@ ContextMap "AlugaCarContextMap" {
   }
 
   relationships {
-    CatalogoContext -> ReservaContext {
+    ClienteContext -> ReservaContext {
       type = UPSTREAM_DOWNSTREAM
-      implementationTechnology = "REST/Domain Events"
       upstream {
-        role = SUPPLIER
+        role = OPEN_HOST_SERVICE
+        exposedAggregates = [Cliente]
       }
       downstream {
         role = CUSTOMER
-        exposedAggregates = [CategoriaCatalogo]
+      }
+    }
+
+    CatalogoContext -> ReservaContext {
+      type = UPSTREAM_DOWNSTREAM
+      upstream {
+        role = SUPPLIER
+        exposedAggregates = [Frota]
+      }
+      downstream {
+        role = CUSTOMER
       }
     }
 
@@ -73,7 +103,7 @@ ContextMap "AlugaCarContextMap" {
       type = UPSTREAM_DOWNSTREAM
       upstream {
         role = OPEN_HOST_SERVICE
-        exposedAggregates = [FrotaDisponivel]
+        exposedAggregates = [Frota]
       }
       downstream {
         role = CUSTOMER
