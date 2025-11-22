@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>dev.sauloaraujo.alugacar</groupId>
+		<artifactId>alugacar-pai</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	    <relativePath>../pai</relativePath>
+	</parent>
+
+	<artifactId>alugacar-infraestrutura-persistencia-jpa</artifactId>
+	<name>AlugaCar - Infraestrutura - Persistência JPA</name>
+	<description>Implementação da camada de persistência com JPA/Hibernate</description>
+
+	<dependencies>
+		<!-- Spring Data JPA -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- Flyway para migrações de banco de dados -->
+		<dependency>
+		    <groupId>org.flywaydb</groupId>
+		    <artifactId>flyway-core</artifactId>
+		</dependency>
+
+		<!-- ModelMapper para conversão entre entidades de domínio e JPA -->
+		<dependency>
+		    <groupId>org.modelmapper</groupId>
+		    <artifactId>modelmapper</artifactId>
+		    <version>3.1.1</version>
+		</dependency>
+
+		<!-- Domínio principal (interfaces de repositório e entidades) -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>dominio-principal</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- H2 Database (para testes e desenvolvimento) -->
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <scope>runtime</scope>
+		</dependency>
+
+		<!-- PostgreSQL Driver (para produção) -->
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <scope>runtime</scope>
+		</dependency>
+	</dependencies>
+</project>
