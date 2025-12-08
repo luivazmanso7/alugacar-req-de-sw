@@ -13,12 +13,13 @@ public class Locacao {
 	private final Veiculo veiculo;
 	private final int diasPrevistos;
 	private final BigDecimal valorDiaria;
+	private final CalculoMultaStrategy estrategiaMulta;
 	private StatusLocacao status;
 	private ChecklistVistoria vistoriaRetirada;
 	private ChecklistVistoria vistoriaDevolucao;
 
 	public Locacao(String codigo, Reserva reserva, Veiculo veiculo, int diasPrevistos, BigDecimal valorDiaria,
-			ChecklistVistoria vistoriaRetirada) {
+			ChecklistVistoria vistoriaRetirada, CalculoMultaStrategy estrategiaMulta) {
 		this.codigo = Objects.requireNonNull(codigo, "O código da locação é obrigatório");
 		this.reserva = Objects.requireNonNull(reserva, "A reserva é obrigatória");
 		this.veiculo = Objects.requireNonNull(veiculo, "O veículo é obrigatório");
@@ -28,7 +29,16 @@ public class Locacao {
 		this.diasPrevistos = diasPrevistos;
 		this.valorDiaria = Objects.requireNonNull(valorDiaria, "O valor da diária é obrigatório");
 		this.vistoriaRetirada = Objects.requireNonNull(vistoriaRetirada, "A vistoria de retirada é obrigatória");
+		this.estrategiaMulta = Objects.requireNonNull(estrategiaMulta, "A estratégia de cálculo de multa é obrigatória");
 		this.status = StatusLocacao.ATIVA;
+	}
+
+	/**
+	 * Construtor de conveniência que utiliza a estratégia de multa padrão.
+	 */
+	public Locacao(String codigo, Reserva reserva, Veiculo veiculo, int diasPrevistos, BigDecimal valorDiaria,
+			ChecklistVistoria vistoriaRetirada) {
+		this(codigo, reserva, veiculo, diasPrevistos, valorDiaria, vistoriaRetirada, new MultaPadraoStrategy());
 	}
 
 	public String getCodigo() {
@@ -61,6 +71,10 @@ public class Locacao {
 
 	public BigDecimal getValorDiaria() {
 		return valorDiaria;
+	}
+
+	public CalculoMultaStrategy getEstrategiaMulta() {
+		return estrategiaMulta;
 	}
 
 	public void registrarDevolucao(ChecklistVistoria vistoria) {
@@ -106,9 +120,6 @@ public class Locacao {
 	}
 
 	private BigDecimal calcularMultaAtraso(BigDecimal valorAtraso, BigDecimal percentualMultaAtraso) {
-		if (valorAtraso.signum() <= 0 || percentualMultaAtraso == null) {
-			return BigDecimal.ZERO;
-		}
-		return valorAtraso.multiply(percentualMultaAtraso);
+		return estrategiaMulta.calcular(valorAtraso, percentualMultaAtraso);
 	}
 }
