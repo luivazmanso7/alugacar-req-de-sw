@@ -9,6 +9,7 @@ import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration.AccessLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import dev.sauloaraujo.sgb.dominio.locacao.auditoria.Auditoria;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Categoria;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Veiculo;
@@ -40,6 +41,7 @@ public class JpaMapeador extends ModelMapper {
 		configuracao.setFieldMatchingEnabled(true);
 		configuracao.setFieldAccessLevel(AccessLevel.PRIVATE);
 
+		configurarConversoresAuditoria();
 		configurarConversoresCliente();
 		configurarConversoresCategoria();
 		configurarConversoresVeiculo();
@@ -48,6 +50,41 @@ public class JpaMapeador extends ModelMapper {
 		configurarConversoresPatio();
 		configurarConversoresPeriodo();
 		configurarConversoresChecklist();
+	}
+
+	private void configurarConversoresAuditoria() {
+		addConverter(new AbstractConverter<AuditoriaJpa, Auditoria>() {
+			@Override
+			protected Auditoria convert(AuditoriaJpa source) {
+				if (source == null) {
+					return null;
+				}
+				// Usa construtor de reconstrução (do banco)
+				return new Auditoria(
+					source.getId(),
+					source.getDataHora(),
+					source.getOperacao(),
+					source.getDetalhes(),
+					source.getUsuario()
+				);
+			}
+		});
+
+		addConverter(new AbstractConverter<Auditoria, AuditoriaJpa>() {
+			@Override
+			protected AuditoriaJpa convert(Auditoria source) {
+				if (source == null) {
+					return null;
+				}
+				var jpa = new AuditoriaJpa();
+				jpa.setId(source.getId());
+				jpa.setDataHora(source.getDataHora());
+				jpa.setOperacao(source.getOperacao());
+				jpa.setDetalhes(source.getDetalhes());
+				jpa.setUsuario(source.getUsuario());
+				return jpa;
+			}
+		});
 	}
 
 	private void configurarConversoresCliente() {

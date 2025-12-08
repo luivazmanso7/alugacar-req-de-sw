@@ -34,14 +34,21 @@
 			<artifactId>modelmapper</artifactId>
 		</dependency>
 
-		<!-- Domínio principal (interfaces de repositório e entidades) -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>sgb-dominio-locacao</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+	<!-- Domínio principal (interfaces de repositório e entidades) -->
+	<dependency>
+		<groupId>${project.groupId}</groupId>
+		<artifactId>sgb-dominio-locacao</artifactId>
+		<version>${project.version}</version>
+	</dependency>
 
-		<!-- H2 Database (para testes e desenvolvimento) -->
+	<!-- Aplicação Locação (interfaces de repositório da camada de aplicação) -->
+	<dependency>
+		<groupId>${project.groupId}</groupId>
+		<artifactId>sgb-aplicacao-locacao</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+
+	<!-- H2 Database (para testes e desenvolvimento) -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
