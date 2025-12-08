@@ -19,5 +19,6 @@
 		<module>dominio-principal</module>
 		<module>infraestrutura-persistencia-jpa</module>
 		<module>aplicacao-locacao</module>
+		<module>apresentacao-rest</module>
 	</modules>
 </project>
