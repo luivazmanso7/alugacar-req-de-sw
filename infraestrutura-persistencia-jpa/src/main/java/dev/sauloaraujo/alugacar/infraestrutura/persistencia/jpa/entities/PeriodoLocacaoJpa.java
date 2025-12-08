@@ -1,4 +1,4 @@
-package dev.sauloaraujo.alugacar.infraestrutura.persistencia.jpa.entities;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
 
 import java.time.LocalDateTime;
 
@@ -6,10 +6,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 /**
- * Value Object JPA para Período de Locação (embutido em Reserva e Locação).
+ * Value Object JPA para Período de Locação (embutido em Reserva).
  */
 @Embeddable
-public class PeriodoLocacaoJpa {
+class PeriodoLocacaoJpa {
 
 	@Column(name = "data_retirada", nullable = false)
 	private LocalDateTime retirada;
@@ -17,7 +17,7 @@ public class PeriodoLocacaoJpa {
 	@Column(name = "data_devolucao", nullable = false)
 	private LocalDateTime devolucao;
 
-	protected PeriodoLocacaoJpa() {
+	public PeriodoLocacaoJpa() {
 	}
 
 	public LocalDateTime getRetirada() {

@@ -1,4 +1,4 @@
-package dev.sauloaraujo.alugacar.infraestrutura.persistencia.jpa.entities;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -7,7 +7,7 @@ import jakarta.persistence.Embeddable;
  * Value Object JPA para Pátio (embutido em Veículo).
  */
 @Embeddable
-public class PatioJpa {
+class PatioJpa {
 
 	@Column(name = "patio_codigo", length = 50)
 	private String codigo;
@@ -15,7 +15,7 @@ public class PatioJpa {
 	@Column(name = "patio_localizacao", length = 100)
 	private String localizacao;
 
-	protected PatioJpa() {
+	public PatioJpa() {
 	}
 
 	public String getCodigo() {

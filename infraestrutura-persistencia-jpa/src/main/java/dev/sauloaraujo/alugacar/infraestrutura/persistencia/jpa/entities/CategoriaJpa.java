@@ -1,7 +1,16 @@
-package dev.sauloaraujo.alugacar.infraestrutura.persistencia.jpa.entities;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Categoria;
+import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
+import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaRepositorio;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,7 +21,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "CATEGORIA")
-public class CategoriaJpa {
+class CategoriaJpa { // package-private
 
 	@Id
 	@Column(name = "codigo", nullable = false, length = 20)
@@ -33,7 +42,7 @@ public class CategoriaJpa {
 	@Column(name = "quantidade_disponivel", nullable = false)
 	private int quantidadeDisponivel;
 
-	protected CategoriaJpa() {
+	CategoriaJpa() {
 	}
 
 	public String getCodigo() {
@@ -82,5 +91,38 @@ public class CategoriaJpa {
 
 	public void setQuantidadeDisponivel(int quantidadeDisponivel) {
 		this.quantidadeDisponivel = quantidadeDisponivel;
+	}
+}
+
+interface CategoriaJpaRepository extends JpaRepository<CategoriaJpa, String> { // package-private
+}
+
+@Repository
+class CategoriaRepositorioImpl implements CategoriaRepositorio { // implementação exposta
+
+	@Autowired
+	CategoriaJpaRepository repositorio;
+
+	@Autowired
+	JpaMapeador mapeador;
+
+	@Override
+	public void salvar(Categoria categoria) {
+		var categoriaJpa = mapeador.map(categoria, CategoriaJpa.class);
+		repositorio.save(categoriaJpa);
+	}
+
+	@Override
+	public Optional<Categoria> buscarPorCodigo(CategoriaCodigo codigo) {
+		return repositorio.findById(codigo.name())
+				.map(jpa -> mapeador.map(jpa, Categoria.class));
+	}
+
+	@Override
+	public List<Categoria> listarTodas() {
+		var categoriasJpa = repositorio.findAll();
+		return categoriasJpa.stream()
+				.map(jpa -> mapeador.map(jpa, Categoria.class))
+				.toList();
 	}
 }

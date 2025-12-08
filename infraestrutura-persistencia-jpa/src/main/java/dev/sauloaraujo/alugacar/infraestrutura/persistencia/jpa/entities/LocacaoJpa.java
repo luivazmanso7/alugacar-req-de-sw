@@ -1,8 +1,18 @@
-package dev.sauloaraujo.alugacar.infraestrutura.persistencia.jpa.entities;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import dev.sauloaraujo.sgb.dominio.locacao.operacao.Locacao;
+import dev.sauloaraujo.sgb.dominio.locacao.operacao.LocacaoRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusLocacao;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -18,7 +28,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "LOCACAO")
-public class LocacaoJpa {
+class LocacaoJpa {
 
 	@Id
 	@Column(name = "codigo", nullable = false, length = 50)
@@ -46,9 +56,14 @@ public class LocacaoJpa {
 	private ChecklistVistoriaJpa vistoriaRetirada;
 
 	@Embedded
+	@AttributeOverrides({
+			@AttributeOverride(name = "quilometragem", column = @Column(name = "vistoria_devolucao_km")),
+			@AttributeOverride(name = "combustivel", column = @Column(name = "vistoria_devolucao_combustivel")),
+			@AttributeOverride(name = "possuiAvarias", column = @Column(name = "vistoria_devolucao_avarias"))
+	})
 	private ChecklistVistoriaJpa vistoriaDevolucao;
 
-	protected LocacaoJpa() {
+	LocacaoJpa() {
 	}
 
 	public String getCodigo() {
@@ -113,5 +128,36 @@ public class LocacaoJpa {
 
 	public void setVistoriaDevolucao(ChecklistVistoriaJpa vistoriaDevolucao) {
 		this.vistoriaDevolucao = vistoriaDevolucao;
+	}
+}
+
+interface LocacaoJpaRepository extends JpaRepository<LocacaoJpa, String> {
+}
+
+@Repository
+class LocacaoRepositorioImpl implements LocacaoRepositorio {
+
+	@Autowired
+	LocacaoJpaRepository repositorio;
+
+	@Autowired
+	JpaMapeador mapeador;
+
+	@Override
+	public void salvar(Locacao locacao) {
+		var locacaoJpa = mapeador.map(locacao, LocacaoJpa.class);
+		repositorio.save(locacaoJpa);
+	}
+
+	@Override
+	public Optional<Locacao> buscarPorCodigoLocacao(String codigo) {
+		return repositorio.findById(codigo)
+				.map(jpa -> mapeador.map(jpa, Locacao.class));
+	}
+
+	@Override
+	public List<Locacao> listarLocacoes() {
+		var locacoesJpa = repositorio.findAll();
+		return mapeador.mapList(locacoesJpa, Locacao.class);
 	}
 }

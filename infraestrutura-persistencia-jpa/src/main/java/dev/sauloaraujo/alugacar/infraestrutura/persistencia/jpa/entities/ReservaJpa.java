@@ -1,7 +1,15 @@
-package dev.sauloaraujo.alugacar.infraestrutura.persistencia.jpa.entities;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import dev.sauloaraujo.sgb.dominio.locacao.reserva.Reserva;
+import dev.sauloaraujo.sgb.dominio.locacao.reserva.ReservaRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusReserva;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -18,7 +26,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "RESERVA")
-public class ReservaJpa {
+class ReservaJpa {
 
 	@Id
 	@Column(name = "codigo", nullable = false, length = 50)
@@ -44,7 +52,7 @@ public class ReservaJpa {
 	@JoinColumn(name = "cliente_cpf_cnpj", nullable = false)
 	private ClienteJpa cliente;
 
-	protected ReservaJpa() {
+	ReservaJpa() {
 	}
 
 	public String getCodigo() {
@@ -101,5 +109,36 @@ public class ReservaJpa {
 
 	public void setCliente(ClienteJpa cliente) {
 		this.cliente = cliente;
+	}
+}
+
+interface ReservaJpaRepository extends JpaRepository<ReservaJpa, String> {
+}
+
+@Repository
+class ReservaRepositorioImpl implements ReservaRepositorio {
+
+	@Autowired
+	ReservaJpaRepository repositorio;
+
+	@Autowired
+	JpaMapeador mapeador;
+
+	@Override
+	public void salvar(Reserva reserva) {
+		var reservaJpa = mapeador.map(reserva, ReservaJpa.class);
+		repositorio.save(reservaJpa);
+	}
+
+	@Override
+	public Optional<Reserva> buscarPorCodigo(String codigo) {
+		return repositorio.findById(codigo)
+				.map(jpa -> mapeador.map(jpa, Reserva.class));
+	}
+
+	@Override
+	public List<Reserva> listar() {
+		var reservasJpa = repositorio.findAll();
+		return mapeador.mapList(reservasJpa, Reserva.class);
 	}
 }

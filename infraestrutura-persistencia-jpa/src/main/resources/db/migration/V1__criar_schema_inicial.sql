@@ -1,5 +1,5 @@
 -- ============================================================
--- Migração V1: Criação inicial do schema do AlugaCar
+-- Migração V1: Criação inicial do schema de Locação
 -- ============================================================
 
 -- Tabela de Clientes
@@ -60,9 +60,14 @@ CREATE TABLE LOCACAO (
     dias_previstos INT NOT NULL,
     valor_diaria DECIMAL(10, 2) NOT NULL,
     status VARCHAR(20) NOT NULL,
+    -- Vistoria de retirada
     quilometragem INT,
     combustivel VARCHAR(20),
     possui_avarias BOOLEAN,
+    -- Vistoria de devolução
+    vistoria_devolucao_km INT,
+    vistoria_devolucao_combustivel VARCHAR(20),
+    vistoria_devolucao_avarias BOOLEAN,
     CONSTRAINT fk_locacao_reserva FOREIGN KEY (reserva_codigo) 
         REFERENCES RESERVA(codigo),
     CONSTRAINT fk_locacao_veiculo FOREIGN KEY (veiculo_placa) 
@@ -84,3 +89,4 @@ CREATE INDEX idx_locacao_reserva
 
 CREATE INDEX idx_locacao_veiculo 
     ON LOCACAO(veiculo_placa);
+

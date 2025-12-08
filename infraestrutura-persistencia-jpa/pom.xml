@@ -5,55 +5,62 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>dev.sauloaraujo.alugacar</groupId>
-		<artifactId>alugacar-pai</artifactId>
+		<groupId>dev.sauloaraujo.sgb</groupId>
+		<artifactId>sgb-pai</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-	    <relativePath>../pai</relativePath>
+		<relativePath>../pai</relativePath>
 	</parent>
 
-	<artifactId>alugacar-infraestrutura-persistencia-jpa</artifactId>
-	<name>AlugaCar - Infraestrutura - Persistência JPA</name>
-	<description>Implementação da camada de persistência com JPA/Hibernate</description>
+	<artifactId>sgb-infraestrutura-persistencia-jpa</artifactId>
+	<name>SGB - Infraestrutura - Persistência JPA</name>
+	<description>Implementação da camada de persistência com JPA/Hibernate para o domínio de locação</description>
 
 	<dependencies>
 		<!-- Spring Data JPA -->
 		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-data-jpa</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
 		<!-- Flyway para migrações de banco de dados -->
 		<dependency>
-		    <groupId>org.flywaydb</groupId>
-		    <artifactId>flyway-core</artifactId>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
 		</dependency>
 
 		<!-- ModelMapper para conversão entre entidades de domínio e JPA -->
 		<dependency>
-		    <groupId>org.modelmapper</groupId>
-		    <artifactId>modelmapper</artifactId>
-		    <version>3.1.1</version>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
 		</dependency>
 
 		<!-- Domínio principal (interfaces de repositório e entidades) -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>dominio-principal</artifactId>
+			<artifactId>sgb-dominio-locacao</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
 		<!-- H2 Database (para testes e desenvolvimento) -->
 		<dependency>
-		    <groupId>com.h2database</groupId>
-		    <artifactId>h2</artifactId>
-		    <scope>runtime</scope>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- PostgreSQL Driver (para produção) -->
 		<dependency>
-		    <groupId>org.postgresql</groupId>
-		    <artifactId>postgresql</artifactId>
-		    <scope>runtime</scope>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Testes JPA / Spring -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
+

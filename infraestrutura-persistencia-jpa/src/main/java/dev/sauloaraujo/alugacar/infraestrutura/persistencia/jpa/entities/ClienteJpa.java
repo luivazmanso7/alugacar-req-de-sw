@@ -1,5 +1,14 @@
-package dev.sauloaraujo.alugacar.infraestrutura.persistencia.jpa.entities;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import dev.sauloaraujo.sgb.dominio.locacao.cliente.Cliente;
+import dev.sauloaraujo.sgb.dominio.locacao.cliente.ClienteRepositorio;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,7 +19,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "CLIENTE")
-public class ClienteJpa {
+class ClienteJpa {
 
 	@Id
 	@Column(name = "cpf_cnpj", nullable = false, length = 14)
@@ -25,7 +34,7 @@ public class ClienteJpa {
 	@Column(name = "email", nullable = false, length = 150)
 	private String email;
 
-	protected ClienteJpa() {
+	ClienteJpa() {
 	}
 
 	public String getCpfOuCnpj() {
@@ -58,5 +67,36 @@ public class ClienteJpa {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+}
+
+interface ClienteJpaRepository extends JpaRepository<ClienteJpa, String> {
+}
+
+@Repository
+class ClienteRepositorioImpl implements ClienteRepositorio {
+
+	@Autowired
+	ClienteJpaRepository repositorio;
+
+	@Autowired
+	JpaMapeador mapeador;
+
+	@Override
+	public void salvar(Cliente cliente) {
+		var clienteJpa = mapeador.map(cliente, ClienteJpa.class);
+		repositorio.save(clienteJpa);
+	}
+
+	@Override
+	public Optional<Cliente> buscarPorDocumento(String cpfOuCnpj) {
+		return repositorio.findById(cpfOuCnpj)
+				.map(jpa -> mapeador.map(jpa, Cliente.class));
+	}
+
+	@Override
+	public List<Cliente> listarClientes() {
+		var clientesJpa = repositorio.findAll();
+		return mapeador.mapList(clientesJpa, Cliente.class);
 	}
 }
