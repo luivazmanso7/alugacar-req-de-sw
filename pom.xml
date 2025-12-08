@@ -18,5 +18,6 @@
 		<module>pai</module>
 		<module>dominio-principal</module>
 		<module>infraestrutura-persistencia-jpa</module>
+		<module>aplicacao-locacao</module>
 	</modules>
 </project>
