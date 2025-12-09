@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,14 +15,15 @@ import dev.sauloaraujo.sgb.aplicacao.locacao.operacao.LocacaoServicoAplicacao;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 
 /**
- * Controller REST para operações de consulta de Locações.
- * Expõe endpoints para listar, buscar e filtrar locações.
+ * Controller REST para operações de consulta e gerenciamento de Locações.
+ * Expõe endpoints para listar, buscar e processar devoluções de locações.
  */
 @RestController
 @RequestMapping("/api/v1/locacoes")
-@Tag(name = "Locações", description = "Operações de consulta de locações de veículos")
+@Tag(name = "Locações", description = "Operações de consulta e gerenciamento de locações de veículos")
 public class LocacaoController {
 	
 	private final LocacaoServicoAplicacao locacaoServico;

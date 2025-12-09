@@ -33,6 +33,15 @@ class ClienteJpa {
 
 	@Column(name = "email", nullable = false, length = 150)
 	private String email;
+	
+	@Column(name = "login", nullable = false, length = 30, unique = true)
+	private String login;
+	
+	@Column(name = "senha_hash", nullable = false, length = 100)
+	private String senhaHash;
+	
+	@Column(name = "status", nullable = false, length = 20)
+	private String status;
 
 	ClienteJpa() {
 	}
@@ -68,9 +77,34 @@ class ClienteJpa {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getLogin() {
+		return login;
+	}
+	
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	
+	public String getSenhaHash() {
+		return senhaHash;
+	}
+	
+	public void setSenhaHash(String senhaHash) {
+		this.senhaHash = senhaHash;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }
 
 interface ClienteJpaRepository extends JpaRepository<ClienteJpa, String> {
+	Optional<ClienteJpa> findByLogin(String login);
 }
 
 @Repository
@@ -91,6 +125,12 @@ class ClienteRepositorioImpl implements ClienteRepositorio {
 	@Override
 	public Optional<Cliente> buscarPorDocumento(String cpfOuCnpj) {
 		return repositorio.findById(cpfOuCnpj)
+				.map(jpa -> mapeador.map(jpa, Cliente.class));
+	}
+	
+	@Override
+	public Optional<Cliente> buscarPorLogin(String login) {
+		return repositorio.findByLogin(login)
 				.map(jpa -> mapeador.map(jpa, Cliente.class));
 	}
 

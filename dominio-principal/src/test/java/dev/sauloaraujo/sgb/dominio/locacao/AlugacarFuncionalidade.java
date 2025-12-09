@@ -119,15 +119,18 @@ public abstract class AlugacarFuncionalidade {
 
 	protected Cliente clientePadraoDocumento(String documento) {
 		var docLimpo = documento.replaceAll("\\D", "");
-		return new Cliente("Cliente AlugaCar", docLimpo, "12345678901", docLimpo + "@alugacar.com");
+		return new Cliente("Cliente AlugaCar", docLimpo, "12345678901", docLimpo + "@alugacar.com", 
+			"cliente_" + docLimpo, "senha123");
 	}
 
 	protected Cliente clientePadraoEmail(String email) {
-		return new Cliente("Cliente AlugaCar", "12345678901", "12345678901", email);
+		return new Cliente("Cliente AlugaCar", "12345678901", "12345678901", email,
+			"cliente_teste", "senha123");
 	}
 
 	protected Cliente clientePersonalizado(String nome, String cpf, String cnh, String email) {
-		return new Cliente(nome, cpf, cnh, email);
+		return new Cliente(nome, cpf, cnh, email, 
+			"cliente_" + cpf.replaceAll("\\D", ""), "senha123");
 	}
 
 	protected PeriodoLocacao periodo(String inicioIso, String fimIso) {

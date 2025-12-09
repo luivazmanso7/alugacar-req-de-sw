@@ -114,6 +114,13 @@ public class InMemoryRepositorio implements CategoriaRepositorio, VeiculoReposit
 	public Optional<Cliente> buscarPorDocumento(String cpfOuCnpj) {
 		return Optional.ofNullable(clientes.get(cpfOuCnpj));
 	}
+	
+	@Override
+	public Optional<Cliente> buscarPorLogin(String login) {
+		return clientes.values().stream()
+			.filter(cliente -> cliente.getCredenciais().getLogin().equals(login))
+			.findFirst();
+	}
 
 	@Override
 	public List<Cliente> listarClientes() {

@@ -94,7 +94,21 @@ public class JpaMapeador extends ModelMapper {
 				if (source == null) {
 					return null;
 				}
-				return new Cliente(source.getNome(), source.getCpfOuCnpj(), source.getCnh(), source.getEmail());
+				// Usar construtor de reconstrução com Credenciais e StatusCliente
+				var credenciais = new dev.sauloaraujo.sgb.dominio.locacao.cliente.Credenciais(
+					source.getLogin(), 
+					source.getSenhaHash()
+				);
+				var status = dev.sauloaraujo.sgb.dominio.locacao.cliente.StatusCliente.valueOf(source.getStatus());
+				
+				return new Cliente(
+					source.getNome(), 
+					source.getCpfOuCnpj(), 
+					source.getCnh(), 
+					source.getEmail(),
+					credenciais,
+					status
+				);
 			}
 		});
 
@@ -109,6 +123,9 @@ public class JpaMapeador extends ModelMapper {
 				jpa.setNome(source.getNome());
 				jpa.setCnh(source.getCnh());
 				jpa.setEmail(source.getEmail());
+				jpa.setLogin(source.getCredenciais().getLogin());
+				jpa.setSenhaHash(source.getCredenciais().getSenhaCriptografada());
+				jpa.setStatus(source.getStatus().name());
 				return jpa;
 			}
 		});

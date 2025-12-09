@@ -7,6 +7,8 @@ public interface ClienteRepositorio {
 	void salvar(Cliente cliente);
 
 	Optional<Cliente> buscarPorDocumento(String cpfOuCnpj);
+	
+	Optional<Cliente> buscarPorLogin(String login);
 
 	List<Cliente> listarClientes();
 }

@@ -71,6 +71,11 @@ public class Reserva {
 	}
 
 	public void concluir() {
+		if (status != StatusReserva.ATIVA) {
+			throw new IllegalStateException(
+				"Só é possível concluir reservas ATIVAS. Status atual: " + status
+			);
+		}
 		status = StatusReserva.CONCLUIDA;
 	}
 
@@ -79,7 +84,21 @@ public class Reserva {
 	}
 
 	public void cancelar() {
+		if (status != StatusReserva.ATIVA) {
+			throw new IllegalStateException(
+				"Só é possível cancelar reservas ATIVAS. Status atual: " + status
+			);
+		}
 		status = StatusReserva.CANCELADA;
+	}
+	
+	public void confirmarRetirada() {
+		if (status != StatusReserva.ATIVA) {
+			throw new IllegalStateException(
+				"Só é possível confirmar retirada de reservas ATIVAS. Status atual: " + status
+			);
+		}
+		status = StatusReserva.CONCLUIDA;
 	}
 
 	public void cancelarComTarifa(BigDecimal tarifa) {
@@ -96,6 +115,11 @@ public class Reserva {
 	}
 
 	public void replanejar(PeriodoLocacao novoPeriodo, BigDecimal diaria) {
+		if (status != StatusReserva.ATIVA) {
+			throw new IllegalStateException(
+				"Só é possível replanejar reservas ATIVAS. Status atual: " + status
+			);
+		}
 		this.periodo = Objects.requireNonNull(novoPeriodo, "O período é obrigatório");
 		ajustarValorEstimado(diaria);
 	}
