@@ -116,7 +116,7 @@ public class Veiculo {
 		manutencaoNota = Objects.requireNonNull(nota, "O motivo da manutenção é obrigatório");
 		manutencaoPrevista = Objects.requireNonNull(previsao, "A data prevista da manutenção é obrigatória");
 
-		if (!status.disponivel()) {
+		if (status == StatusVeiculo.LOCADO) {
 			throw new IllegalStateException("Veículo não pode entrar em manutenção enquanto reservado ou locado");
 		}
 		if (status == StatusVeiculo.VENDIDO) {
@@ -124,6 +124,7 @@ public class Veiculo {
 		}
 
 		status = StatusVeiculo.EM_MANUTENCAO;
+		removerDoPatio();
 	}
 
 	public void removerDoPatio() {

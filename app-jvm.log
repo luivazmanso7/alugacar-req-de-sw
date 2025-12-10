@@ -1,0 +1,826 @@
+[175.929s][info][nmethod,install] Installing method (1) java.util.concurrent.locks.ReentrantLock.lockInterruptibly()V 
+[175.930s][info][nmethod,install] Installing method (1) java.util.concurrent.locks.ReentrantLock$Sync.lockInterruptibly()V 
+[180.266s][info][monitorinflation] Async deflation needed: guaranteed interval (60000 ms) is greater than time since last deflation (60109 ms)
+[180.266s][info][monitorinflation] begin deflating: in_use_list stats: ceiling=28672, count=1, max=75
+[180.266s][info][monitorinflation] end deflating: in_use_list stats: ceiling=28672, count=1, max=75
+[186.927s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.add(Ljava/lang/Object;)Z 
+[186.927s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.add(Ljava/lang/Runnable;)Z 
+[186.928s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.offer(Ljava/lang/Runnable;)Z 
+[186.928s][info][nmethod,install ] Installing method (1) java.util.concurrent.ThreadPoolExecutor.ensurePrestart()V 
+[189.927s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.siftUp(ILjava/util/concurrent/RunnableScheduledFuture;)V 
+[190.926s][info][nmethod,install ] Installing method (1) java.util.concurrent.ThreadPoolExecutor$Worker.unlock()V 
+[190.926s][info][nmethod,install ] Installing method (1) java.util.concurrent.ThreadPoolExecutor$Worker.tryRelease(I)Z 
+[191.060s][info][nmethod,install ] Installing method (1) java.util.concurrent.ThreadPoolExecutor.getTask()Ljava/lang/Runnable; 
+[192.928s][info][nmethod,install ] Installing method (1) java.util.concurrent.ThreadPoolExecutor$Worker.lock()V 
+[192.929s][info][nmethod,install ] Installing method (1) java.util.concurrent.ThreadPoolExecutor$Worker.tryAcquire(I)Z 
+[192.929s][info][nmethod,install ] Installing method (1) java.util.concurrent.ThreadPoolExecutor.beforeExecute(Ljava/lang/Thread;Ljava/lang/Runnable;)V 
+[192.929s][info][nmethod,install ] Installing method (1) java.util.concurrent.ThreadPoolExecutor.afterExecute(Ljava/lang/Runnable;Ljava/lang/Throwable;)V 
+[193.927s][info][nmethod,install ] Installing method (1) java.util.concurrent.locks.LockSupport.park()V 
+[194.928s][info][nmethod,install ] Installing method (1) java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await()V 
+[194.929s][info][nmethod,install ] Installing method (1) java.util.concurrent.ForkJoinPool.managedBlock(Ljava/util/concurrent/ForkJoinPool$ManagedBlocker;)V 
+[194.929s][info][nmethod,install ] Installing method (1) java.util.concurrent.ForkJoinPool.unmanagedBlock(Ljava/util/concurrent/ForkJoinPool$ManagedBlocker;)V 
+[195.926s][info][nmethod,install ] Installing method (1) java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block()Z 
+[198.929s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take()Ljava/util/concurrent/RunnableScheduledFuture; 
+[198.930s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take()Ljava/lang/Object; 
+[201.058s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.finishPoll(Ljava/util/concurrent/RunnableScheduledFuture;)Ljava/util/concurrent/RunnableScheduledFuture; 
+[201.058s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run()V 
+[201.058s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.isPeriodic()Z 
+[201.059s][info][nmethod,install ] Installing method (1) java.util.concurrent.FutureTask.runAndReset()Z 
+[201.059s][info][nmethod,install ] Installing method (1) java.util.concurrent.Executors$RunnableAdapter.call()Ljava/lang/Object; 
+[201.060s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.setNextRunTime()V 
+[201.060s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor.reExecutePeriodic(Ljava/util/concurrent/RunnableScheduledFuture;)V 
+[201.166s][info][nmethod,install ] Installing method (1) java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.unlinkCancelledWaiters(Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$ConditionNode;)V 
+[201.166s][info][nmethod,install ] Installing method (1) java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.siftDown(ILjava/util/concurrent/RunnableScheduledFuture;)V 
+[212.131s][info][nmethod,install ] Installing method (1) jdk.internal.misc.Blocker.begin(Z)Z 
+[238.161s][info][nmethod,install ] Installing method (1) java.util.concurrent.atomic.AtomicLong.getAndSet(J)J 
+[238.165s][info][nmethod,install ] Installing method (1) sun.nio.ch.KQueueSelectorImpl.processUpdateQueue()V 
+[238.165s][info][nmethod,install ] Installing method (1) jdk.internal.misc.Unsafe.getAndSetLong(Ljava/lang/Object;JJ)J 
+[238.166s][info][nmethod,install ] Installing method (1) sun.nio.ch.SelectorImpl.select(J)I 
+[238.167s][info][nmethod,install ] Installing method (1) sun.nio.ch.SelectorImpl.lockAndDoSelect(Ljava/util/function/Consumer;J)I 
+[238.169s][info][nmethod,install ] Installing method (1) sun.nio.ch.KQueueSelectorImpl.doSelect(Ljava/util/function/Consumer;J)I 
+[238.169s][info][nmethod,install ] Installing method (1) sun.nio.ch.SelectorImpl.begin(Z)V 
+[239.159s][info][nmethod,install ] Installing method (1) sun.nio.ch.SelectorImpl.end(Z)V 
+[239.161s][info][nmethod,install ] Installing method (1) sun.nio.ch.KQueueSelectorImpl.processEvents(ILjava/util/function/Consumer;)I 
+[239.167s][info][nmethod,install ] Installing method (1) org.apache.tomcat.util.net.NioEndpoint$Poller.timeout(IZ)V 
+[239.167s][info][nmethod,install ] Installing method (1) java.nio.channels.spi.AbstractSelector.end()V 
+[239.167s][info][nmethod,install ] Installing method (1) java.util.concurrent.atomic.AtomicLong.set(J)V 
+[240.311s][info][monitorinflation] Async deflation needed: guaranteed interval (60000 ms) is greater than time since last deflation (60043 ms)
+[240.311s][info][monitorinflation] begin deflating: in_use_list stats: ceiling=28672, count=1, max=75
+[240.311s][info][monitorinflation] end deflating: in_use_list stats: ceiling=28672, count=1, max=75
+[241.192s][info][nmethod,install ] Installing method (1) org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(Ljava/lang/String;Ljava/lang/Object;)V 
+[241.193s][info][nmethod,install ] Installing method (1) org.apache.catalina.LifecycleEvent.<init>(Lorg/apache/catalina/Lifecycle;Ljava/lang/String;Ljava/lang/Object;)V 
+[241.193s][info][nmethod,install ] Installing method (1) org.apache.catalina.webresources.Cache$$Lambda/0x00003ffe01aaabe0.applyAsLong(Ljava/lang/Object;)J 
+[258.927s][info][nmethod,install ] Installing method (1) org.apache.coyote.AbstractProtocol$$Lambda/0x00003ffe01aa38b0.run()V 
+[258.928s][info][nmethod,install ] Installing method (1) org.apache.coyote.AbstractProtocol.lambda$startAsyncTimeout$1()V 
+[261.224s][info][nmethod,install ] Installing method (1) java.lang.Long.compare(JJ)I 
+[281.237s][info][nmethod,install ] Installing method (1) java.util.HashMap.valuesToArray([Ljava/lang/Object;)[Ljava/lang/Object; 
+[283.069s][info][nmethod,install ] Installing method (1) java.lang.StringUTF16.length([B)I 
+[283.070s][info][nmethod,install ] Installing method (1) org.apache.coyote.AbstractProcessor.getErrorState()Lorg/apache/coyote/ErrorState; 
+[283.071s][info][stacktrace      ] java.io.EOFException, 13
+[283.072s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304e9afb8}>
+ thrown in interpreter method <{method} {0x0000000122a5ff00} 'fillReadBuffer' '(ZLjava/nio/ByteBuffer;)I' in 'org/apache/tomcat/util/net/NioEndpoint$NioSocketWrapper'>
+ at bci 220 for thread 0x00000007cfb80e00 (http-nio-8080-exec-4)
+[283.072s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304e9afb8}>
+ thrown in interpreter method <{method} {0x0000000122a61dc0} 'read' '(ZLjava/nio/ByteBuffer;)I' in 'org/apache/tomcat/util/net/NioEndpoint$NioSocketWrapper'>
+ at bci 48 for thread 0x00000007cfb80e00 (http-nio-8080-exec-4)
+[283.072s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304e9afb8}>
+ thrown in interpreter method <{method} {0x0000000122ab1338} 'fill' '(Z)Z' in 'org/apache/coyote/http11/Http11InputBuffer'>
+ at bci 209 for thread 0x00000007cfb80e00 (http-nio-8080-exec-4)
+[283.072s][info][exceptions      ] Found catch-all handler for exception of type "java.io.EOFException" in method "fill" at BCI: 292
+[283.072s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304e9afb8}>
+ thrown in interpreter method <{method} {0x0000000122ab1338} 'fill' '(Z)Z' in 'org/apache/coyote/http11/Http11InputBuffer'>
+ at bci 352 for thread 0x00000007cfb80e00 (http-nio-8080-exec-4)
+[283.072s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304e9afb8}>
+ thrown in interpreter method <{method} {0x0000000122ab0788} 'parseRequestLine' '(ZII)Z' in 'org/apache/coyote/http11/Http11InputBuffer'>
+ at bci 49 for thread 0x00000007cfb80e00 (http-nio-8080-exec-4)
+[283.072s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304e9afb8}>
+ thrown in interpreter method <{method} {0x0000000122a7f430} 'service' '(Lorg/apache/tomcat/util/net/SocketWrapperBase;)Lorg/apache/tomcat/util/net/AbstractEndpoint$Handler$SocketState;' in 'org/apache/coyote/http11/Http11Processor'>
+ at bci 108 for thread 0x00000007cfb80e00 (http-nio-8080-exec-4)
+[283.072s][info][exceptions      ] Found matching handler for exception of type "java.io.EOFException" in method "service" at BCI: 248
+[300.416s][info][monitorinflation] Async deflation needed: guaranteed interval (60000 ms) is greater than time since last deflation (60105 ms)
+[300.418s][info][monitorinflation] begin deflating: in_use_list stats: ceiling=28672, count=1, max=75
+[300.418s][info][monitorinflation] end deflating: in_use_list stats: ceiling=28672, count=1, max=75
+[314.883s][info][nmethod,install ] Installing method (1) java.lang.StringUTF16.checkIndex(I[B)V 
+[314.883s][info][stacktrace      ] java.io.EOFException, 13
+[314.883s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304d01578}>
+ thrown in interpreter method <{method} {0x0000000122a5ff00} 'fillReadBuffer' '(ZLjava/nio/ByteBuffer;)I' in 'org/apache/tomcat/util/net/NioEndpoint$NioSocketWrapper'>
+ at bci 220 for thread 0x00000007cfb81c00 (http-nio-8080-exec-6)
+[314.883s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304d01578}>
+ thrown in interpreter method <{method} {0x0000000122a61dc0} 'read' '(ZLjava/nio/ByteBuffer;)I' in 'org/apache/tomcat/util/net/NioEndpoint$NioSocketWrapper'>
+ at bci 48 for thread 0x00000007cfb81c00 (http-nio-8080-exec-6)
+[314.883s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304d01578}>
+ thrown in interpreter method <{method} {0x0000000122ab1338} 'fill' '(Z)Z' in 'org/apache/coyote/http11/Http11InputBuffer'>
+ at bci 209 for thread 0x00000007cfb81c00 (http-nio-8080-exec-6)
+[314.883s][info][exceptions      ] Found catch-all handler for exception of type "java.io.EOFException" in method "fill" at BCI: 292
+[314.883s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304d01578}>
+ thrown in interpreter method <{method} {0x0000000122ab1338} 'fill' '(Z)Z' in 'org/apache/coyote/http11/Http11InputBuffer'>
+ at bci 352 for thread 0x00000007cfb81c00 (http-nio-8080-exec-6)
+[314.883s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304d01578}>
+ thrown in interpreter method <{method} {0x0000000122ab0788} 'parseRequestLine' '(ZII)Z' in 'org/apache/coyote/http11/Http11InputBuffer'>
+ at bci 49 for thread 0x00000007cfb81c00 (http-nio-8080-exec-6)
+[314.883s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304d01578}>
+ thrown in interpreter method <{method} {0x0000000122a7f430} 'service' '(Lorg/apache/tomcat/util/net/SocketWrapperBase;)Lorg/apache/tomcat/util/net/AbstractEndpoint$Handler$SocketState;' in 'org/apache/coyote/http11/Http11Processor'>
+ at bci 108 for thread 0x00000007cfb81c00 (http-nio-8080-exec-6)
+[314.883s][info][exceptions      ] Found matching handler for exception of type "java.io.EOFException" in method "service" at BCI: 248
+[321.513s][info][nmethod,install ] Installing method (1) jdk.internal.misc.Unsafe.weakCompareAndSetReference(Ljava/lang/Object;JLjava/lang/Object;Ljava/lang/Object;)Z 
+[321.514s][info][nmethod,install ] Installing method (1) org.apache.tomcat.util.buf.MessageBytes.getType()I 
+[321.515s][info][stacktrace      ] java.io.EOFException, 13
+[321.515s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304393840}>
+ thrown in interpreter method <{method} {0x0000000122a5ff00} 'fillReadBuffer' '(ZLjava/nio/ByteBuffer;)I' in 'org/apache/tomcat/util/net/NioEndpoint$NioSocketWrapper'>
+ at bci 220 for thread 0x00000007cfb82a00 (http-nio-8080-exec-8)
+[321.515s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304393840}>
+ thrown in interpreter method <{method} {0x0000000122a61dc0} 'read' '(ZLjava/nio/ByteBuffer;)I' in 'org/apache/tomcat/util/net/NioEndpoint$NioSocketWrapper'>
+ at bci 48 for thread 0x00000007cfb82a00 (http-nio-8080-exec-8)
+[321.515s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304393840}>
+ thrown in interpreter method <{method} {0x0000000122ab1338} 'fill' '(Z)Z' in 'org/apache/coyote/http11/Http11InputBuffer'>
+ at bci 209 for thread 0x00000007cfb82a00 (http-nio-8080-exec-8)
+[321.515s][info][exceptions      ] Found catch-all handler for exception of type "java.io.EOFException" in method "fill" at BCI: 292
+[321.515s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304393840}>
+ thrown in interpreter method <{method} {0x0000000122ab1338} 'fill' '(Z)Z' in 'org/apache/coyote/http11/Http11InputBuffer'>
+ at bci 352 for thread 0x00000007cfb82a00 (http-nio-8080-exec-8)
+[321.515s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304393840}>
+ thrown in interpreter method <{method} {0x0000000122ab0788} 'parseRequestLine' '(ZII)Z' in 'org/apache/coyote/http11/Http11InputBuffer'>
+ at bci 49 for thread 0x00000007cfb82a00 (http-nio-8080-exec-8)
+[321.515s][info][exceptions      ] Exception <a 'java/io/EOFException'{0x0000000304393840}>
+ thrown in interpreter method <{method} {0x0000000122a7f430} 'service' '(Lorg/apache/tomcat/util/net/SocketWrapperBase;)Lorg/apache/tomcat/util/net/AbstractEndpoint$Handler$SocketState;' in 'org/apache/coyote/http11/Http11Processor'>
+ at bci 108 for thread 0x00000007cfb82a00 (http-nio-8080-exec-8)
+[321.515s][info][exceptions      ] Found matching handler for exception of type "java.io.EOFException" in method "service" at BCI: 248
+[323.062s][info][class,load      ] jdk.internal.misc.Signal$1 source: jrt:/java.base
+[323.062s][info][class,init      ] 0 Initializing 'jdk/internal/misc/Signal$1'(no method) (0x00003ffe015e43a8) by thread "Signal Dispatcher"
+[323.062s][info][os,thread       ] Thread "Unknown thread" started (pthread id: 6192984064, attributes: stacksize: 2048k, guardsize: 16k, detached). 
+[323.062s][info][os,thread       ] Thread is alive (tid: 64515, pthread id: 6192984064).
+[323.063s][info][os,thread       ] Thread "Unknown thread" started (pthread id: 6195130368, attributes: stacksize: 2048k, guardsize: 16k, detached). 
+[323.063s][info][os,thread       ] Thread is alive (tid: 64003, pthread id: 6195130368).
+[323.063s][info][os,thread       ] Thread "Unknown thread" started (pthread id: 6197276672, attributes: stacksize: 2048k, guardsize: 16k, detached). 
+[323.064s][info][os,thread       ] Thread is alive (tid: 63747, pthread id: 6197276672).
+[323.064s][info][os,thread       ] JavaThread exiting (name: "Logging-Cleaner", tid: 64003).
+[323.064s][info][os,thread       ] Thread finished (tid: 64003, pthread id: 6195130368).
+[323.064s][info][nmethod,install ] Installing method (1) java.util.logging.LogManager.checkPermission()V 
+[323.066s][info][class,nestmates ] LookupDefineClass: org/springframework/boot/SpringApplicationShutdownHook$$Lambda - with dynamic nest-host org.springframework.boot.SpringApplicationShutdownHook, hidden, strong, without vm annotation
+[323.067s][info][class,load      ] org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3b908 source: org.springframework.boot.SpringApplicationShutdownHook
+[323.067s][info][class,init      ] Start class verification for: org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3b908
+[323.067s][info][verification    ] Verifying class org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3b908 with new format
+[323.067s][info][verification    ] Verifying method org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3b908.<init>(Lorg/springframework/boot/SpringApplicationShutdownHook;)V
+[323.067s][info][verification    ] Verifying method org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3b908.accept(Ljava/lang/Object;)V
+[323.067s][info][class,init      ] End class verification for: org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3b908
+[323.067s][info][verification    ] End class verification for: org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3b908
+[323.067s][info][class,init      ] 1 Initializing 'org/springframework/boot/SpringApplicationShutdownHook$$Lambda+0x00003ffe01b3b908'(no method) (0x00003ffe01b3b908) by thread "SpringApplicationShutdownHook"
+[323.072s][info][class,init      ] Start class verification for: org.springframework.context.event.ContextClosedEvent
+[323.072s][info][verification    ] Verifying class org.springframework.context.event.ContextClosedEvent with new format
+[323.072s][info][verification    ] Verifying method org.springframework.context.event.ContextClosedEvent.<init>(Lorg/springframework/context/ApplicationContext;)V
+[323.072s][info][class,init      ] End class verification for: org.springframework.context.event.ContextClosedEvent
+[323.072s][info][verification    ] End class verification for: org.springframework.context.event.ContextClosedEvent
+[323.072s][info][class,init      ] 2 Initializing 'org/springframework/context/event/ContextClosedEvent'(no method) (0x00003ffe0103bb28) by thread "SpringApplicationShutdownHook"
+[323.090s][info][class,nestmates ] LookupDefineClass: org/springframework/context/support/DefaultLifecycleProcessor$$Lambda - with dynamic nest-host org.springframework.context.support.DefaultLifecycleProcessor, hidden, strong, without vm annotation
+[323.090s][info][class,load      ] org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bb40 source: org.springframework.context.support.DefaultLifecycleProcessor
+[323.090s][info][class,init      ] Start class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bb40
+[323.090s][info][verification    ] Verifying class org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bb40 with new format
+[323.090s][info][verification    ] Verifying method org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bb40.<init>(Lorg/springframework/context/support/DefaultLifecycleProcessor;Ljava/util/Map;Ljava/util/Map;)V
+[323.090s][info][verification    ] Verifying method org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bb40.accept(Ljava/lang/Object;Ljava/lang/Object;)V
+[323.090s][info][class,init      ] End class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bb40
+[323.090s][info][verification    ] End class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bb40
+[323.090s][info][class,init      ] 3 Initializing 'org/springframework/context/support/DefaultLifecycleProcessor$$Lambda+0x00003ffe01b3bb40'(no method) (0x00003ffe01b3bb40) by thread "SpringApplicationShutdownHook"
+[323.091s][info][class,nestmates ] LookupDefineClass: org/springframework/context/support/DefaultLifecycleProcessor$$Lambda - with dynamic nest-host org.springframework.context.support.DefaultLifecycleProcessor, hidden, strong, without vm annotation
+[323.091s][info][class,load      ] org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bd78 source: org.springframework.context.support.DefaultLifecycleProcessor
+[323.091s][info][class,init      ] Start class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bd78
+[323.091s][info][verification    ] Verifying class org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bd78 with new format
+[323.091s][info][verification    ] Verifying method org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bd78.<init>(Lorg/springframework/context/support/DefaultLifecycleProcessor;Ljava/util/Map;)V
+[323.091s][info][verification    ] Verifying method org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bd78.apply(Ljava/lang/Object;)Ljava/lang/Object;
+[323.091s][info][class,init      ] End class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bd78
+[323.091s][info][verification    ] End class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bd78
+[323.091s][info][class,init      ] 4 Initializing 'org/springframework/context/support/DefaultLifecycleProcessor$$Lambda+0x00003ffe01b3bd78'(no method) (0x00003ffe01b3bd78) by thread "SpringApplicationShutdownHook"
+[323.091s][info][class,nestmates ] LookupDefineClass: org/springframework/context/support/DefaultLifecycleProcessor$$Lambda - with dynamic nest-host org.springframework.context.support.DefaultLifecycleProcessor, hidden, strong, without vm annotation
+[323.091s][info][class,load      ] org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bfc0 source: org.springframework.context.support.DefaultLifecycleProcessor
+[323.091s][info][class,init      ] Start class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bfc0
+[323.091s][info][verification    ] Verifying class org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bfc0 with new format
+[323.091s][info][verification    ] Verifying method org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bfc0.<init>()V
+[323.091s][info][verification    ] Verifying method org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bfc0.accept(Ljava/lang/Object;)V
+[323.091s][info][class,init      ] End class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bfc0
+[323.091s][info][verification    ] End class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3bfc0
+[323.091s][info][class,init      ] 5 Initializing 'org/springframework/context/support/DefaultLifecycleProcessor$$Lambda+0x00003ffe01b3bfc0'(no method) (0x00003ffe01b3bfc0) by thread "SpringApplicationShutdownHook"
+[323.091s][info][nmethod,install ] Installing method (1) java.util.TreeMap$ValueIterator.next()Ljava/lang/Object; 
+[323.092s][info][class,nestmates ] LookupDefineClass: org/springframework/context/support/DefaultLifecycleProcessor$$Lambda - with dynamic nest-host org.springframework.context.support.DefaultLifecycleProcessor, hidden, strong, without vm annotation
+[323.092s][info][class,load      ] org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3c1f0 source: org.springframework.context.support.DefaultLifecycleProcessor
+[323.092s][info][class,init      ] Start class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3c1f0
+[323.092s][info][verification    ] Verifying class org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3c1f0 with new format
+[323.092s][info][verification    ] Verifying method org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3c1f0.<init>(Lorg/springframework/context/support/DefaultLifecycleProcessor;Ljava/util/concurrent/CountDownLatch;Ljava/util/Set;Ljava/lang/String;)V
+[323.092s][info][verification    ] Verifying method org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3c1f0.run()V
+[323.092s][info][class,init      ] End class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3c1f0
+[323.092s][info][verification    ] End class verification for: org.springframework.context.support.DefaultLifecycleProcessor$$Lambda/0x00003ffe01b3c1f0
+[323.092s][info][class,init      ] 6 Initializing 'org/springframework/context/support/DefaultLifecycleProcessor$$Lambda+0x00003ffe01b3c1f0'(no method) (0x00003ffe01b3c1f0) by thread "SpringApplicationShutdownHook"
+[323.093s][info][class,load      ] org.springframework.boot.web.server.GracefulShutdownCallback source: file:/Users/luimanso/.m2/repository/org/springframework/boot/spring-boot/3.4.4/spring-boot-3.4.4.jar
+[323.094s][info][class,load      ] org.springframework.boot.web.server.GracefulShutdownResult source: file:/Users/luimanso/.m2/repository/org/springframework/boot/spring-boot/3.4.4/spring-boot-3.4.4.jar
+[323.094s][info][class,nestmates ] LookupDefineClass: org/springframework/boot/web/context/WebServerGracefulShutdownLifecycle$$Lambda - with dynamic nest-host org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle, hidden, strong, without vm annotation
+[323.095s][info][class,load      ] org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle$$Lambda/0x00003ffe01b3c860 source: org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle
+[323.095s][info][class,init      ] Start class verification for: org.springframework.boot.web.server.GracefulShutdownCallback
+[323.095s][info][verification    ] Verifying class org.springframework.boot.web.server.GracefulShutdownCallback with new format
+[323.095s][info][class,init      ] End class verification for: org.springframework.boot.web.server.GracefulShutdownCallback
+[323.095s][info][verification    ] End class verification for: org.springframework.boot.web.server.GracefulShutdownCallback
+[323.095s][info][class,init      ] Start class verification for: org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle$$Lambda/0x00003ffe01b3c860
+[323.095s][info][verification    ] Verifying class org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle$$Lambda/0x00003ffe01b3c860 with new format
+[323.095s][info][verification    ] Verifying method org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle$$Lambda/0x00003ffe01b3c860.shutdownComplete(Lorg/springframework/boot/web/server/GracefulShutdownResult;)V
+[323.095s][info][verification    ] Verifying method org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle$$Lambda/0x00003ffe01b3c860.<init>(Ljava/lang/Runnable;)V
+[323.095s][info][class,init      ] End class verification for: org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle$$Lambda/0x00003ffe01b3c860
+[323.095s][info][verification    ] End class verification for: org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle$$Lambda/0x00003ffe01b3c860
+[323.095s][info][class,init      ] 7 Initializing 'org/springframework/boot/web/context/WebServerGracefulShutdownLifecycle$$Lambda+0x00003ffe01b3c860'(no method) (0x00003ffe01b3c860) by thread "SpringApplicationShutdownHook"
+[323.096s][info][class,nestmates ] LookupDefineClass: org/springframework/boot/web/embedded/tomcat/GracefulShutdown$$Lambda - with dynamic nest-host org.springframework.boot.web.embedded.tomcat.GracefulShutdown, hidden, strong, without vm annotation
+[323.096s][info][class,load      ] org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ca88 source: org.springframework.boot.web.embedded.tomcat.GracefulShutdown
+[323.096s][info][class,init      ] Start class verification for: org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ca88
+[323.096s][info][verification    ] Verifying class org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ca88 with new format
+[323.096s][info][verification    ] Verifying method org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ca88.<init>(Lorg/springframework/boot/web/embedded/tomcat/GracefulShutdown;Lorg/springframework/boot/web/server/GracefulShutdownCallback;Ljava/util/concurrent/CountDownLatch;)V
+[323.096s][info][verification    ] Verifying method org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ca88.run()V
+[323.096s][info][class,init      ] End class verification for: org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ca88
+[323.096s][info][verification    ] End class verification for: org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ca88
+[323.096s][info][class,init      ] 8 Initializing 'org/springframework/boot/web/embedded/tomcat/GracefulShutdown$$Lambda+0x00003ffe01b3ca88'(no method) (0x00003ffe01b3ca88) by thread "SpringApplicationShutdownHook"
+[323.096s][info][os,thread       ] Thread "Unknown thread" started (pthread id: 6195130368, attributes: stacksize: 2048k, guardsize: 16k, detached). 
+[323.096s][info][os,thread       ] Thread is alive (tid: 64011, pthread id: 6195130368).
+[323.096s][info][class,load      ] java.util.concurrent.locks.AbstractQueuedSynchronizer$SharedNode source: jrt:/java.base
+[323.096s][info][class,init      ] 9 Initializing 'java/util/concurrent/locks/AbstractQueuedSynchronizer$SharedNode'(no method) (0x00003ffe015e45d8) by thread "SpringApplicationShutdownHook"
+[323.096s][info][class,nestmates ] LookupDefineClass: org/springframework/boot/web/embedded/tomcat/GracefulShutdown$$Lambda - with dynamic nest-host org.springframework.boot.web.embedded.tomcat.GracefulShutdown, hidden, strong, without vm annotation
+[323.096s][info][class,load      ] org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ccb0 source: org.springframework.boot.web.embedded.tomcat.GracefulShutdown
+[323.096s][info][class,init      ] Start class verification for: org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ccb0
+[323.096s][info][verification    ] Verifying class org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ccb0 with new format
+[323.096s][info][verification    ] Verifying method org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ccb0.<init>(Lorg/springframework/boot/web/embedded/tomcat/GracefulShutdown;)V
+[323.096s][info][verification    ] Verifying method org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ccb0.accept(Ljava/lang/Object;)V
+[323.096s][info][class,init      ] End class verification for: org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ccb0
+[323.096s][info][verification    ] End class verification for: org.springframework.boot.web.embedded.tomcat.GracefulShutdown$$Lambda/0x00003ffe01b3ccb0
+[323.096s][info][class,init      ] 10 Initializing 'org/springframework/boot/web/embedded/tomcat/GracefulShutdown$$Lambda+0x00003ffe01b3ccb0'(no method) (0x00003ffe01b3ccb0) by thread "tomcat-shutdown"
+[323.097s][info][stacktrace      ] java.lang.Throwable, 9
+[323.097s][info][class,init      ] 11 Initializing 'java/net/NetworkInterface' (0x00003ffe002ee4b8) by thread "tomcat-shutdown"
+[323.098s][info][library         ] Failed to find JNI_OnLoad_net in library with handle 0xfffffffffffffffb
+[323.099s][info][library         ] Failed to find Java_java_net_NetworkInterface_init in library with handle 0x0000000394bd4f10
+[323.099s][info][library         ] Failed to find Java_java_net_NetworkInterface_init in library with handle 0x0000000394bd7170
+[323.099s][info][library         ] Failed to find Java_java_net_NetworkInterface_init in library with handle 0x0000000394bd0840
+[323.099s][info][library         ] Found Java_java_net_NetworkInterface_init in library with handle 0x0000000394bd9680
+[323.100s][info][class,load      ] java.net.InterfaceAddress source: shared objects file
+[323.100s][info][class,init      ] 12 Initializing 'java/net/InterfaceAddress'(no method) (0x00003ffe003483e0) by thread "tomcat-shutdown"
+[323.100s][info][class,load      ] java.net.DefaultInterface source: shared objects file
+[323.100s][info][class,init      ] 13 Initializing 'java/net/DefaultInterface' (0x00003ffe00342090) by thread "tomcat-shutdown"
+[323.101s][info][library         ] Failed to find Java_java_net_NetworkInterface_getAll in library with handle 0x0000000394bd4f10
+[323.101s][info][library         ] Failed to find Java_java_net_NetworkInterface_getAll in library with handle 0x0000000394bd7170
+[323.101s][info][library         ] Failed to find Java_java_net_NetworkInterface_getAll in library with handle 0x0000000394bd0840
+[323.101s][info][library         ] Found Java_java_net_NetworkInterface_getAll in library with handle 0x0000000394bd9680
+[323.102s][info][class,load      ] java.net.NetworkInterface$1 source: shared objects file
+[323.102s][info][class,init      ] 14 Initializing 'java/net/NetworkInterface$1'(no method) (0x00003ffe003488f0) by thread "tomcat-shutdown"
+[323.102s][info][library         ] Failed to find Java_java_net_NetworkInterface_isUp0 in library with handle 0x0000000394bd4f10
+[323.102s][info][library         ] Failed to find Java_java_net_NetworkInterface_isUp0 in library with handle 0x0000000394bd7170
+[323.102s][info][library         ] Failed to find Java_java_net_NetworkInterface_isUp0 in library with handle 0x0000000394bd0840
+[323.102s][info][library         ] Found Java_java_net_NetworkInterface_isUp0 in library with handle 0x0000000394bd9680
+[323.102s][info][library         ] Failed to find Java_java_net_NetworkInterface_supportsMulticast0 in library with handle 0x0000000394bd4f10
+[323.102s][info][library         ] Failed to find Java_java_net_NetworkInterface_supportsMulticast0 in library with handle 0x0000000394bd7170
+[323.102s][info][library         ] Failed to find Java_java_net_NetworkInterface_supportsMulticast0 in library with handle 0x0000000394bd0840
+[323.102s][info][library         ] Found Java_java_net_NetworkInterface_supportsMulticast0 in library with handle 0x0000000394bd9680
+[323.103s][info][class,load      ] java.net.DefaultInterface$$Lambda/0x800000012 source: shared objects file
+[323.103s][info][class,init      ] 15 Initializing 'java/net/DefaultInterface$$Lambda+0x800000012'(no method) (0x00003ffe0042d4b8) by thread "tomcat-shutdown"
+[323.103s][info][library         ] Failed to find Java_java_net_NetworkInterface_isLoopback0 in library with handle 0x0000000394bd4f10
+[323.103s][info][library         ] Failed to find Java_java_net_NetworkInterface_isLoopback0 in library with handle 0x0000000394bd7170
+[323.103s][info][library         ] Failed to find Java_java_net_NetworkInterface_isLoopback0 in library with handle 0x0000000394bd0840
+[323.103s][info][library         ] Found Java_java_net_NetworkInterface_isLoopback0 in library with handle 0x0000000394bd9680
+[323.103s][info][library         ] Failed to find Java_java_net_NetworkInterface_isP2P0 in library with handle 0x0000000394bd4f10
+[323.103s][info][library         ] Failed to find Java_java_net_NetworkInterface_isP2P0 in library with handle 0x0000000394bd7170
+[323.103s][info][library         ] Failed to find Java_java_net_NetworkInterface_isP2P0 in library with handle 0x0000000394bd0840
+[323.103s][info][library         ] Found Java_java_net_NetworkInterface_isP2P0 in library with handle 0x0000000394bd9680
+[323.106s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-Acceptor", tid: 44035).
+[323.106s][info][os,thread       ] Thread finished (tid: 44035, pthread id: 6190837760).
+[323.106s][info][nmethod,install ] Installing method (1) java.nio.channels.spi.AbstractInterruptibleChannel.isOpen()Z 
+[323.106s][info][nmethod,install ] Installing method (1) org.apache.tomcat.util.net.AbstractEndpoint.isPaused()Z 
+[323.106s][info][class,init      ] Start class verification for: org.springframework.boot.web.server.GracefulShutdownResult
+[323.106s][info][verification    ] Verifying class org.springframework.boot.web.server.GracefulShutdownResult with new format
+[323.106s][info][verification    ] Verifying method org.springframework.boot.web.server.GracefulShutdownResult.<init>(Ljava/lang/String;I)V
+[323.106s][info][verification    ] Verifying method org.springframework.boot.web.server.GracefulShutdownResult.<clinit>()V
+[323.106s][info][verification    ] Verifying method org.springframework.boot.web.server.GracefulShutdownResult.values()[Lorg/springframework/boot/web/server/GracefulShutdownResult;
+[323.106s][info][verification    ] Verifying method org.springframework.boot.web.server.GracefulShutdownResult.valueOf(Ljava/lang/String;)Lorg/springframework/boot/web/server/GracefulShutdownResult;
+[323.106s][info][verification    ] Verifying method org.springframework.boot.web.server.GracefulShutdownResult.$values()[Lorg/springframework/boot/web/server/GracefulShutdownResult;
+[323.106s][info][class,init      ] End class verification for: org.springframework.boot.web.server.GracefulShutdownResult
+[323.106s][info][verification    ] End class verification for: org.springframework.boot.web.server.GracefulShutdownResult
+[323.106s][info][class,init      ] 16 Initializing 'org/springframework/boot/web/server/GracefulShutdownResult' (0x00003ffe01b3c618) by thread "tomcat-shutdown"
+[323.106s][info][os,thread       ] JavaThread exiting (name: "tomcat-shutdown", tid: 64011).
+[323.106s][info][os,thread       ] Thread finished (tid: 64011, pthread id: 6195130368).
+[323.106s][info][stacktrace      ] java.lang.Throwable, 24
+[323.106s][info][methodhandles   ] resolve_invokehandle compareAndSet (Ljava/nio/channels/spi/AbstractSelector;ZZ)Z
+[323.106s][info][methodhandles   ] lookup_polymorphic_method iid=_invokeGeneric java.lang.invoke.VarHandle.compareAndSet(Ljava/nio/channels/spi/AbstractSelector;ZZ)Z
+[323.107s][info][methodhandles   ] lookup_polymorphic_method => (via Java) {method} {0x00003ffe00263310}
+[323.107s][info][methodhandles   ]   lookup_polymorphic_method => appendix = java.lang.invoke.VarHandle$AccessDescriptor 
+[323.107s][info][methodhandles   ] {0x0000000304c087a0} - klass: 'java/lang/invoke/VarHandle$AccessDescriptor'
+[323.107s][info][methodhandles   ]  - ---- fields (total size 5 words):
+[323.107s][info][methodhandles   ]  - final 'type' 'I' @12  2 (0x00000002)
+[323.107s][info][methodhandles   ]  - final 'mode' 'I' @16  8 (0x00000008)
+[323.107s][info][methodhandles   ]  - final 'symbolicMethodTypeExact' 'Ljava/lang/invoke/MethodType;' @20  a 'java/lang/invoke/MethodType'{0x0000000304c08698} = (Ljava/nio/channels/spi/AbstractSelector;ZZ)Z (0x609810d3)
+[323.107s][info][methodhandles   ]  - final 'symbolicMethodTypeErased' 'Ljava/lang/invoke/MethodType;' @24  a 'java/lang/invoke/MethodType'{0x0000000300c31a08} = (Ljava/lang/Object;ZZ)Z (0x60186341)
+[323.107s][info][methodhandles   ]  - final 'symbolicMethodTypeInvoker' 'Ljava/lang/invoke/MethodType;' @28  a 'java/lang/invoke/MethodType'{0x0000000304c08800} = (Ljava/lang/invoke/VarHandle;Ljava/nio/channels/spi/AbstractSelector;ZZ)Z (0x60981100)
+[323.107s][info][methodhandles   ]  - final 'returnType' 'Ljava/lang/Class;' @32  a 'java/lang/Class'{0x000000038066e3a8} = boolean (0x700cdc75)
+[323.107s][info][library         ] Failed to find Java_sun_nio_ch_UnixFileDispatcherImpl_closeIntFD in library with handle 0x0000000394bd4f10
+[323.107s][info][library         ] Failed to find Java_sun_nio_ch_UnixFileDispatcherImpl_closeIntFD in library with handle 0x0000000394bd7170
+[323.107s][info][library         ] Failed to find Java_sun_nio_ch_UnixFileDispatcherImpl_closeIntFD in library with handle 0x0000000394bd0840
+[323.107s][info][library         ] Found Java_sun_nio_ch_UnixFileDispatcherImpl_closeIntFD in library with handle 0x0000000394bd9680
+[323.107s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-Poller", tid: 43779).
+[323.107s][info][os,thread       ] Thread finished (tid: 43779, pthread id: 6188691456).
+[323.107s][info][nmethod,install ] Installing method (1) jdk.internal.loader.NativeLibraries$NativeLibraryImpl.find(Ljava/lang/String;)J 
+[323.107s][info][class,init      ] 17 Initializing 'java/lang/InterruptedException'(no method) (0x00003ffe0104e9e8) by thread "http-nio-8080-exec-6"
+[323.107s][info][stacktrace      ] java.lang.InterruptedException, 9
+[323.107s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d018d8}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 27 for thread 0x00000007cfb81c00 (http-nio-8080-exec-6)
+[323.107s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 67
+[323.107s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d018d8}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 76 for thread 0x00000007cfb81c00 (http-nio-8080-exec-6)
+[323.107s][info][stacktrace      ] java.lang.InterruptedException, 9
+[323.107s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d018d8}>
+ thrown in interpreter method <{method} {0x0000000122a54c68} 'take' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 36 for thread 0x00000007cfb81c00 (http-nio-8080-exec-6)
+[323.107s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304e9b318}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 27 for thread 0x00000007cfb80e00 (http-nio-8080-exec-4)
+[323.107s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d018d8}>
+ thrown in interpreter method <{method} {0x0000000122a54de0} 'take' '()Ljava/lang/Object;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 1 for thread 0x00000007cfb81c00 (http-nio-8080-exec-6)
+[323.107s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 67
+[323.107s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d018d8}>
+ thrown in interpreter method <{method} {0x0000000122a52750} 'getTask' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/ThreadPoolExecutor'>
+ at bci 147 for thread 0x00000007cfb81c00 (http-nio-8080-exec-6)
+[323.107s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304e9b318}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 76 for thread 0x00000007cfb80e00 (http-nio-8080-exec-4)
+[323.107s][info][stacktrace      ] java.lang.InterruptedException, 9
+[323.107s][info][exceptions      ] Found matching handler for exception of type "java.lang.InterruptedException" in method "getTask" at BCI: 170
+[323.107s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304e9b318}>
+ thrown in interpreter method <{method} {0x0000000122a54c68} 'take' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 36 for thread 0x00000007cfb80e00 (http-nio-8080-exec-4)
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bd63f0}>
+ thrown in interpreter method <{method} {0x00003ffe002a9ca8} 'await' '()V' in 'java/util/concurrent/locks/AbstractQueuedSynchronizer$ConditionObject'>
+ at bci 177 for thread 0x00000007cfb80000 (http-nio-8080-exec-2)
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304e9b318}>
+ thrown in interpreter method <{method} {0x0000000122a54de0} 'take' '()Ljava/lang/Object;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 1 for thread 0x00000007cfb80e00 (http-nio-8080-exec-4)
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bd63f0}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 27 for thread 0x00000007cfb80000 (http-nio-8080-exec-2)
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304e9b318}>
+ thrown in interpreter method <{method} {0x0000000122a52750} 'getTask' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/ThreadPoolExecutor'>
+ at bci 147 for thread 0x00000007cfb80e00 (http-nio-8080-exec-4)
+[323.108s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 67
+[323.108s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-exec-6", tid: 38659).
+[323.108s][info][exceptions      ] Found matching handler for exception of type "java.lang.InterruptedException" in method "getTask" at BCI: 170
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bd63f0}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 76 for thread 0x00000007cfb80000 (http-nio-8080-exec-2)
+[323.108s][info][stacktrace      ] java.lang.InterruptedException, 9
+[323.108s][info][os,thread       ] Thread finished (tid: 38659, pthread id: 6177959936).
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bd63f0}>
+ thrown in interpreter method <{method} {0x0000000122a54c68} 'take' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 36 for thread 0x00000007cfb80000 (http-nio-8080-exec-2)
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x000000030459f778}>
+ thrown in interpreter method <{method} {0x00003ffe002a9ca8} 'await' '()V' in 'java/util/concurrent/locks/AbstractQueuedSynchronizer$ConditionObject'>
+ at bci 177 for thread 0x00000007cfa0b800 (http-nio-8080-exec-1)
+[323.108s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-exec-4", tid: 36099).
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bd63f0}>
+ thrown in interpreter method <{method} {0x0000000122a54de0} 'take' '()Ljava/lang/Object;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 1 for thread 0x00000007cfb80000 (http-nio-8080-exec-2)
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x000000030459f778}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 27 for thread 0x00000007cfa0b800 (http-nio-8080-exec-1)
+[323.108s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 67
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x000000030459f778}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 76 for thread 0x00000007cfa0b800 (http-nio-8080-exec-1)
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x000000030459f778}>
+ thrown in interpreter method <{method} {0x0000000122a54c68} 'take' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 36 for thread 0x00000007cfa0b800 (http-nio-8080-exec-1)
+[323.108s][info][stacktrace      ] java.lang.InterruptedException, 9
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x000000030459f778}>
+ thrown in interpreter method <{method} {0x0000000122a54de0} 'take' '()Ljava/lang/Object;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 1 for thread 0x00000007cfa0b800 (http-nio-8080-exec-1)
+[323.108s][info][os,thread       ] Thread finished (tid: 36099, pthread id: 6173667328).
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bd63f0}>
+ thrown in interpreter method <{method} {0x0000000122a52750} 'getTask' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/ThreadPoolExecutor'>
+ at bci 147 for thread 0x00000007cfb80000 (http-nio-8080-exec-2)
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d53ae8}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 27 for thread 0x00000007cfb82300 (http-nio-8080-exec-7)
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x000000030459f778}>
+ thrown in interpreter method <{method} {0x0000000122a52750} 'getTask' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/ThreadPoolExecutor'>
+ at bci 147 for thread 0x00000007cfa0b800 (http-nio-8080-exec-1)
+[323.108s][info][exceptions      ] Found matching handler for exception of type "java.lang.InterruptedException" in method "getTask" at BCI: 170
+[323.108s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 67
+[323.108s][info][exceptions      ] Found matching handler for exception of type "java.lang.InterruptedException" in method "getTask" at BCI: 170
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d53ae8}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 76 for thread 0x00000007cfb82300 (http-nio-8080-exec-7)
+[323.108s][info][stacktrace      ] java.lang.InterruptedException, 9
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d53ae8}>
+ thrown in interpreter method <{method} {0x0000000122a54c68} 'take' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 36 for thread 0x00000007cfb82300 (http-nio-8080-exec-7)
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304ed23e8}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 27 for thread 0x00000007cfb81500 (http-nio-8080-exec-5)
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d53ae8}>
+ thrown in interpreter method <{method} {0x0000000122a54de0} 'take' '()Ljava/lang/Object;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 1 for thread 0x00000007cfb82300 (http-nio-8080-exec-7)
+[323.108s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 67
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d53ae8}>
+ thrown in interpreter method <{method} {0x0000000122a52750} 'getTask' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/ThreadPoolExecutor'>
+ at bci 147 for thread 0x00000007cfb82300 (http-nio-8080-exec-7)
+[323.108s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-exec-2", tid: 39427).
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304ed23e8}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 76 for thread 0x00000007cfb81500 (http-nio-8080-exec-5)
+[323.108s][info][stacktrace      ] java.lang.InterruptedException, 9
+[323.108s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-exec-1", tid: 39683).
+[323.108s][info][exceptions      ] Found matching handler for exception of type "java.lang.InterruptedException" in method "getTask" at BCI: 170
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304ed23e8}>
+ thrown in interpreter method <{method} {0x0000000122a54c68} 'take' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 36 for thread 0x00000007cfb81500 (http-nio-8080-exec-5)
+[323.108s][info][os,thread       ] Thread finished (tid: 39427, pthread id: 6169374720).
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304393ba0}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 27 for thread 0x00000007cfb82a00 (http-nio-8080-exec-8)
+[323.108s][info][os,thread       ] Thread finished (tid: 39683, pthread id: 6167228416).
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304ed23e8}>
+ thrown in interpreter method <{method} {0x0000000122a54de0} 'take' '()Ljava/lang/Object;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 1 for thread 0x00000007cfb81500 (http-nio-8080-exec-5)
+[323.108s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-exec-7", tid: 36867).
+[323.108s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 67
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304ed23e8}>
+ thrown in interpreter method <{method} {0x0000000122a52750} 'getTask' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/ThreadPoolExecutor'>
+ at bci 147 for thread 0x00000007cfb81500 (http-nio-8080-exec-5)
+[323.108s][info][os,thread       ] Thread finished (tid: 36867, pthread id: 6180106240).
+[323.108s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304393ba0}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 76 for thread 0x00000007cfb82a00 (http-nio-8080-exec-8)
+[323.108s][info][stacktrace      ] java.lang.InterruptedException, 9
+[323.108s][info][exceptions      ] Found matching handler for exception of type "java.lang.InterruptedException" in method "getTask" at BCI: 170
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304393ba0}>
+ thrown in interpreter method <{method} {0x0000000122a54c68} 'take' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 36 for thread 0x00000007cfb82a00 (http-nio-8080-exec-8)
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bbc008}>
+ thrown in interpreter method <{method} {0x00003ffe002a9ca8} 'await' '()V' in 'java/util/concurrent/locks/AbstractQueuedSynchronizer$ConditionObject'>
+ at bci 177 for thread 0x00000007cfb83100 (http-nio-8080-exec-9)
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304393ba0}>
+ thrown in interpreter method <{method} {0x0000000122a54de0} 'take' '()Ljava/lang/Object;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 1 for thread 0x00000007cfb82a00 (http-nio-8080-exec-8)
+[323.109s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-exec-5", tid: 38915).
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bbc008}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 27 for thread 0x00000007cfb83100 (http-nio-8080-exec-9)
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304393ba0}>
+ thrown in interpreter method <{method} {0x0000000122a52750} 'getTask' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/ThreadPoolExecutor'>
+ at bci 147 for thread 0x00000007cfb82a00 (http-nio-8080-exec-8)
+[323.109s][info][os,thread       ] Thread finished (tid: 38915, pthread id: 6175813632).
+[323.109s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 67
+[323.109s][info][exceptions      ] Found matching handler for exception of type "java.lang.InterruptedException" in method "getTask" at BCI: 170
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bbc008}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 76 for thread 0x00000007cfb83100 (http-nio-8080-exec-9)
+[323.109s][info][stacktrace      ] java.lang.InterruptedException, 9
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bbc008}>
+ thrown in interpreter method <{method} {0x0000000122a54c68} 'take' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 36 for thread 0x00000007cfb83100 (http-nio-8080-exec-9)
+[323.109s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-exec-8", tid: 37123).
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d9af68}>
+ thrown in interpreter method <{method} {0x00003ffe002a9ca8} 'await' '()V' in 'java/util/concurrent/locks/AbstractQueuedSynchronizer$ConditionObject'>
+ at bci 177 for thread 0x00000007cfb83800 (http-nio-8080-exec-10)
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bbc008}>
+ thrown in interpreter method <{method} {0x0000000122a54de0} 'take' '()Ljava/lang/Object;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 1 for thread 0x00000007cfb83100 (http-nio-8080-exec-9)
+[323.109s][info][os,thread       ] Thread finished (tid: 37123, pthread id: 6182252544).
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d9af68}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 27 for thread 0x00000007cfb83800 (http-nio-8080-exec-10)
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000303bbc008}>
+ thrown in interpreter method <{method} {0x0000000122a52750} 'getTask' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/ThreadPoolExecutor'>
+ at bci 147 for thread 0x00000007cfb83100 (http-nio-8080-exec-9)
+[323.109s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 67
+[323.109s][info][exceptions      ] Found matching handler for exception of type "java.lang.InterruptedException" in method "getTask" at BCI: 170
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d9af68}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 76 for thread 0x00000007cfb83800 (http-nio-8080-exec-10)
+[323.109s][info][stacktrace      ] java.lang.InterruptedException, 9
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d9af68}>
+ thrown in interpreter method <{method} {0x0000000122a54c68} 'take' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 36 for thread 0x00000007cfb83800 (http-nio-8080-exec-10)
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304e77fa0}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 27 for thread 0x00000007cfb80700 (http-nio-8080-exec-3)
+[323.109s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-exec-9", tid: 37635).
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d9af68}>
+ thrown in interpreter method <{method} {0x0000000122a54de0} 'take' '()Ljava/lang/Object;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 1 for thread 0x00000007cfb83800 (http-nio-8080-exec-10)
+[323.109s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 67
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304d9af68}>
+ thrown in interpreter method <{method} {0x0000000122a52750} 'getTask' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/ThreadPoolExecutor'>
+ at bci 147 for thread 0x00000007cfb83800 (http-nio-8080-exec-10)
+[323.109s][info][os,thread       ] Thread finished (tid: 37635, pthread id: 6184398848).
+[323.109s][info][exceptions      ] Found matching handler for exception of type "java.lang.InterruptedException" in method "getTask" at BCI: 170
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304e77fa0}>
+ thrown in interpreter method <{method} {0x000000011f028228} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/LinkedBlockingQueue'>
+ at bci 76 for thread 0x00000007cfb80700 (http-nio-8080-exec-3)
+[323.109s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-exec-10", tid: 43523).
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304e77fa0}>
+ thrown in interpreter method <{method} {0x0000000122a54c68} 'take' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 36 for thread 0x00000007cfb80700 (http-nio-8080-exec-3)
+[323.109s][info][os,thread       ] Thread finished (tid: 43523, pthread id: 6186545152).
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304e77fa0}>
+ thrown in interpreter method <{method} {0x0000000122a54de0} 'take' '()Ljava/lang/Object;' in 'org/apache/tomcat/util/threads/TaskQueue'>
+ at bci 1 for thread 0x00000007cfb80700 (http-nio-8080-exec-3)
+[323.109s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304e77fa0}>
+ thrown in interpreter method <{method} {0x0000000122a52750} 'getTask' '()Ljava/lang/Runnable;' in 'org/apache/tomcat/util/threads/ThreadPoolExecutor'>
+ at bci 147 for thread 0x00000007cfb80700 (http-nio-8080-exec-3)
+[323.109s][info][exceptions      ] Found matching handler for exception of type "java.lang.InterruptedException" in method "getTask" at BCI: 170
+[323.109s][info][os,thread       ] JavaThread exiting (name: "http-nio-8080-exec-3", tid: 35587).
+[323.109s][info][os,thread       ] Thread finished (tid: 35587, pthread id: 6171521024).
+[323.111s][info][class,load      ] org.apache.catalina.Lifecycle$SingleUse source: file:/Users/luimanso/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.39/tomcat-embed-core-10.1.39.jar
+[323.112s][info][methodhandles   ] resolve_invokehandle compareAndSet (Ljdk/internal/vm/SharedThreadContainer;ZZ)Z
+[323.112s][info][methodhandles   ] lookup_polymorphic_method iid=_invokeGeneric java.lang.invoke.VarHandle.compareAndSet(Ljdk/internal/vm/SharedThreadContainer;ZZ)Z
+[323.112s][info][methodhandles   ] lookup_polymorphic_method => (via Java) {method} {0x00003ffe00263310}
+[323.112s][info][methodhandles   ]   lookup_polymorphic_method => appendix = java.lang.invoke.VarHandle$AccessDescriptor 
+[323.112s][info][methodhandles   ] {0x000000030390c2c0} - klass: 'java/lang/invoke/VarHandle$AccessDescriptor'
+[323.112s][info][methodhandles   ]  - ---- fields (total size 5 words):
+[323.112s][info][methodhandles   ]  - final 'type' 'I' @12  2 (0x00000002)
+[323.112s][info][methodhandles   ]  - final 'mode' 'I' @16  8 (0x00000008)
+[323.112s][info][methodhandles   ]  - final 'symbolicMethodTypeExact' 'Ljava/lang/invoke/MethodType;' @20  a 'java/lang/invoke/MethodType'{0x000000030390c1b8} = (Ljdk/internal/vm/SharedThreadContainer;ZZ)Z (0x60721837)
+[323.112s][info][methodhandles   ]  - final 'symbolicMethodTypeErased' 'Ljava/lang/invoke/MethodType;' @24  a 'java/lang/invoke/MethodType'{0x0000000300c31a08} = (Ljava/lang/Object;ZZ)Z (0x60186341)
+[323.112s][info][methodhandles   ]  - final 'symbolicMethodTypeInvoker' 'Ljava/lang/invoke/MethodType;' @28  a 'java/lang/invoke/MethodType'{0x000000030390c320} = (Ljava/lang/invoke/VarHandle;Ljdk/internal/vm/SharedThreadContainer;ZZ)Z (0x60721864)
+[323.112s][info][methodhandles   ]  - final 'returnType' 'Ljava/lang/Class;' @32  a 'java/lang/Class'{0x000000038066e3a8} = boolean (0x700cdc75)
+[323.113s][info][nmethod,install ] Installing method (1) java.util.concurrent.ConcurrentHashMap.clear()V 
+[323.116s][info][class,nestmates ] LookupDefineClass: org/hibernate/internal/SessionFactoryImpl$$Lambda - with dynamic nest-host org.hibernate.internal.SessionFactoryImpl, hidden, strong, without vm annotation
+[323.117s][info][class,load      ] org.hibernate.internal.SessionFactoryImpl$$Lambda/0x00003ffe01b3d2e0 source: org.hibernate.internal.SessionFactoryImpl
+[323.117s][info][class,init      ] Start class verification for: org.hibernate.internal.SessionFactoryImpl$$Lambda/0x00003ffe01b3d2e0
+[323.117s][info][verification    ] Verifying class org.hibernate.internal.SessionFactoryImpl$$Lambda/0x00003ffe01b3d2e0 with new format
+[323.117s][info][verification    ] Verifying method org.hibernate.internal.SessionFactoryImpl$$Lambda/0x00003ffe01b3d2e0.<init>(Lorg/hibernate/internal/SessionFactoryImpl;Lorg/hibernate/engine/jdbc/connections/spi/JdbcConnectionAccess;)V
+[323.117s][info][verification    ] Verifying method org.hibernate.internal.SessionFactoryImpl$$Lambda/0x00003ffe01b3d2e0.accept(Ljava/lang/Object;)V
+[323.117s][info][class,init      ] End class verification for: org.hibernate.internal.SessionFactoryImpl$$Lambda/0x00003ffe01b3d2e0
+[323.117s][info][verification    ] End class verification for: org.hibernate.internal.SessionFactoryImpl$$Lambda/0x00003ffe01b3d2e0
+[323.117s][info][class,init      ] 18 Initializing 'org/hibernate/internal/SessionFactoryImpl$$Lambda+0x00003ffe01b3d2e0'(no method) (0x00003ffe01b3d2e0) by thread "SpringApplicationShutdownHook"
+[323.117s][info][nmethod,install ] Installing method (1) org.hibernate.service.spi.ServiceBinding.getLifecycleOwner()Lorg/hibernate/service/spi/ServiceBinding$ServiceLifecycleOwner; 
+[323.118s][info][class,load      ] java.util.AbstractMap$2 source: jrt:/java.base
+[323.118s][info][class,init      ] 19 Initializing 'java/util/AbstractMap$2'(no method) (0x00003ffe015e4bd8) by thread "SpringApplicationShutdownHook"
+[323.118s][info][class,load      ] org.springframework.orm.hibernate5.SpringBeanContainer$SpringContainedBean source: file:/Users/luimanso/.m2/repository/org/springframework/spring-orm/6.2.5/spring-orm-6.2.5.jar
+[323.118s][info][class,init      ] Start class verification for: org.hibernate.resource.beans.container.spi.ContainedBean
+[323.118s][info][verification    ] Verifying class org.hibernate.resource.beans.container.spi.ContainedBean with new format
+[323.118s][info][class,init      ] End class verification for: org.hibernate.resource.beans.container.spi.ContainedBean
+[323.118s][info][verification    ] End class verification for: org.hibernate.resource.beans.container.spi.ContainedBean
+[323.118s][info][class,init      ] Start class verification for: org.springframework.orm.hibernate5.SpringBeanContainer$SpringContainedBean
+[323.118s][info][verification    ] Verifying class org.springframework.orm.hibernate5.SpringBeanContainer$SpringContainedBean with new format
+[323.118s][info][verification    ] Verifying method org.springframework.orm.hibernate5.SpringBeanContainer$SpringContainedBean.getBeanInstance()Ljava/lang/Object;
+[323.118s][info][verification    ] Verifying method org.springframework.orm.hibernate5.SpringBeanContainer$SpringContainedBean.destroyIfNecessary()V
+[323.118s][info][verification    ] Verifying method org.springframework.orm.hibernate5.SpringBeanContainer$SpringContainedBean.<init>(Ljava/lang/Object;Ljava/util/function/Consumer;)V
+[323.118s][info][verification    ] Verifying method org.springframework.orm.hibernate5.SpringBeanContainer$SpringContainedBean.<init>(Ljava/lang/Object;)V
+[323.118s][info][class,init      ] End class verification for: org.springframework.orm.hibernate5.SpringBeanContainer$SpringContainedBean
+[323.118s][info][verification    ] End class verification for: org.springframework.orm.hibernate5.SpringBeanContainer$SpringContainedBean
+[323.118s][info][class,nestmates ] LookupDefineClass: org/springframework/orm/hibernate5/SpringBeanContainer$$Lambda - with dynamic nest-host org.springframework.orm.hibernate5.SpringBeanContainer, hidden, strong, without vm annotation
+[323.118s][info][class,load      ] org.springframework.orm.hibernate5.SpringBeanContainer$$Lambda/0x00003ffe01b3d740 source: org.springframework.orm.hibernate5.SpringBeanContainer
+[323.118s][info][class,init      ] Start class verification for: org.springframework.orm.hibernate5.SpringBeanContainer$$Lambda/0x00003ffe01b3d740
+[323.119s][info][verification    ] Verifying class org.springframework.orm.hibernate5.SpringBeanContainer$$Lambda/0x00003ffe01b3d740 with new format
+[323.119s][info][verification    ] Verifying method org.springframework.orm.hibernate5.SpringBeanContainer$$Lambda/0x00003ffe01b3d740.<init>()V
+[323.119s][info][verification    ] Verifying method org.springframework.orm.hibernate5.SpringBeanContainer$$Lambda/0x00003ffe01b3d740.accept(Ljava/lang/Object;)V
+[323.119s][info][class,init      ] End class verification for: org.springframework.orm.hibernate5.SpringBeanContainer$$Lambda/0x00003ffe01b3d740
+[323.119s][info][verification    ] End class verification for: org.springframework.orm.hibernate5.SpringBeanContainer$$Lambda/0x00003ffe01b3d740
+[323.119s][info][class,init      ] 20 Initializing 'org/springframework/orm/hibernate5/SpringBeanContainer$$Lambda+0x00003ffe01b3d740'(no method) (0x00003ffe01b3d740) by thread "SpringApplicationShutdownHook"
+[323.119s][info][class,load      ] java.util.AbstractMap$ValueIterator source: jrt:/java.base
+[323.119s][info][class,init      ] 21 Initializing 'java/util/AbstractMap$ValueIterator'(no method) (0x00003ffe015e4f58) by thread "SpringApplicationShutdownHook"
+[323.119s][info][class,nestmates ] LookupDefineClass: java/util/concurrent/CopyOnWriteArrayList$$Lambda - with dynamic nest-host java.util.concurrent.CopyOnWriteArrayList, hidden, strong, with vm annotations
+[323.120s][info][class,load      ] java.util.concurrent.CopyOnWriteArrayList$$Lambda/0x00003ffe015e51a0 source: java.util.concurrent.CopyOnWriteArrayList
+[323.120s][info][class,init      ] 22 Initializing 'java/util/concurrent/CopyOnWriteArrayList$$Lambda+0x00003ffe015e51a0'(no method) (0x00003ffe015e51a0) by thread "SpringApplicationShutdownHook"
+[323.120s][info][methodhandles   ] resolve_invokehandle invokeBasic (Ljava/lang/Object;)Ljava/lang/Object;
+[323.120s][info][methodhandles   ] lookup_polymorphic_method iid=_invokeBasic java.lang.invoke.MethodHandle.invokeBasic(Ljava/lang/Object;)Ljava/lang/Object;
+[323.120s][info][methodhandles   ] lookup_polymorphic_method invokeBasic (Ljava/lang/Object;)Ljava/lang/Object; => basic (Ljava/lang/Object;)Ljava/lang/Object;
+[323.120s][info][methodhandles   ] lookup_polymorphic_method => intrinsic {method} {0x000000011f02e8d8}
+[323.120s][info][methodhandles   ] resolve_invokehandle invokeBasic (Ljava/lang/Object;Ljava/lang/Object;)V
+[323.120s][info][methodhandles   ] lookup_polymorphic_method iid=_invokeBasic java.lang.invoke.MethodHandle.invokeBasic(Ljava/lang/Object;Ljava/lang/Object;)V
+[323.120s][info][methodhandles   ] lookup_polymorphic_method invokeBasic (Ljava/lang/Object;Ljava/lang/Object;)V => basic (Ljava/lang/Object;Ljava/lang/Object;)V
+[323.120s][info][methodhandles   ] lookup_polymorphic_method => intrinsic {method} {0x000000011f26a600}
+[323.121s][info][class,nestmates ] LookupDefineClass: com/zaxxer/hikari/pool/HikariPool$$Lambda - with dynamic nest-host com.zaxxer.hikari.pool.HikariPool, hidden, strong, without vm annotation
+[323.121s][info][class,load      ] com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3d970 source: com.zaxxer.hikari.pool.HikariPool
+[323.121s][info][nmethod,install ] Installing method (1) java.lang.invoke.InnerClassLambdaMetafactory.generateInnerClass()Ljava/lang/Class; 
+[323.121s][info][class,init      ] Start class verification for: com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3d970
+[323.121s][info][verification    ] Verifying class com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3d970 with new format
+[323.121s][info][verification    ] Verifying method com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3d970.<init>(Lcom/zaxxer/hikari/pool/HikariPool;)V
+[323.121s][info][verification    ] Verifying method com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3d970.accept(Ljava/lang/Object;)V
+[323.121s][info][class,init      ] End class verification for: com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3d970
+[323.121s][info][verification    ] End class verification for: com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3d970
+[323.121s][info][class,init      ] 23 Initializing 'com/zaxxer/hikari/pool/HikariPool$$Lambda+0x00003ffe01b3d970'(no method) (0x00003ffe01b3d970) by thread "SpringApplicationShutdownHook"
+[323.121s][info][class,nestmates ] LookupDefineClass: com/zaxxer/hikari/pool/HikariPool$$Lambda - with dynamic nest-host com.zaxxer.hikari.pool.HikariPool, hidden, strong, without vm annotation
+[323.121s][info][class,load      ] com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3dba8 source: com.zaxxer.hikari.pool.HikariPool
+[323.121s][info][class,init      ] Start class verification for: com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3dba8
+[323.121s][info][verification    ] Verifying class com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3dba8 with new format
+[323.121s][info][verification    ] Verifying method com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3dba8.<init>(Lcom/zaxxer/hikari/pool/HikariPool;Ljava/sql/Connection;Ljava/lang/String;)V
+[323.121s][info][verification    ] Verifying method com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3dba8.run()V
+[323.121s][info][class,init      ] End class verification for: com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3dba8
+[323.121s][info][verification    ] End class verification for: com.zaxxer.hikari.pool.HikariPool$$Lambda/0x00003ffe01b3dba8
+[323.121s][info][class,init      ] 24 Initializing 'com/zaxxer/hikari/pool/HikariPool$$Lambda+0x00003ffe01b3dba8'(no method) (0x00003ffe01b3dba8) by thread "SpringApplicationShutdownHook"
+[323.121s][info][os,thread       ] Thread "Unknown thread" started (pthread id: 6167228416, attributes: stacksize: 2048k, guardsize: 16k, detached). 
+[323.121s][info][os,thread       ] Thread is alive (tid: 35603, pthread id: 6167228416).
+[323.122s][info][nmethod,install ] Installing method (1) java.util.concurrent.atomic.AtomicInteger.getAndIncrement()I 
+[323.122s][info][stacktrace      ] java.lang.InterruptedException, 7
+[323.122s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304b5fda8}>
+ thrown in C1 compiled method <{method} {0x00000001209224f0} 'take' '()Ljava/util/concurrent/RunnableScheduledFuture;' in 'java/util/concurrent/ScheduledThreadPoolExecutor$DelayedWorkQueue'>
+ at PC0x000000011802861c for thread 0x00000007d03caa00
+[323.122s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 147
+[323.122s][info][exceptions      ] Thread 0x00000007d03caa00 continuing at PC 0x0000000118028c08 for exception thrown at PC 0x000000011802861c
+[323.122s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304b5fda8}>
+ thrown in C1 compiled method <{method} {0x00000001209224f0} 'take' '()Ljava/util/concurrent/RunnableScheduledFuture;' in 'java/util/concurrent/ScheduledThreadPoolExecutor$DelayedWorkQueue'>
+ at PC0x000000011802885c for thread 0x00000007d03caa00
+[323.122s][info][exceptions      ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 169
+[323.122s][info][exceptions      ] Thread 0x00000007d03caa00 continuing at PC 0x0000000118028868 for exception thrown at PC 0x000000011802885c
+[323.122s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304b5fda8}>
+ thrown in C1 compiled method <{method} {0x00000001209233f0} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/ScheduledThreadPoolExecutor$DelayedWorkQueue'>
+ at PC0x00000001180291c0 for thread 0x00000007d03caa00
+[323.122s][info][exceptions      ] Thread 0x00000007d03caa00 continuing at PC 0x00000001180291f0 for exception thrown at PC 0x00000001180291c0
+[323.122s][info][exceptions      ] Exception <a 'java/lang/InterruptedException'{0x0000000304b5fda8}>
+ thrown in C1 compiled method <{method} {0x000000011f19b048} 'getTask' '()Ljava/lang/Runnable;' in 'java/util/concurrent/ThreadPoolExecutor'>
+ at PC0x000000011802555c for thread 0x00000007d03caa00
+[323.122s][info][exceptions      ] Found matching handler for exception of type "java.lang.InterruptedException" in method "getTask" at BCI: 170
+[323.122s][info][exceptions      ] Thread 0x00000007d03caa00 continuing at PC 0x000000011802560c for exception thrown at PC 0x000000011802555c
+[323.122s][info][os,thread       ] JavaThread exiting (name: "HikariPool-1 housekeeper", tid: 40707).
+[323.122s][info][class,nestmates ] LookupDefineClass: com/zaxxer/hikari/util/ConcurrentBag$$Lambda - with dynamic nest-host com.zaxxer.hikari.util.ConcurrentBag, hidden, strong, without vm annotation
+[323.122s][info][os,thread       ] Thread finished (tid: 40707, pthread id: 6162935808).
+[323.122s][info][class,load      ] com.zaxxer.hikari.util.ConcurrentBag$$Lambda/0x00003ffe01b3ddd0 source: com.zaxxer.hikari.util.ConcurrentBag
+[323.122s][info][class,init      ] Start class verification for: com.zaxxer.hikari.util.ConcurrentBag$$Lambda/0x00003ffe01b3ddd0
+[323.122s][info][verification    ] Verifying class com.zaxxer.hikari.util.ConcurrentBag$$Lambda/0x00003ffe01b3ddd0 with new format
+[323.122s][info][verification    ] Verifying method com.zaxxer.hikari.util.ConcurrentBag$$Lambda/0x00003ffe01b3ddd0.<init>(I)V
+[323.122s][info][verification    ] Verifying method com.zaxxer.hikari.util.ConcurrentBag$$Lambda/0x00003ffe01b3ddd0.test(Ljava/lang/Object;)Z
+[323.122s][info][class,init      ] End class verification for: com.zaxxer.hikari.util.ConcurrentBag$$Lambda/0x00003ffe01b3ddd0
+[323.122s][info][verification    ] End class verification for: com.zaxxer.hikari.util.ConcurrentBag$$Lambda/0x00003ffe01b3ddd0
+[323.122s][info][class,init      ] 25 Initializing 'com/zaxxer/hikari/util/ConcurrentBag$$Lambda+0x00003ffe01b3ddd0'(no method) (0x00003ffe01b3ddd0) by thread "SpringApplicationShutdownHook"
+[323.122s][info][nmethod,install ] Installing method (1) java.nio.DirectByteBuffer.address()J 
+[323.123s][info][nmethod,install ] Installing method (1) java.net.Socket.isClosed()Z 
+[323.123s][info][nmethod,install ] Installing method (1) sun.nio.ch.NativeThread.current()J 
+[323.123s][info][os,thread       ] JavaThread exiting (name: "HikariPool-1 connection closer", tid: 35603).
+[323.123s][info][os,thread       ] Thread finished (tid: 35603, pthread id: 6167228416).
+[323.123s][info][class,nestmates ] LookupDefineClass: org/springframework/beans/factory/support/DefaultListableBeanFactory$$Lambda - with dynamic nest-host org.springframework.beans.factory.support.DefaultListableBeanFactory, hidden, strong, without vm annotation
+[323.123s][info][class,load      ] org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e020 source: org.springframework.beans.factory.support.DefaultListableBeanFactory
+[323.123s][info][class,init      ] Start class verification for: org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e020
+[323.123s][info][verification    ] Verifying class org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e020 with new format
+[323.123s][info][verification    ] Verifying method org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e020.<init>()V
+[323.123s][info][verification    ] Verifying method org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e020.accept(Ljava/lang/Object;)V
+[323.123s][info][class,init      ] End class verification for: org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e020
+[323.123s][info][verification    ] End class verification for: org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e020
+[323.123s][info][class,init      ] 26 Initializing 'org/springframework/beans/factory/support/DefaultListableBeanFactory$$Lambda+0x00003ffe01b3e020'(no method) (0x00003ffe01b3e020) by thread "SpringApplicationShutdownHook"
+[323.124s][info][class,nestmates ] LookupDefineClass: org/springframework/beans/factory/support/DefaultListableBeanFactory$$Lambda - with dynamic nest-host org.springframework.beans.factory.support.DefaultListableBeanFactory, hidden, strong, without vm annotation
+[323.124s][info][class,load      ] org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e250 source: org.springframework.beans.factory.support.DefaultListableBeanFactory
+[323.124s][info][class,init      ] Start class verification for: org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e250
+[323.124s][info][verification    ] Verifying class org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e250 with new format
+[323.124s][info][verification    ] Verifying method org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e250.<init>()V
+[323.124s][info][verification    ] Verifying method org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e250.test(Ljava/lang/Object;)Z
+[323.124s][info][class,init      ] End class verification for: org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e250
+[323.124s][info][verification    ] End class verification for: org.springframework.beans.factory.support.DefaultListableBeanFactory$$Lambda/0x00003ffe01b3e250
+[323.124s][info][class,init      ] 27 Initializing 'org/springframework/beans/factory/support/DefaultListableBeanFactory$$Lambda+0x00003ffe01b3e250'(no method) (0x00003ffe01b3e250) by thread "SpringApplicationShutdownHook"
+[323.124s][info][stacktrace      ] java.lang.Throwable, 15
+[323.125s][info][class,load      ] org.apache.catalina.core.ContainerBase$StopChild source: file:/Users/luimanso/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.39/tomcat-embed-core-10.1.39.jar
+[323.125s][info][class,init      ] Start class verification for: org.apache.catalina.core.ContainerBase$StopChild
+[323.125s][info][verification    ] Verifying class org.apache.catalina.core.ContainerBase$StopChild with new format
+[323.125s][info][verification    ] Verifying method org.apache.catalina.core.ContainerBase$StopChild.<init>(Lorg/apache/catalina/Container;)V
+[323.125s][info][verification    ] Verifying method org.apache.catalina.core.ContainerBase$StopChild.call()Ljava/lang/Void;
+[323.125s][info][verification    ] Verifying method org.apache.catalina.core.ContainerBase$StopChild.call()Ljava/lang/Object;
+[323.125s][info][class,init      ] End class verification for: org.apache.catalina.core.ContainerBase$StopChild
+[323.125s][info][verification    ] End class verification for: org.apache.catalina.core.ContainerBase$StopChild
+[323.125s][info][class,init      ] 28 Initializing 'org/apache/catalina/core/ContainerBase$StopChild'(no method) (0x00003ffe01b3e4a0) by thread "SpringApplicationShutdownHook"
+[323.125s][info][stacktrace      ] java.lang.Throwable, 37
+[323.125s][info][monitorinflation] LockStack capacity exceeded, inflating.
+[323.125s][info][nmethod,install ] Installing method (1) java.lang.ModuleLayer.boot()Ljava/lang/ModuleLayer; 
+[323.125s][info][monitorinflation] LockStack capacity exceeded, inflating.
+[323.125s][info][monitorinflation] LockStack capacity exceeded, inflating.
+[323.125s][info][monitorinflation] LockStack capacity exceeded, inflating.
+[323.126s][info][class,load      ] org.apache.catalina.ContainerEvent source: file:/Users/luimanso/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.39/tomcat-embed-core-10.1.39.jar
+[323.126s][info][class,init      ] Start class verification for: org.apache.catalina.ContainerEvent
+[323.126s][info][verification    ] Verifying class org.apache.catalina.ContainerEvent with new format
+[323.126s][info][verification    ] Verifying method org.apache.catalina.ContainerEvent.getContainer()Lorg/apache/catalina/Container;
+[323.126s][info][verification    ] Verifying method org.apache.catalina.ContainerEvent.<init>(Lorg/apache/catalina/Container;Ljava/lang/String;Ljava/lang/Object;)V
+[323.126s][info][verification    ] Verifying method org.apache.catalina.ContainerEvent.toString()Ljava/lang/String;
+[323.126s][info][verification    ] Verifying method org.apache.catalina.ContainerEvent.getType()Ljava/lang/String;
+[323.126s][info][verification    ] Verifying method org.apache.catalina.ContainerEvent.getData()Ljava/lang/Object;
+[323.126s][info][class,init      ] End class verification for: org.apache.catalina.ContainerEvent
+[323.126s][info][verification    ] End class verification for: org.apache.catalina.ContainerEvent
+[323.126s][info][class,init      ] 29 Initializing 'org/apache/catalina/ContainerEvent'(no method) (0x00003ffe01b3e6d8) by thread "SpringApplicationShutdownHook"
+[323.126s][info][class,nestmates ] LookupDefineClass: java/util/concurrent/ConcurrentLinkedQueue$$Lambda - with dynamic nest-host java.util.concurrent.ConcurrentLinkedQueue, hidden, strong, with vm annotations
+[323.126s][info][class,load      ] java.util.concurrent.ConcurrentLinkedQueue$$Lambda/0x00003ffe015e53c0 source: java.util.concurrent.ConcurrentLinkedQueue
+[323.126s][info][class,init      ] 30 Initializing 'java/util/concurrent/ConcurrentLinkedQueue$$Lambda+0x00003ffe015e53c0'(no method) (0x00003ffe015e53c0) by thread "SpringApplicationShutdownHook"
+[323.131s][info][class,load      ] org.apache.catalina.loader.JdbcLeakPrevention source: file:/Users/luimanso/.m2/repository/org/springframework/boot/spring-boot/3.4.4/spring-boot-3.4.4.jar
+[323.131s][info][class,init      ] Start class verification for: org.apache.catalina.loader.JdbcLeakPrevention
+[323.131s][info][verification    ] Verifying class org.apache.catalina.loader.JdbcLeakPrevention with new format
+[323.131s][info][verification    ] Verifying method org.apache.catalina.loader.JdbcLeakPrevention.clearJdbcDriverRegistrations()Ljava/util/List;
+[323.131s][info][verification    ] Verifying method org.apache.catalina.loader.JdbcLeakPrevention.<init>()V
+[323.131s][info][class,init      ] End class verification for: org.apache.catalina.loader.JdbcLeakPrevention
+[323.131s][info][verification    ] End class verification for: org.apache.catalina.loader.JdbcLeakPrevention
+[323.131s][info][class,init      ] 31 Initializing 'org/apache/catalina/loader/JdbcLeakPrevention'(no method) (0x00003ffe01b40000) by thread "SpringApplicationShutdownHook"
+[323.131s][info][class,loader,constraints] extending constraint for name java/util/Enumeration by adding loader: org.springframework.boot.web.embedded.tomcat.TomcatEmbeddedWebappClassLoader @64e1377c 
+[323.131s][info][class,loader,constraints] adding new constraint for name: java/lang/Class, loader[0]: org.springframework.boot.web.embedded.tomcat.TomcatEmbeddedWebappClassLoader @64e1377c, loader[1]: 'bootstrap'
+[323.131s][info][class,loader,constraints] extending constraint for name java/lang/ClassLoader by adding loader: org.springframework.boot.web.embedded.tomcat.TomcatEmbeddedWebappClassLoader @64e1377c 
+[323.132s][info][class,load              ] java.beans.ThreadGroupContext source: jrt:/java.desktop
+[323.132s][info][class,init              ] 32 Initializing 'java/beans/ThreadGroupContext' (0x00003ffe015e5610) by thread "SpringApplicationShutdownHook"
+[323.133s][info][class,load              ] java.beans.WeakIdentityMap source: jrt:/java.desktop
+[323.133s][info][class,load              ] java.beans.ThreadGroupContext$1 source: jrt:/java.desktop
+[323.133s][info][class,init              ] 33 Initializing 'java/beans/WeakIdentityMap' (0x00003ffe015e5820) by thread "SpringApplicationShutdownHook"
+[323.133s][info][class,init              ] 34 Initializing 'java/beans/ThreadGroupContext$1'(no method) (0x00003ffe015e5a40) by thread "SpringApplicationShutdownHook"
+[323.133s][info][class,load              ] java.beans.WeakIdentityMap$Entry source: jrt:/java.desktop
+[323.133s][info][class,init              ] 35 Initializing 'java/beans/WeakIdentityMap$Entry'(no method) (0x00003ffe015e5c68) by thread "SpringApplicationShutdownHook"
+[323.133s][info][class,load              ] com.sun.beans.introspect.ClassInfo source: jrt:/java.desktop
+[323.133s][info][class,init              ] 36 Initializing 'com/sun/beans/introspect/ClassInfo' (0x00003ffe015e60b8) by thread "SpringApplicationShutdownHook"
+[323.134s][info][class,load              ] com.sun.beans.util.Cache source: jrt:/java.desktop
+[323.134s][info][class,load              ] com.sun.beans.introspect.ClassInfo$1 source: jrt:/java.desktop
+[323.134s][info][class,init              ] 37 Initializing 'com/sun/beans/util/Cache'(no method) (0x00003ffe015e62c8) by thread "SpringApplicationShutdownHook"
+[323.134s][info][class,init              ] 38 Initializing 'com/sun/beans/introspect/ClassInfo$1'(no method) (0x00003ffe015e64e0) by thread "SpringApplicationShutdownHook"
+[323.134s][info][class,load              ] com.sun.beans.util.Cache$Kind source: jrt:/java.desktop
+[323.134s][info][class,init              ] 39 Initializing 'com/sun/beans/util/Cache$Kind' (0x00003ffe015e6700) by thread "SpringApplicationShutdownHook"
+[323.134s][info][class,load              ] com.sun.beans.util.Cache$Kind$1 source: jrt:/java.desktop
+[323.134s][info][class,init              ] 40 Initializing 'com/sun/beans/util/Cache$Kind$1'(no method) (0x00003ffe015e6950) by thread "SpringApplicationShutdownHook"
+[323.134s][info][class,load              ] com.sun.beans.util.Cache$Kind$2 source: jrt:/java.desktop
+[323.134s][info][class,init              ] 41 Initializing 'com/sun/beans/util/Cache$Kind$2'(no method) (0x00003ffe015e6ba0) by thread "SpringApplicationShutdownHook"
+[323.134s][info][class,load              ] com.sun.beans.util.Cache$Kind$3 source: jrt:/java.desktop
+[323.134s][info][class,init              ] 42 Initializing 'com/sun/beans/util/Cache$Kind$3'(no method) (0x00003ffe015e6df0) by thread "SpringApplicationShutdownHook"
+[323.134s][info][class,load              ] com.sun.beans.util.Cache$CacheEntry source: jrt:/java.desktop
+[323.135s][info][nmethod,install         ] Installing method (1) org.apache.juli.logging.DirectJDKLog.isDebugEnabled()Z 
+[323.135s][info][stacktrace              ] java.lang.InterruptedException, 8
+[323.135s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000304c77808}>
+ thrown in C1 compiled method <{method} {0x00000001209224f0} 'take' '()Ljava/util/concurrent/RunnableScheduledFuture;' in 'java/util/concurrent/ScheduledThreadPoolExecutor$DelayedWorkQueue'>
+ at PC0x0000000118028594 for thread 0x00000007d030b100
+[323.135s][info][exceptions              ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "take" at BCI: 169
+[323.135s][info][exceptions              ] Thread 0x00000007d030b100 continuing at PC 0x0000000118028868 for exception thrown at PC 0x0000000118028594
+[323.135s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000304c77808}>
+ thrown in C1 compiled method <{method} {0x00000001209233f0} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/ScheduledThreadPoolExecutor$DelayedWorkQueue'>
+ at PC0x00000001180291c0 for thread 0x00000007d030b100
+[323.135s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000304c77808}>
+ thrown in C1 compiled method <{method} {0x000000011f19b048} 'getTask' '()Ljava/lang/Runnable;' in 'java/util/concurrent/ThreadPoolExecutor'>
+ at PC0x000000011802555c for thread 0x00000007d030b100
+[323.135s][info][os,thread               ] JavaThread exiting (name: "Catalina-utility-1", tid: 33795).
+[323.135s][info][os,thread               ] Thread finished (tid: 33795, pthread id: 6154350592).
+[323.135s][info][stacktrace              ] java.lang.InterruptedException, 8
+[323.135s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000304c8ca58}>
+ thrown in C1 compiled method <{method} {0x00000001209224f0} 'take' '()Ljava/util/concurrent/RunnableScheduledFuture;' in 'java/util/concurrent/ScheduledThreadPoolExecutor$DelayedWorkQueue'>
+ at PC0x000000011802861c for thread 0x00000007d030b800
+[323.135s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000304c8ca58}>
+ thrown in C1 compiled method <{method} {0x00000001209224f0} 'take' '()Ljava/util/concurrent/RunnableScheduledFuture;' in 'java/util/concurrent/ScheduledThreadPoolExecutor$DelayedWorkQueue'>
+ at PC0x000000011802885c for thread 0x00000007d030b800
+[323.135s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000304c8ca58}>
+ thrown in C1 compiled method <{method} {0x00000001209233f0} 'take' '()Ljava/lang/Object;' in 'java/util/concurrent/ScheduledThreadPoolExecutor$DelayedWorkQueue'>
+ at PC0x00000001180291c0 for thread 0x00000007d030b800
+[323.135s][info][stacktrace              ] java.lang.InterruptedException, 5
+[323.135s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000304c8ca58}>
+ thrown in C1 compiled method <{method} {0x000000011f19b048} 'getTask' '()Ljava/lang/Runnable;' in 'java/util/concurrent/ThreadPoolExecutor'>
+ at PC0x000000011802555c for thread 0x00000007d030b800
+[323.136s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000303800040}: sleep interrupted> (0x0000000303800040) 
+thrown [src/hotspot/share/prims/jvm.cpp, line 3093]
+for thread 0x00000007d03c8000
+[323.136s][info][os,thread               ] JavaThread exiting (name: "Catalina-utility-2", tid: 41219).
+[323.136s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000303800040}: sleep interrupted>
+ thrown in interpreter method <{method} {0x00003ffe00475e78} 'sleepNanos0' '(J)V' in 'java/lang/Thread'>
+ at bci 0 for thread 0x00000007d03c8000 (container-0)
+[323.136s][info][os,thread               ] Thread finished (tid: 41219, pthread id: 6156496896).
+[323.136s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000303800040}: sleep interrupted>
+ thrown in interpreter method <{method} {0x00003ffe00475ee0} 'sleepNanos' '(J)V' in 'java/lang/Thread'>
+ at bci 33 for thread 0x00000007d03c8000 (container-0)
+[323.136s][info][exceptions              ] Found catch-all handler for exception of type "java.lang.InterruptedException" in method "sleepNanos" at BCI: 43
+[323.136s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000303800040}: sleep interrupted>
+ thrown in interpreter method <{method} {0x00003ffe00475ee0} 'sleepNanos' '(J)V' in 'java/lang/Thread'>
+ at bci 51 for thread 0x00000007d03c8000 (container-0)
+[323.136s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000303800040}: sleep interrupted>
+ thrown in interpreter method <{method} {0x00003ffe00475620} 'sleep' '(J)V' in 'java/lang/Thread'>
+ at bci 25 for thread 0x00000007d03c8000 (container-0)
+[323.136s][info][exceptions              ] Exception <a 'java/lang/InterruptedException'{0x0000000303800040}: sleep interrupted>
+ thrown in interpreter method <{method} {0x00000001207dc240} 'await' '()V' in 'org/apache/catalina/core/StandardServer'>
+ at bci 37 for thread 0x00000007d03c8000 (container-0)
+[323.136s][info][exceptions              ] Found matching handler for exception of type "java.lang.InterruptedException" in method "await" at BCI: 43
+[323.136s][info][os,thread               ] JavaThread exiting (name: "container-0", tid: 34563).
+[323.136s][info][os,thread               ] Thread finished (tid: 34563, pthread id: 6158643200).
+[323.136s][info][class,nestmates         ] LookupDefineClass: org/springframework/boot/SpringApplicationShutdownHook$$Lambda - with dynamic nest-host org.springframework.boot.SpringApplicationShutdownHook, hidden, strong, without vm annotation
+[323.136s][info][class,load              ] org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3e8f0 source: org.springframework.boot.SpringApplicationShutdownHook
+[323.136s][info][class,init              ] Start class verification for: org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3e8f0
+[323.136s][info][verification            ] Verifying class org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3e8f0 with new format
+[323.136s][info][verification            ] Verifying method org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3e8f0.<init>(Lorg/springframework/boot/SpringApplicationShutdownHook;)V
+[323.136s][info][verification            ] Verifying method org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3e8f0.accept(Ljava/lang/Object;)V
+[323.136s][info][class,init              ] End class verification for: org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3e8f0
+[323.136s][info][verification            ] End class verification for: org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3e8f0
+[323.136s][info][class,init              ] 43 Initializing 'org/springframework/boot/SpringApplicationShutdownHook$$Lambda+0x00003ffe01b3e8f0'(no method) (0x00003ffe01b3e8f0) by thread "SpringApplicationShutdownHook"
+[323.136s][info][class,nestmates         ] LookupDefineClass: org/springframework/boot/SpringApplicationShutdownHook$$Lambda - with dynamic nest-host org.springframework.boot.SpringApplicationShutdownHook, hidden, strong, without vm annotation
+[323.136s][info][class,load              ] org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3eb28 source: org.springframework.boot.SpringApplicationShutdownHook
+[323.136s][info][class,init              ] Start class verification for: org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3eb28
+[323.136s][info][verification            ] Verifying class org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3eb28 with new format
+[323.136s][info][verification            ] Verifying method org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3eb28.<init>()V
+[323.136s][info][verification            ] Verifying method org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3eb28.accept(Ljava/lang/Object;)V
+[323.136s][info][class,init              ] End class verification for: org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3eb28
+[323.136s][info][verification            ] End class verification for: org.springframework.boot.SpringApplicationShutdownHook$$Lambda/0x00003ffe01b3eb28
+[323.136s][info][class,init              ] 44 Initializing 'org/springframework/boot/SpringApplicationShutdownHook$$Lambda+0x00003ffe01b3eb28'(no method) (0x00003ffe01b3eb28) by thread "SpringApplicationShutdownHook"
+[323.136s][info][nmethod,install         ] Installing method (1) org.apache.catalina.util.LifecycleBase.setStateInternal(Lorg/apache/catalina/LifecycleState;Ljava/lang/Object;Z)V 
+[323.137s][info][nmethod,install         ] Installing method (1) ch.qos.logback.classic.Logger.recursiveReset()V 
+[323.137s][info][nmethod,install         ] Installing method (1) ch.qos.logback.classic.Logger.detachAndStopAllAppenders()V 
+[323.137s][info][nmethod,install         ] Installing method (1) ch.qos.logback.classic.Logger.localLevelReset()V 
+[323.137s][info][nmethod,install         ] Installing method (1) ch.qos.logback.classic.Logger.isRootLogger()Z 
+[323.137s][info][os,thread               ] JavaThread exiting (name: "SpringApplicationShutdownHook", tid: 63747).
+[323.137s][info][os,thread               ] Thread finished (tid: 63747, pthread id: 6197276672).
+[323.137s][info][os,thread               ] Thread finished (tid: 17411, pthread id: 6114570240).
+[323.137s][info][os,thread               ] Thread finished (tid: 16643, pthread id: 6110277632).
+[323.137s][info][os,thread               ] Thread finished (tid: 16899, pthread id: 6112423936).
+[323.138s][info][gc,heap,exit            ] Heap
+[323.138s][info][os,thread               ] Thread finished (tid: 11779, pthread id: 6105985024).
+[323.138s][info][gc,heap,exit            ]  garbage-first heap   total reserved 2097152K, committed 78848K, used 64668K [0x0000000300800000, 0x0000000380800000)
+[323.138s][info][gc,heap,exit            ]   region size 1024K, 33 young (33792K), 5 survivors (5120K)
+[323.138s][info][gc,heap,exit            ]  Metaspace       used 74109K, committed 75008K, reserved 1114112K
+[323.138s][info][gc,heap,exit            ]   class space    used 11143K, committed 11520K, reserved 1048576K
+[323.138s][info][thread,smr              ] Threads class SMR info:
+[323.138s][info][thread,smr              ] _java_thread_list=0x00000007d3ff3d60, length=12, elements={
+[323.138s][info][thread,smr              ] 0x0000000104af3370, 0x0000000104af3a70, 0x00000007d0d60000, 0x00000007d0d60700,
+[323.138s][info][os,thread               ] JavaThread exiting (name: "Signal Dispatcher", tid: 25347).
+[323.138s][info][thread,smr              ] 0x00000007d0d60e00, 0x0000000104af43f0, 0x00000007d0d61500, 0x00000007d0d61c00,
+[323.138s][info][thread,smr              ] 0x00000007d03ca300, 0x00000007cfb8ce00, 0x00000007cfb8e300, 0x00000007cfb8f100
+[323.138s][info][thread,smr              ] }
+[323.138s][info][os,thread               ] Thread finished (tid: 25347, pthread id: 6124302336).
+[323.138s][info][monitorinflation        ] Starting the final audit.
+[323.138s][info][monitorinflation        ] Checking in_use_list:
+[323.138s][info][monitorinflation        ] count=12, max=75
+[323.138s][info][monitorinflation        ] in_use_count=12 equals ck_in_use_count=12
+[323.138s][info][monitorinflation        ] in_use_max=75 equals ck_in_use_max=75
+[323.138s][info][monitorinflation        ] No errors found in in_use_list checks.
+[323.138s][info][monitorinflation        ] In-use monitor info:
+[323.138s][info][monitorinflation        ] (B -> is_busy, H -> has hash code, L -> lock status)
+[323.138s][info][monitorinflation        ]            monitor  BHL              object         object type
+[323.138s][info][monitorinflation        ] ==================  ===  ==================  ==================
+[323.138s][info][monitorinflation        ] 0x00000007d4025420  101  0x0000000380670158  java.lang.Class (is_busy: waiters=0, contentions=1, owner=0x0000000000000001, cxq=0x000000016bb06808, EntryList=0x0000000000000000)
+[323.138s][info][monitorinflation        ] 0x00000007d114c7e0  100  0x0000000300d93e40  java.lang.ref.NativeReferenceQueue$Lock (is_busy: waiters=1, contentions=0, owner=0x0000000000000000, cxq=0x0000000000000000, EntryList=0x0000000000000000)
+[323.139s][info][safepoint,stats         ] CollectForMetadataAllocation         3
+[323.139s][info][safepoint,stats         ] G1CollectForAllocation              11
+[323.139s][info][safepoint,stats         ] G1PauseRemark                        3
+[323.139s][info][safepoint,stats         ] G1PauseCleanup                       3
+[323.139s][info][safepoint,stats         ] Exit                                 1
+[323.139s][info][safepoint,stats         ] Maximum sync time  76208 ns
+[323.139s][info][safepoint,stats         ] Maximum vm operation time (except for Exit VM operation)  4263959 ns

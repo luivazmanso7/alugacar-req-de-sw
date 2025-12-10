@@ -9,6 +9,7 @@
  * <h2>Eventos disponíveis:</h2>
  * <ul>
  *   <li>{@link dev.sauloaraujo.sgb.dominio.locacao.evento.LocacaoRealizadaEvent} - Locação criada com sucesso</li>
+ *   <li>{@link dev.sauloaraujo.sgb.dominio.locacao.evento.VeiculoFoiParaManutencaoEvent} - Veículo enviado para manutenção</li>
  * </ul>
  * 
  * <h2>Características dos eventos:</h2>
