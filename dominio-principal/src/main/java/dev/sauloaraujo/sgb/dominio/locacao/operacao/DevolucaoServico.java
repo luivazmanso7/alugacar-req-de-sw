@@ -1,6 +1,5 @@
 package dev.sauloaraujo.sgb.dominio.locacao.operacao;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.VeiculoRepositorio;
@@ -16,26 +15,49 @@ public class DevolucaoServico {
                 .requireNonNull(veiculoRepositorio, "Repositorio de veículos é obrigatório");
 	}
 
+	/**
+	 * Processa a devolução de uma locação.
+	 * 
+	 * Este método agora é apenas uma orquestração simples seguindo Rich Domain Model:
+	 * 1. Busca a locação no repositório
+	 * 2. Cria o Value Object de vistoria
+	 * 3. DELEGA para a entidade Locacao (onde está a lógica de negócio)
+	 * 4. Persiste as mudanças
+	 * 5. Retorna o resultado
+	 * 
+	 * @param command Comando com dados da devolução
+	 * @return Faturamento calculado
+	 */
 	public Faturamento processar(ProcessarDevolucaoCommand command) {
 		Objects.requireNonNull(command, "O comando é obrigatório");
 
+		// 1. Buscar Locação
 		var locacao = locacaoRepositorio.buscarPorCodigoLocacao(command.getCodigoLocacao())
-				.orElseThrow(() -> new IllegalArgumentException("Locação não encontrada"));
+				.orElseThrow(() -> new IllegalArgumentException(
+					"Locação não encontrada: " + command.getCodigoLocacao()
+				));
 
-		var vistoria = new ChecklistVistoria(command.getQuilometragem(), command.getCombustivel(),
-				command.isPossuiAvarias());
-		locacao.registrarDevolucao(vistoria);
+		// 2. Criar Value Object de Vistoria
+		var vistoria = new ChecklistVistoria(
+			command.getQuilometragem(), 
+			command.getCombustivel(),
+			command.isPossuiAvarias()
+		);
 
-		var diasUtilizados = command.getDiasUtilizados() > 0 ? command.getDiasUtilizados() : locacao.getDiasPrevistos();
-		var percentualMulta = command.getPercentualMultaAtraso() == null ? BigDecimal.ZERO
-				: command.getPercentualMultaAtraso();
+		// 3. Calcular dias utilizados (padrão: dias previstos)
+		var diasUtilizados = command.getDiasUtilizados() > 0 
+			? command.getDiasUtilizados() 
+			: locacao.getDiasPrevistos();
 
-        var faturamento = locacao.finalizar(diasUtilizados, command.getDiasAtraso(), percentualMulta,
-                command.getTaxaCombustivel(), command.isPossuiAvarias());
+		// 4. DELEGAR PARA A ENTIDADE (Rich Domain Model!)
+		// A entidade contém toda a lógica de cálculo e regras de negócio
+		var faturamento = locacao.realizarDevolucao(vistoria, diasUtilizados);
 
-        locacaoRepositorio.salvar(locacao);
-        veiculoRepositorio.salvar(locacao.getVeiculo());
+		// 5. Persistir Estado Atualizado
+		locacaoRepositorio.salvar(locacao);
+		veiculoRepositorio.salvar(locacao.getVeiculo());
 
-        return faturamento;
-    }
+		// 6. Retornar Resultado
+		return faturamento;
+	}
 }

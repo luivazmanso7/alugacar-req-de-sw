@@ -9,7 +9,6 @@ import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration.AccessLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import dev.sauloaraujo.sgb.dominio.locacao.auditoria.Auditoria;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Categoria;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Veiculo;
@@ -411,33 +410,5 @@ public class JpaMapeador extends ModelMapper {
 	 */
 	public <S, T> List<T> mapList(List<S> source, TypeToken<List<T>> typeToken) {
 		return map(source, typeToken.getType());
-	}
-
-	/**
-	 * Converte um objeto de domínio Veiculo para entidade JPA VeiculoJpa.
-	 */
-	public VeiculoJpa paraVeiculoJpa(Veiculo veiculo) {
-		return map(veiculo, VeiculoJpa.class);
-	}
-
-	/**
-	 * Converte uma entidade JPA VeiculoJpa para objeto de domínio Veiculo.
-	 */
-	public Veiculo paraVeiculo(VeiculoJpa veiculoJpa) {
-		return map(veiculoJpa, Veiculo.class);
-	}
-
-	/**
-	 * Converte um objeto de domínio Locacao para entidade JPA LocacaoJpa.
-	 */
-	public LocacaoJpa paraLocacaoJpa(Locacao locacao) {
-		return map(locacao, LocacaoJpa.class);
-	}
-
-	/**
-	 * Converte uma entidade JPA LocacaoJpa para objeto de domínio Locacao.
-	 */
-	public Locacao paraLocacao(LocacaoJpa locacaoJpa) {
-		return map(locacaoJpa, Locacao.class);
 	}
 }

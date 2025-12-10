@@ -26,6 +26,13 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<!-- Camada de Infraestrutura (Persistência JPA) -->
+		<dependency>
+			<groupId>dev.sauloaraujo.sgb</groupId>
+			<artifactId>sgb-infraestrutura-persistencia-jpa</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<!-- Spring Boot Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -38,11 +45,43 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
+		<!-- Spring Boot Data JPA -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- PostgreSQL Driver -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
 		<!-- SpringDoc OpenAPI (Swagger) -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.2.0</version>
 		</dependency>
+		<dependency>
+            <groupId>dev.sauloaraujo.sgb</groupId>
+            <artifactId>sgb-infraestrutura-persistencia-jpa</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 	</dependencies>
+
+	
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>dev.sauloaraujo.sgb.apresentacao.AlugaCarApplication</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

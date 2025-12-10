@@ -81,6 +81,87 @@ public class Locacao {
 		this.vistoriaDevolucao = Objects.requireNonNull(vistoria, "A vistoria de devolução é obrigatória");
 	}
 
+	/**
+	 * Processa a devolução do veículo e calcula o faturamento.
+	 * Este é o método principal do Rich Domain Model para devolução.
+	 * 
+	 * @param vistoriaDevolucao Checklist da vistoria de devolução
+	 * @param diasUtilizados Quantidade de dias que o veículo foi utilizado
+	 * @return Faturamento calculado
+	 * @throws IllegalStateException se a locação já foi finalizada
+	 */
+	public Faturamento realizarDevolucao(ChecklistVistoria vistoriaDevolucao, int diasUtilizados) {
+		// 1. Validações de Negócio
+		validarPodeSerDevolvida();
+		
+		// 2. Registrar vistoria
+		this.vistoriaDevolucao = Objects.requireNonNull(vistoriaDevolucao, "Vistoria de devolução é obrigatória");
+		
+		// 3. Calcular atraso
+		int diasAtraso = Math.max(0, diasUtilizados - diasPrevistos);
+		
+		// 4. Calcular valores
+		BigDecimal valorDiarias = calcularDiarias(diasUtilizados);
+		BigDecimal valorAtraso = calcularValorAtraso(diasAtraso);
+		BigDecimal multaAtraso = calcularMultaAtraso(valorAtraso, new BigDecimal("0.10")); // 10% de multa
+		BigDecimal taxasAdicionais = calcularTaxasAdicionais(vistoriaDevolucao);
+		
+		// 5. Calcular total
+		BigDecimal valorTotal = valorDiarias
+			.add(valorAtraso)
+			.add(multaAtraso)
+			.add(taxasAdicionais);
+		
+		// 6. Atualizar estado da locação
+		this.status = StatusLocacao.FINALIZADA;
+		
+		// 7. Atualizar estado do veículo (Regra de Negócio)
+		if (vistoriaDevolucao.possuiAvarias()) {
+			veiculo.enviarParaManutencao();
+		} else {
+			var cidade = reserva.getCidadeRetirada();
+			var patioDestino = new dev.sauloaraujo.sgb.dominio.locacao.patio.Patio(
+				"PATIO-" + cidade.toUpperCase(), 
+				cidade
+			);
+			veiculo.devolver(patioDestino);
+		}
+		
+		// 8. Retornar faturamento
+		return new Faturamento(valorTotal, valorDiarias, valorAtraso, multaAtraso, taxasAdicionais);
+	}
+	
+	/**
+	 * Valida se a locação pode ser devolvida.
+	 */
+	private void validarPodeSerDevolvida() {
+		if (this.status == StatusLocacao.FINALIZADA) {
+			throw new IllegalStateException("Locação " + this.codigo + " já foi finalizada");
+		}
+		if (this.status != StatusLocacao.ATIVA) {
+			throw new IllegalStateException("Locação " + this.codigo + " não está ativa");
+		}
+	}
+	
+	/**
+	 * Calcula taxas adicionais baseadas na vistoria de devolução.
+	 */
+	private BigDecimal calcularTaxasAdicionais(ChecklistVistoria vistoria) {
+		BigDecimal taxas = BigDecimal.ZERO;
+		
+		// Taxa de combustível (se não devolveu com tanque cheio)
+		if (vistoria.combustivel() != null && !vistoria.combustivel().equals("CHEIO")) {
+			taxas = taxas.add(new BigDecimal("50.00"));
+		}
+		
+		// Taxa de limpeza/reparo (se houver avarias)
+		if (vistoria.possuiAvarias()) {
+			taxas = taxas.add(new BigDecimal("100.00"));
+		}
+		
+		return taxas;
+	}
+
 	public Faturamento finalizar(int diasUtilizados, int diasAtraso, BigDecimal percentualMultaAtraso,
 			BigDecimal taxaCombustivel, boolean enviarParaManutencao) {
 		if (!status.ativa()) {

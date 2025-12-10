@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
  * Expõe endpoints para listar, buscar e processar devoluções de locações.
  */
 @RestController
-@RequestMapping("/api/v1/locacoes")
+@RequestMapping("/locacoes")
 @Tag(name = "Locações", description = "Operações de consulta e gerenciamento de locações de veículos")
 public class LocacaoController {
 	
