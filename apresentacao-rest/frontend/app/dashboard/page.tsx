@@ -1,15 +1,15 @@
-import React from 'react';
-import { StatsCard } from '@/components/dashboard/StatsCard';
-import { QuickActionCard } from '@/components/dashboard/QuickActionCard';
-import { ReservasTable } from '@/components/dashboard/ReservasTable';
-import { DevolucoesTable } from '@/components/dashboard/DevolucoesTable';
-import { Calendar, Key, RotateCcw, Car, Search } from 'lucide-react';
+import React from "react";
+import { StatsCard } from "@/components/dashboard/StatsCard";
+import { QuickActionCard } from "@/components/dashboard/QuickActionCard";
+import { ReservasTable } from "@/components/dashboard/ReservasTable";
+import { DevolucoesTable } from "@/components/dashboard/DevolucoesTable";
+import { Calendar, Key, RotateCcw, Car, Search } from "lucide-react";
 
 export default function DashboardPage() {
   // Mock data - substituir por dados reais da API
   const stats = {
     reservasDoDia: 2,
-    reservasDoDiaChange: '+12% vs ontem',
+    reservasDoDiaChange: "+12% vs ontem",
     retiradasPendentes: 2,
     devolucoesPendentes: 2,
     veiculosAlugados: 2,
@@ -17,43 +17,43 @@ export default function DashboardPage() {
 
   const proximasRetiradas = [
     {
-      codigo: 'RES-2024-001',
+      codigo: "RES-2024-001",
       cliente: {
-        nome: 'João Silva Santos',
-        telefone: '123.456.789-00',
+        nome: "João Silva Santos",
+        telefone: "123.456.789-00",
       },
-      periodo: '10 dez - 15 dez',
-      categoria: 'Econômico',
+      periodo: "10 dez - 15 dez",
+      categoria: "Econômico",
     },
     {
-      codigo: 'RES-2024-005',
+      codigo: "RES-2024-005",
       cliente: {
-        nome: 'Maria Oliveira Costa',
-        telefone: '987.654.321-00',
+        nome: "Maria Oliveira Costa",
+        telefone: "987.654.321-00",
       },
-      periodo: '20 dez - 25 dez',
-      categoria: 'Econômico',
+      periodo: "20 dez - 25 dez",
+      categoria: "Econômico",
     },
   ];
 
   const devolucoesPrevistas = [
     {
-      codigo: 'RES-2024-002',
+      codigo: "RES-2024-002",
       cliente: {
-        nome: 'Maria Oliveira Costa',
-        telefone: '987.654.321-00',
+        nome: "Maria Oliveira Costa",
+        telefone: "987.654.321-00",
       },
-      periodo: '08 dez - 12 dez',
-      categoria: 'Executivo',
+      periodo: "08 dez - 12 dez",
+      categoria: "Executivo",
     },
     {
-      codigo: 'RES-2024-003',
+      codigo: "RES-2024-003",
       cliente: {
-        nome: 'Pedro Henrique Lima',
-        telefone: '',
+        nome: "Pedro Henrique Lima",
+        telefone: "",
       },
-      periodo: '05 dez - 10 dez',
-      categoria: 'SUV',
+      periodo: "05 dez - 10 dez",
+      categoria: "SUV",
     },
   ];
 

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Search,
@@ -13,7 +13,7 @@ import {
   HelpCircle,
   ChevronLeft,
   Menu,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface SidebarProps {
   children: React.ReactNode;
@@ -25,47 +25,47 @@ export default function Sidebar({ children }: SidebarProps) {
 
   const menuItems = [
     {
-      section: 'PRINCIPAL',
+      section: "PRINCIPAL",
       items: [
         {
-          name: 'Dashboard',
+          name: "Dashboard",
           icon: LayoutDashboard,
-          href: '/dashboard',
+          href: "/dashboard",
         },
         {
-          name: 'Buscar Reserva',
+          name: "Buscar Reserva",
           icon: Search,
-          href: '/reservas/buscar',
+          href: "/reservas/buscar",
         },
         {
-          name: 'Retirada',
+          name: "Retirada",
           icon: Key,
-          href: '/retirada',
+          href: "/retirada",
         },
         {
-          name: 'Devolução',
+          name: "Devolução",
           icon: RotateCcw,
-          href: '/devolucao',
+          href: "/devolucao",
         },
       ],
     },
     {
-      section: 'GERENCIAMENTO',
+      section: "GERENCIAMENTO",
       items: [
         {
-          name: 'Frota',
+          name: "Frota",
           icon: Car,
-          href: '/frota',
+          href: "/frota",
         },
         {
-          name: 'Configurações',
+          name: "Configurações",
           icon: Settings,
-          href: '/configuracoes',
+          href: "/configuracoes",
         },
         {
-          name: 'Ajuda',
+          name: "Ajuda",
           icon: HelpCircle,
-          href: '/ajuda',
+          href: "/ajuda",
         },
       ],
     },
@@ -76,7 +76,7 @@ export default function Sidebar({ children }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={`${
-          collapsed ? 'w-20' : 'w-64'
+          collapsed ? "w-20" : "w-64"
         } bg-slate-800 text-white transition-all duration-300 flex flex-col`}
       >
         {/* Logo */}
@@ -119,10 +119,10 @@ export default function Sidebar({ children }: SidebarProps) {
                       href={item.href}
                       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
                         isActive
-                          ? 'bg-cyan-600 text-white'
-                          : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                          ? "bg-cyan-600 text-white"
+                          : "text-slate-300 hover:bg-slate-700 hover:text-white"
                       }`}
-                      title={collapsed ? item.name : ''}
+                      title={collapsed ? item.name : ""}
                     >
                       <item.icon className="w-5 h-5 flex-shrink-0" />
                       {!collapsed && (

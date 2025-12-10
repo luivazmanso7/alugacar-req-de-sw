@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface StatsCardProps {
   title: string;
@@ -24,12 +24,12 @@ export const StatsCard: React.FC<StatsCardProps> = ({
           <p className="text-sm font-medium text-gray-600 mb-2">{title}</p>
           <p className="text-3xl font-bold text-gray-900">{value}</p>
           {change && (
-            <p className="text-sm text-emerald-600 mt-2 font-medium">{change}</p>
+            <p className="text-sm text-emerald-600 mt-2 font-medium">
+              {change}
+            </p>
           )}
         </div>
-        <div className={`${bgColor} ${iconColor} p-3 rounded-lg`}>
-          {icon}
-        </div>
+        <div className={`${bgColor} ${iconColor} p-3 rounded-lg`}>{icon}</div>
       </div>
     </div>
   );

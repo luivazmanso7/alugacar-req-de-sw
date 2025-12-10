@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import axios from 'axios';
+import { useState } from "react";
+import Link from "next/link";
+import axios from "axios";
 
 interface Reserva {
   id: number;
@@ -14,28 +14,28 @@ interface Reserva {
 }
 
 export default function ConfirmarRetiradaPage() {
-  const [reservaId, setReservaId] = useState('');
+  const [reservaId, setReservaId] = useState("");
   const [reserva, setReserva] = useState<Reserva | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [observacoes, setObservacoes] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [observacoes, setObservacoes] = useState("");
 
   const buscarReserva = async () => {
     if (!reservaId) {
-      setError('Por favor, informe o ID da reserva');
+      setError("Por favor, informe o ID da reserva");
       return;
     }
 
     setLoading(true);
-    setError('');
+    setError("");
     setReserva(null);
 
     try {
       const response = await axios.get(`/api/reservas/${reservaId}`);
       setReserva(response.data);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Erro ao buscar reserva');
+      setError(err.response?.data?.message || "Erro ao buscar reserva");
     } finally {
       setLoading(false);
     }
@@ -45,23 +45,23 @@ export default function ConfirmarRetiradaPage() {
     if (!reserva) return;
 
     setLoading(true);
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
 
     try {
       await axios.post(`/api/reservas/${reserva.id}/confirmar-retirada`, {
-        observacoes
+        observacoes,
       });
-      setSuccess('Retirada confirmada com sucesso! Contrato gerado.');
+      setSuccess("Retirada confirmada com sucesso! Contrato gerado.");
       // Limpar formulário após 2 segundos
       setTimeout(() => {
-        setReservaId('');
+        setReservaId("");
         setReserva(null);
-        setObservacoes('');
-        setSuccess('');
+        setObservacoes("");
+        setSuccess("");
       }, 2000);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Erro ao confirmar retirada');
+      setError(err.response?.data?.message || "Erro ao confirmar retirada");
     } finally {
       setLoading(false);
     }
@@ -106,7 +106,7 @@ export default function ConfirmarRetiradaPage() {
                 disabled={loading}
                 className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
               >
-                {loading ? 'Buscando...' : 'Buscar'}
+                {loading ? "Buscando..." : "Buscar"}
               </button>
             </div>
           </div>
@@ -148,23 +148,25 @@ export default function ConfirmarRetiradaPage() {
                   <div>
                     <p className="text-sm text-gray-600">Data de Início</p>
                     <p className="text-lg font-medium text-gray-900">
-                      {new Date(reserva.dataInicio).toLocaleDateString('pt-BR')}
+                      {new Date(reserva.dataInicio).toLocaleDateString("pt-BR")}
                     </p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Data de Fim</p>
                     <p className="text-lg font-medium text-gray-900">
-                      {new Date(reserva.dataFim).toLocaleDateString('pt-BR')}
+                      {new Date(reserva.dataFim).toLocaleDateString("pt-BR")}
                     </p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Status</p>
                     <p className="text-lg font-medium text-gray-900">
-                      <span className={`px-3 py-1 rounded-full text-sm ${
-                        reserva.status === 'CONFIRMADA' 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}>
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm ${
+                          reserva.status === "CONFIRMADA"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-yellow-100 text-yellow-800"
+                        }`}
+                      >
                         {reserva.status}
                       </span>
                     </p>
@@ -190,10 +192,12 @@ export default function ConfirmarRetiradaPage() {
               <div className="flex gap-4 pt-4">
                 <button
                   onClick={confirmarRetirada}
-                  disabled={loading || reserva.status === 'EM_ANDAMENTO'}
+                  disabled={loading || reserva.status === "EM_ANDAMENTO"}
                   className="flex-1 px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-semibold"
                 >
-                  {loading ? 'Processando...' : 'Confirmar Retirada e Gerar Contrato'}
+                  {loading
+                    ? "Processando..."
+                    : "Confirmar Retirada e Gerar Contrato"}
                 </button>
                 <Link
                   href="/"
@@ -203,7 +207,7 @@ export default function ConfirmarRetiradaPage() {
                 </Link>
               </div>
 
-              {reserva.status === 'EM_ANDAMENTO' && (
+              {reserva.status === "EM_ANDAMENTO" && (
                 <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md">
                   <p className="text-yellow-800">
                     Esta reserva já foi confirmada anteriormente.
