@@ -1,5 +1,7 @@
 package dev.sauloaraujo.sgb.apresentacao.locacao.reserva;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,14 @@ public class BuscarReservaController {
     public ResponseEntity<ReservaResumo> buscarPorCodigo(@PathVariable String codigo) {
         var resumo = buscarReservaServico.buscar(codigo);
         return ResponseEntity.ok(resumo);
+    }
+
+    @GetMapping
+    @Operation(summary = "Listar todas as reservas",
+               description = "Retorna todas as reservas cadastradas. Endpoint para administradores.")
+    public ResponseEntity<List<ReservaResumo>> listarTodas() {
+        var reservas = buscarReservaServico.listarTodas();
+        return ResponseEntity.ok(reservas);
     }
 }
 

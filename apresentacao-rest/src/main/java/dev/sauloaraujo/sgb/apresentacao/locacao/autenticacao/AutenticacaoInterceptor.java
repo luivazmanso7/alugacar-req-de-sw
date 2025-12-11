@@ -47,7 +47,8 @@ public class AutenticacaoInterceptor implements HandlerInterceptor {
             path.startsWith("/categorias") ||
             path.startsWith("/swagger-ui") ||
             path.startsWith("/api-docs") ||
-            path.equals("/auth/logout")) {
+            path.equals("/auth/logout") ||
+            path.equals("/reservas")) {  // Endpoint público para listar reservas (admin)
             System.out.println("✅ Rota pública, permitindo acesso");
             return true;
         }

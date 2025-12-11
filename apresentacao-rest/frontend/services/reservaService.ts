@@ -67,6 +67,21 @@ export const reservaService = {
     return await response.json();
   },
 
+  // Listar todas as reservas (admin) - usa API route do Next.js
+  async listarTodas(): Promise<ReservaResponse[]> {
+    const response = await fetch("/api/reservas/listar", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Erro ao listar reservas");
+    }
+
+    return await response.json();
+  },
+
   // Cancelar reserva (do cliente logado) - usa API route do Next.js
   async cancelar(codigoReserva: string): Promise<CancelarReservaResponse> {
     const response = await fetch(`/api/reservas/${codigoReserva}`, {

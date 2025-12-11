@@ -236,35 +236,89 @@ public class JpaMapeador extends ModelMapper {
 					return null;
 				}
 
-				// Validar período
-				var periodoJpa = source.getPeriodo();
-				if (periodoJpa == null) {
-					throw new IllegalStateException("ReservaJpa sem período: " + source.getCodigo());
-				}
-				
-				var periodo = new PeriodoLocacao(periodoJpa.getRetirada(), periodoJpa.getDevolucao());
-				var cliente = map(source.getCliente(), Cliente.class);
-				var categoria = CategoriaCodigo.fromTexto(source.getCategoria());
+				try {
+					// Validar período
+					var periodoJpa = source.getPeriodo();
+					if (periodoJpa == null) {
+						throw new IllegalStateException(
+								"ReservaJpa sem período (codigo: " + source.getCodigo() + ")");
+					}
+					
+					if (periodoJpa.getRetirada() == null || periodoJpa.getDevolucao() == null) {
+						throw new IllegalStateException(
+								"ReservaJpa com período inválido (codigo: " + source.getCodigo() + 
+								", retirada: " + periodoJpa.getRetirada() + 
+								", devolucao: " + periodoJpa.getDevolucao() + ")");
+					}
+					
+					var periodo = new PeriodoLocacao(periodoJpa.getRetirada(), periodoJpa.getDevolucao());
+					
+					// Validar cliente
+					if (source.getCliente() == null) {
+						throw new IllegalStateException(
+								"ReservaJpa sem cliente (codigo: " + source.getCodigo() + ")");
+					}
+					
+					var cliente = map(source.getCliente(), Cliente.class);
+					if (cliente == null) {
+						throw new IllegalStateException(
+								"Falha ao converter ClienteJpa para Cliente na reserva: " + source.getCodigo());
+					}
+					
+					// Validar categoria
+					if (source.getCategoria() == null || source.getCategoria().isBlank()) {
+						throw new IllegalStateException(
+								"ReservaJpa sem categoria (codigo: " + source.getCodigo() + ")");
+					}
+					
+					var categoria = CategoriaCodigo.fromTexto(source.getCategoria());
 
-				// Validar placaVeiculo
-				// NOTA: Após migração completa, todas as reservas devem ter placa_veiculo preenchido.
-				// O conversor não faz consultas ao banco (respeita DDD 100%).
-				// Se a reserva não tiver placa válida, lança erro imediatamente.
-				String placaVeiculo = source.getPlacaVeiculo();
-				
-				// Validar que a placa está presente e válida
-				if (placaVeiculo == null || placaVeiculo.isBlank() || 
-				    placaVeiculo.equals("MIGRAR") || placaVeiculo.equals("TEMP")) {
+					// Validar placaVeiculo
+					// NOTA: Após migração completa, todas as reservas devem ter placa_veiculo preenchido.
+					// O conversor não faz consultas ao banco (respeita DDD 100%).
+					// Se a reserva não tiver placa válida, lança erro imediatamente.
+					String placaVeiculo = source.getPlacaVeiculo();
+					
+					// Validar que a placa está presente e válida
+					if (placaVeiculo == null || placaVeiculo.isBlank() || 
+					    placaVeiculo.equals("MIGRAR") || placaVeiculo.equals("TEMP") ||
+					    placaVeiculo.equals("INVALIDA")) {
+						throw new IllegalStateException(
+								"ReservaJpa sem placaVeiculo válida (codigo: " + source.getCodigo() + 
+								", status: " + source.getStatus() + 
+								", placaVeiculo: " + source.getPlacaVeiculo() + 
+								"). Reservas devem ter placa do veículo válida. Os dados devem estar migrados corretamente no banco de dados."
+						);
+					}
+					
+					// Validar valor estimado
+					if (source.getValorEstimado() == null) {
+						throw new IllegalStateException(
+								"ReservaJpa sem valorEstimado (codigo: " + source.getCodigo() + ")");
+					}
+					
+					// Validar status
+					if (source.getStatus() == null) {
+						throw new IllegalStateException(
+								"ReservaJpa sem status (codigo: " + source.getCodigo() + ")");
+					}
+
+					return new Reserva(source.getCodigo(), categoria, source.getCidadeRetirada(),
+							periodo, source.getValorEstimado(), source.getStatus(), cliente, placaVeiculo);
+				} catch (IllegalStateException e) {
+					// Re-lançar IllegalStateException com contexto adicional
 					throw new IllegalStateException(
-							"ReservaJpa sem placaVeiculo válida (codigo: " + source.getCodigo() + 
-							", status: " + source.getStatus() + 
+							"Erro ao converter ReservaJpa para Reserva (codigo: " + source.getCodigo() + "): " + e.getMessage(), 
+							e);
+				} catch (Exception e) {
+					// Capturar qualquer outra exceção e fornecer contexto
+					throw new IllegalStateException(
+							"Erro inesperado ao converter ReservaJpa para Reserva (codigo: " + source.getCodigo() + 
+							", categoria: " + source.getCategoria() + 
 							", placaVeiculo: " + source.getPlacaVeiculo() + 
-							"). Reservas devem ter placa do veículo. Os dados devem estar migrados corretamente no banco de dados."
-					);
+							"): " + e.getMessage(), 
+							e);
 				}
-
-				return new Reserva(source.getCodigo(), categoria, source.getCidadeRetirada(),
-						periodo, source.getValorEstimado(), source.getStatus(), cliente, placaVeiculo);
 			}
 		});
 

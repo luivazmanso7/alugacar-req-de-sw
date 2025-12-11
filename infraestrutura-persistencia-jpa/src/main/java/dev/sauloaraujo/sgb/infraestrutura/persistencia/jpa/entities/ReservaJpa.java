@@ -143,24 +143,76 @@ class ReservaRepositorioImpl implements ReservaRepositorio {
 	public Optional<Reserva> buscarPorCodigo(String codigo) {
 		System.out.println("[REAL] Buscando no banco...");
 		return repositorio.findById(codigo)
-				.map(jpa -> mapeador.map(jpa, Reserva.class));
+			.map(jpa -> {
+				try {
+					return mapeador.map(jpa, Reserva.class);
+				} catch (IllegalStateException e) {
+					// Se a reserva tem dados inválidos, retorna Optional.empty()
+					// Respeita DDD: repositório não retorna entidades inválidas
+					System.out.println("⚠️ [REPOSITÓRIO] Reserva inválida encontrada: " + jpa.getCodigo() + 
+						" - " + e.getMessage());
+					return null;
+				}
+			})
+			.filter(java.util.Objects::nonNull);
 	}
 
 	@Override
 	public List<Reserva> listar() {
 		var reservasJpa = repositorio.findAll();
-		return mapeador.mapList(reservasJpa, Reserva.class);
+		// Filtrar reservas inválidas durante a conversão
+		// Respeita DDD: repositório retorna apenas entidades de domínio válidas
+		return reservasJpa.stream()
+			.map(jpa -> {
+				try {
+					return mapeador.map(jpa, Reserva.class);
+				} catch (IllegalStateException e) {
+					// Log e retorna null para reservas com dados inválidos
+					// Isso é tratamento técnico de integridade de dados, não lógica de negócio
+					System.out.println("⚠️ [REPOSITÓRIO] Filtrando reserva inválida: " + jpa.getCodigo() + 
+						" - " + e.getMessage());
+					return null;
+				}
+			})
+			.filter(java.util.Objects::nonNull)
+			.collect(java.util.stream.Collectors.toList());
 	}
 	
 	@Override
 	public List<Reserva> listarPorCliente(String cpfOuCnpj) {
 		var reservasJpa = repositorio.findByClienteCpfOuCnpj(cpfOuCnpj);
-		return mapeador.mapList(reservasJpa, Reserva.class);
+		// Filtrar reservas inválidas durante a conversão
+		// Respeita DDD: repositório retorna apenas entidades de domínio válidas
+		return reservasJpa.stream()
+			.map(jpa -> {
+				try {
+					return mapeador.map(jpa, Reserva.class);
+				} catch (IllegalStateException e) {
+					System.out.println("⚠️ [REPOSITÓRIO] Filtrando reserva inválida: " + jpa.getCodigo() + 
+						" - " + e.getMessage());
+					return null;
+				}
+			})
+			.filter(java.util.Objects::nonNull)
+			.collect(java.util.stream.Collectors.toList());
 	}
 	
 	@Override
 	public List<Reserva> listarPorVeiculo(String placaVeiculo) {
 		var reservasJpa = repositorio.findByPlacaVeiculo(placaVeiculo);
-		return mapeador.mapList(reservasJpa, Reserva.class);
+		// Filtrar reservas inválidas durante a conversão
+		// Respeita DDD: repositório retorna apenas entidades de domínio válidas
+		return reservasJpa.stream()
+			.map(jpa -> {
+				try {
+					return mapeador.map(jpa, Reserva.class);
+				} catch (IllegalStateException e) {
+					System.out.println("⚠️ [REPOSITÓRIO] Filtrando reserva inválida: " + jpa.getCodigo() + 
+						" - " + e.getMessage());
+					return null;
+				}
+			})
+			.filter(java.util.Objects::nonNull)
+			.collect(java.util.stream.Collectors.toList());
 	}
 }

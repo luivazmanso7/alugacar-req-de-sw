@@ -31,7 +31,8 @@ public class WebConfig implements WebMvcConfigurer {
                     "/veiculos/**",       // Relativo ao context path
                     "/categorias/**",     // Relativo ao context path
                     "/swagger-ui/**",     // Relativo ao context path
-                    "/api-docs/**"        // Relativo ao context path
+                    "/api-docs/**",       // Relativo ao context path
+                    "/reservas"           // Endpoint público para listar reservas (admin)
                 );
         System.out.println("✅ AutenticacaoInterceptor registrado com sucesso!");
     }
