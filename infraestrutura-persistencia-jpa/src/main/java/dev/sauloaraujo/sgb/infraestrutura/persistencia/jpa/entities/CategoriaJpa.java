@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Categoria;
@@ -95,14 +94,11 @@ public class CategoriaJpa {
 	}
 }
 
-interface CategoriaJpaRepository extends JpaRepository<CategoriaJpa, String> { // package-private
-}
-
 @Repository
-class CategoriaRepositorioImpl implements CategoriaRepositorio { // implementação exposta
+class CategoriaRepositorioImpl implements CategoriaRepositorio {
 
 	@Autowired
-	CategoriaJpaRepository repositorio;
+	dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.CategoriaJpaRepository repositorio;
 
 	@Autowired
 	JpaMapeador mapeador;

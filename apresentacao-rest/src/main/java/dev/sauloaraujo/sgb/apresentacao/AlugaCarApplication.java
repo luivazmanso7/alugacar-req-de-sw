@@ -6,12 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
-@SpringBootApplication(scanBasePackages = {
-    "dev.sauloaraujo.sgb.apresentacao",     // Controllers e configs da camada REST
-    "dev.sauloaraujo.sgb.aplicacao",        // Serviços da camada de aplicação
-    "dev.sauloaraujo.sgb.infraestrutura",   // Repositórios e configs de infraestrutura
-    "dev.sauloaraujo.sgb.dominio"           // Serviços de domínio
-})
+@SpringBootApplication(scanBasePackages = "dev.sauloaraujo.sgb")
 @EnableJpaRepositories(basePackages = "dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository")
 @EntityScan(basePackages = "dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities")
 public class AlugaCarApplication {

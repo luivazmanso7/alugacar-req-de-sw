@@ -64,11 +64,6 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.2.0</version>
 		</dependency>
-		<dependency>
-            <groupId>dev.sauloaraujo.sgb</groupId>
-            <artifactId>sgb-infraestrutura-persistencia-jpa</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 	</dependencies>
 
 	
