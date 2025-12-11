@@ -23,5 +23,14 @@ public interface ReservaJpaRepository extends JpaRepository<ReservaJpa, String> 
 	 */
 	@Query("SELECT r FROM ReservaJpa r WHERE r.cliente.cpfOuCnpj = :cpfOuCnpj ORDER BY r.periodo.retirada DESC")
 	List<ReservaJpa> findByClienteCpfOuCnpj(@Param("cpfOuCnpj") String cpfOuCnpj);
+
+	/**
+	 * Busca todas as reservas de um veículo específico.
+	 * 
+	 * @param placaVeiculo placa do veículo
+	 * @return lista de reservas do veículo
+	 */
+	@Query("SELECT r FROM ReservaJpa r WHERE r.placaVeiculo = :placaVeiculo ORDER BY r.periodo.retirada DESC")
+	List<ReservaJpa> findByPlacaVeiculo(@Param("placaVeiculo") String placaVeiculo);
 }
 

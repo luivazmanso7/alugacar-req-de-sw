@@ -106,6 +106,7 @@ export default function ReservarForm({
           dataRetirada: dataRetirada.toISOString(),
           dataDevolucao: dataDevolucao.toISOString(),
         },
+        placaVeiculo: placa, // Placa do veículo específico
       };
 
       const reserva = await reservaService.criar(request);

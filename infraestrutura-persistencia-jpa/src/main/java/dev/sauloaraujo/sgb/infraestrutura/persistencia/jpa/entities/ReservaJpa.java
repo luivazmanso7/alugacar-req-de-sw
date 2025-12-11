@@ -53,6 +53,9 @@ public class ReservaJpa {
 	@JoinColumn(name = "cliente_cpf_cnpj", nullable = false)
 	private ClienteJpa cliente;
 
+	@Column(name = "placa_veiculo", nullable = false, length = 10)
+	private String placaVeiculo;
+
 	public ReservaJpa() {
 	}
 
@@ -111,6 +114,14 @@ public class ReservaJpa {
 	public void setCliente(ClienteJpa cliente) {
 		this.cliente = cliente;
 	}
+
+	public String getPlacaVeiculo() {
+		return placaVeiculo;
+	}
+
+	public void setPlacaVeiculo(String placaVeiculo) {
+		this.placaVeiculo = placaVeiculo;
+	}
 }
 
 @Repository("reservaRepositorioReal")
@@ -144,6 +155,12 @@ class ReservaRepositorioImpl implements ReservaRepositorio {
 	@Override
 	public List<Reserva> listarPorCliente(String cpfOuCnpj) {
 		var reservasJpa = repositorio.findByClienteCpfOuCnpj(cpfOuCnpj);
+		return mapeador.mapList(reservasJpa, Reserva.class);
+	}
+	
+	@Override
+	public List<Reserva> listarPorVeiculo(String placaVeiculo) {
+		var reservasJpa = repositorio.findByPlacaVeiculo(placaVeiculo);
 		return mapeador.mapList(reservasJpa, Reserva.class);
 	}
 }

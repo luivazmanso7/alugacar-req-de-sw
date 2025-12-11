@@ -19,6 +19,7 @@ export interface CriarReservaRequest {
     dataRetirada: string;
     dataDevolucao: string;
   };
+  placaVeiculo: string; // Placa do veículo específico a ser reservado
   // Cliente vem da sessão HTTP (não precisa enviar)
 }
 

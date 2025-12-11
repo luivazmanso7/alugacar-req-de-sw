@@ -54,7 +54,8 @@ public class CriarReservaController {
                 CategoriaCodigo.valueOf(request.categoriaCodigo()),
                 request.cidadeRetirada(),
                 periodo,
-                cliente // Usar cliente autenticado
+                cliente, // Usar cliente autenticado
+                request.placaVeiculo() // Placa do veículo específico
         );
 
         // 3. Chamar Aplicação
@@ -86,7 +87,10 @@ record CriarReservaRequest(
 
         @NotNull(message = "Período é obrigatório")
         @Valid
-        PeriodoDto periodo
+        PeriodoDto periodo,
+
+        @NotBlank(message = "Placa do veículo é obrigatória")
+        String placaVeiculo
 ) {}
 
 record PeriodoDto(

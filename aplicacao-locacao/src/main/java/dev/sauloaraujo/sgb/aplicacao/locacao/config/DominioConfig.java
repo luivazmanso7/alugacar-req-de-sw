@@ -3,6 +3,7 @@ package dev.sauloaraujo.sgb.aplicacao.locacao.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CatalogoVeiculosServico;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.VeiculoRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.cliente.ClienteRepositorio;
@@ -34,8 +35,10 @@ public class DominioConfig {
     public ReservaServico reservaServico(
             ReservaRepositorio reservaRepositorio,
             CategoriaRepositorio categoriaRepositorio,
-            ClienteRepositorio clienteRepositorio) {
-        return new ReservaServico(reservaRepositorio, categoriaRepositorio, clienteRepositorio);
+            ClienteRepositorio clienteRepositorio,
+            LocacaoRepositorio locacaoRepositorio,
+            VeiculoRepositorio veiculoRepositorio) {
+        return new ReservaServico(reservaRepositorio, categoriaRepositorio, clienteRepositorio, locacaoRepositorio, veiculoRepositorio);
     }
 
     @Bean
@@ -57,5 +60,13 @@ public class DominioConfig {
             CategoriaRepositorio categoriaRepositorio,
             LocacaoRepositorio locacaoRepositorio) {
         return new ReservaReplanejamentoServico(reservaRepositorio, categoriaRepositorio, locacaoRepositorio);
+    }
+
+    @Bean
+    public CatalogoVeiculosServico catalogoVeiculosServico(
+            CategoriaRepositorio categoriaRepositorio,
+            VeiculoRepositorio veiculoRepositorio,
+            LocacaoRepositorio locacaoRepositorio) {
+        return new CatalogoVeiculosServico(categoriaRepositorio, veiculoRepositorio, locacaoRepositorio);
     }
 }

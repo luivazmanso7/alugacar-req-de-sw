@@ -53,7 +53,8 @@ public class ReservaServicoAplicacao {
                 comando.categoriaCodigo(),
                 comando.cidadeRetirada(),
                 comando.periodo(),
-                comando.cliente()
+                comando.cliente(),
+                comando.placaVeiculo()
         );
 
         // Converte entidade de domínio para DTO de resumo

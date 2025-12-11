@@ -17,4 +17,12 @@ public interface ReservaRepositorio {
 	 * @return lista de reservas do cliente
 	 */
 	List<Reserva> listarPorCliente(String cpfOuCnpj);
+
+	/**
+	 * Lista todas as reservas de um veículo específico.
+	 * 
+	 * @param placaVeiculo placa do veículo
+	 * @return lista de reservas do veículo
+	 */
+	List<Reserva> listarPorVeiculo(String placaVeiculo);
 }

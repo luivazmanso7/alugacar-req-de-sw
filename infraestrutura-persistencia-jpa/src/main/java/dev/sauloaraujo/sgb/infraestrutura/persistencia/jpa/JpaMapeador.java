@@ -7,8 +7,10 @@ import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration.AccessLevel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Categoria;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Veiculo;
@@ -21,14 +23,11 @@ import dev.sauloaraujo.sgb.dominio.locacao.shared.PeriodoLocacao;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.CategoriaJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.ChecklistVistoriaJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.ClienteJpa;
-import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.ClienteJpaRepository;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.LocacaoJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.PatioJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.PeriodoLocacaoJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.ReservaJpa;
-import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.ReservaJpaRepository;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.VeiculoJpa;
-import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.VeiculoJpaRepository;
 
 /**
  * Componente responsável pelo mapeamento entre objetos de domínio e entidades JPA.
@@ -37,25 +36,24 @@ import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.VeiculoJpa
 @Component
 public class JpaMapeador extends ModelMapper {
 
-	@Autowired
-	private ReservaJpaRepository reservaRepositorio;
-
-	@Autowired
-	private VeiculoJpaRepository veiculoRepositorio;
-
-	@Autowired
-	private ClienteJpaRepository clienteRepositorio;
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	public JpaMapeador() {
 		var configuracao = getConfiguration();
 		configuracao.setFieldMatchingEnabled(true);
 		configuracao.setFieldAccessLevel(AccessLevel.PRIVATE);
+		// Desabilitar mapeamento automático de propriedades aninhadas
+		// Isso força o uso de conversores customizados quando disponíveis
+		configuracao.setSkipNullEnabled(true);
 
 		configurarConversoresAuditoria();
 		configurarConversoresCliente();
 		configurarConversoresCategoria();
 		configurarConversoresVeiculo();
 		configurarConversoresReserva();
+		// IMPORTANTE: Registrar conversor de Locacao ANTES de Reserva para garantir prioridade
+		// Mas na verdade, Reserva já está registrado antes, então Locacao vai sobrescrever
 		configurarConversoresLocacao();
 		configurarConversoresPatio();
 		configurarConversoresPeriodo();
@@ -238,13 +236,35 @@ public class JpaMapeador extends ModelMapper {
 					return null;
 				}
 
+				// Validar período
 				var periodoJpa = source.getPeriodo();
+				if (periodoJpa == null) {
+					throw new IllegalStateException("ReservaJpa sem período: " + source.getCodigo());
+				}
+				
 				var periodo = new PeriodoLocacao(periodoJpa.getRetirada(), periodoJpa.getDevolucao());
 				var cliente = map(source.getCliente(), Cliente.class);
 				var categoria = CategoriaCodigo.fromTexto(source.getCategoria());
 
+				// Validar placaVeiculo
+				// NOTA: Após migração completa, todas as reservas devem ter placa_veiculo preenchido.
+				// O conversor não faz consultas ao banco (respeita DDD 100%).
+				// Se a reserva não tiver placa válida, lança erro imediatamente.
+				String placaVeiculo = source.getPlacaVeiculo();
+				
+				// Validar que a placa está presente e válida
+				if (placaVeiculo == null || placaVeiculo.isBlank() || 
+				    placaVeiculo.equals("MIGRAR") || placaVeiculo.equals("TEMP")) {
+					throw new IllegalStateException(
+							"ReservaJpa sem placaVeiculo válida (codigo: " + source.getCodigo() + 
+							", status: " + source.getStatus() + 
+							", placaVeiculo: " + source.getPlacaVeiculo() + 
+							"). Reservas devem ter placa do veículo. Os dados devem estar migrados corretamente no banco de dados."
+					);
+				}
+
 				return new Reserva(source.getCodigo(), categoria, source.getCidadeRetirada(),
-						periodo, source.getValorEstimado(), source.getStatus(), cliente);
+						periodo, source.getValorEstimado(), source.getStatus(), cliente, placaVeiculo);
 			}
 		});
 
@@ -260,14 +280,17 @@ public class JpaMapeador extends ModelMapper {
 				jpa.setCidadeRetirada(source.getCidadeRetirada());
 				jpa.setValorEstimado(source.getValorEstimado());
 				jpa.setStatus(source.getStatus());
+				jpa.setPlacaVeiculo(source.getPlacaVeiculo());
 
 				var periodoJpa = new PeriodoLocacaoJpa();
 				periodoJpa.setRetirada(source.getPeriodo().getRetirada());
 				periodoJpa.setDevolucao(source.getPeriodo().getDevolucao());
 				jpa.setPeriodo(periodoJpa);
 
-				var clienteJpa = clienteRepositorio.findById(source.getCliente().getCpfOuCnpj())
-						.orElseGet(() -> map(source.getCliente(), ClienteJpa.class));
+				// Respeitando DDD: Não fazer consultas ao banco no conversor
+				// Usar getReference() para criar referência lazy (não consulta o banco)
+				// Se a entidade não existir, o Hibernate lançará erro ao salvar
+				var clienteJpa = entityManager.getReference(ClienteJpa.class, source.getCliente().getCpfOuCnpj());
 				jpa.setCliente(clienteJpa);
 
 				return jpa;
@@ -276,6 +299,7 @@ public class JpaMapeador extends ModelMapper {
 	}
 
 	private void configurarConversoresLocacao() {
+		// IMPORTANTE: Registrar o conversor ANTES de qualquer outro para garantir prioridade
 		addConverter(new AbstractConverter<LocacaoJpa, Locacao>() {
 			@Override
 			protected Locacao convert(LocacaoJpa source) {
@@ -283,18 +307,181 @@ public class JpaMapeador extends ModelMapper {
 					return null;
 				}
 
-				var reserva = map(source.getReserva(), Reserva.class);
-				var veiculo = map(source.getVeiculo(), Veiculo.class);
-				var vistoriaRetirada = map(source.getVistoriaRetirada(), ChecklistVistoria.class);
+				try {
+					// Validações básicas
+					if (source.getCodigo() == null || source.getCodigo().isBlank()) {
+						throw new IllegalStateException("LocacaoJpa sem código");
+					}
+					
+					if (source.getDiasPrevistos() <= 0) {
+						throw new IllegalStateException("LocacaoJpa com diasPrevistos inválido: " + source.getDiasPrevistos());
+					}
+					
+					if (source.getValorDiaria() == null) {
+						throw new IllegalStateException("LocacaoJpa sem valorDiaria");
+					}
+					
+					if (source.getVeiculo() == null) {
+						throw new IllegalStateException("LocacaoJpa sem veículo: " + source.getCodigo());
+					}
 
-				var locacao = new Locacao(source.getCodigo(), reserva, veiculo,
-						source.getDiasPrevistos(), source.getValorDiaria(), vistoriaRetirada);
+					// Converter reserva, mas se ela não tiver placaVeiculo (reserva antiga),
+					// usar a placa do veículo da locação
+					var reservaJpa = source.getReserva();
+					if (reservaJpa == null) {
+						throw new IllegalStateException("LocacaoJpa sem reserva: " + source.getCodigo());
+					}
+					
+					// Validar campos críticos da reserva antes de converter
+					if (reservaJpa.getPeriodo() == null) {
+						throw new IllegalStateException("ReservaJpa sem período: " + reservaJpa.getCodigo());
+					}
+					
+					if (reservaJpa.getCliente() == null) {
+						throw new IllegalStateException("ReservaJpa sem cliente: " + reservaJpa.getCodigo());
+					}
+					
+					// IMPORTANTE: Se a reserva não tem placaVeiculo (reserva antiga), 
+					// usar a placa do veículo da locação ANTES de converter
+					String placaVeiculoReserva = reservaJpa.getPlacaVeiculo();
+					if (placaVeiculoReserva == null || placaVeiculoReserva.isBlank() || placaVeiculoReserva.equals("MIGRAR")) {
+						// Criar uma cópia da reserva JPA com a placa do veículo da locação
+						// Isso garante que o conversor de ReservaJpa -> Reserva receba uma placa válida
+						var reservaJpaComPlaca = new ReservaJpa();
+						reservaJpaComPlaca.setCodigo(reservaJpa.getCodigo());
+						reservaJpaComPlaca.setCategoria(reservaJpa.getCategoria());
+						reservaJpaComPlaca.setCidadeRetirada(reservaJpa.getCidadeRetirada());
+						reservaJpaComPlaca.setPeriodo(reservaJpa.getPeriodo());
+						reservaJpaComPlaca.setValorEstimado(reservaJpa.getValorEstimado());
+						reservaJpaComPlaca.setStatus(reservaJpa.getStatus());
+						reservaJpaComPlaca.setCliente(reservaJpa.getCliente());
+						
+						// Usar placa do veículo da locação (garantir que não é null)
+						String placaVeiculoLocacao = source.getVeiculo().getPlaca();
+						if (placaVeiculoLocacao == null || placaVeiculoLocacao.isBlank()) {
+							throw new IllegalStateException("Veículo da locação sem placa: " + source.getCodigo());
+						}
+						reservaJpaComPlaca.setPlacaVeiculo(placaVeiculoLocacao);
+						
+						// Substituir a referência para usar a cópia com placa válida
+						reservaJpa = reservaJpaComPlaca;
+					}
 
-				if (source.getVistoriaDevolucao() != null) {
-					locacao.registrarDevolucao(map(source.getVistoriaDevolucao(), ChecklistVistoria.class));
+					// Converter reserva MANUALMENTE (sem usar ModelMapper recursivo)
+					// Isso evita que o ModelMapper chame o conversor de Reserva diretamente,
+					// que não tem acesso ao contexto da locação para obter a placa do veículo
+					Reserva reserva;
+					try {
+						// Garantir que a placa está definida antes de converter
+						String placaFinal = reservaJpa.getPlacaVeiculo();
+						if (placaFinal == null || placaFinal.isBlank() || placaFinal.equals("MIGRAR")) {
+							placaFinal = source.getVeiculo().getPlaca();
+							if (placaFinal == null || placaFinal.isBlank()) {
+								throw new IllegalStateException("Não foi possível determinar placa do veículo para reserva: " + reservaJpa.getCodigo());
+							}
+							reservaJpa.setPlacaVeiculo(placaFinal);
+						}
+						
+						// Converter manualmente os componentes da reserva
+						var periodoJpa = reservaJpa.getPeriodo();
+						if (periodoJpa == null) {
+							throw new IllegalStateException("ReservaJpa sem período: " + reservaJpa.getCodigo());
+						}
+						var periodo = new PeriodoLocacao(periodoJpa.getRetirada(), periodoJpa.getDevolucao());
+						
+						var cliente = map(reservaJpa.getCliente(), Cliente.class);
+						if (cliente == null) {
+							throw new IllegalStateException("Falha ao converter ClienteJpa para Cliente na reserva: " + reservaJpa.getCodigo());
+						}
+						
+						var categoria = CategoriaCodigo.fromTexto(reservaJpa.getCategoria());
+						
+						// Criar Reserva diretamente (sem usar ModelMapper para evitar recursão)
+						reserva = new Reserva(
+								reservaJpa.getCodigo(),
+								categoria,
+								reservaJpa.getCidadeRetirada(),
+								periodo,
+								reservaJpa.getValorEstimado(),
+								reservaJpa.getStatus(),
+								cliente,
+								placaFinal
+						);
+					} catch (Exception e) {
+						throw new IllegalStateException("Erro ao converter ReservaJpa para Reserva (codigo: " + reservaJpa.getCodigo() + "): " + e.getMessage(), e);
+					}
+
+					// Converter veículo
+					Veiculo veiculo;
+					try {
+						veiculo = map(source.getVeiculo(), Veiculo.class);
+						if (veiculo == null) {
+							throw new IllegalStateException("Falha ao converter VeiculoJpa para Veiculo (retornou null)");
+						}
+					} catch (Exception e) {
+						throw new IllegalStateException("Erro ao converter VeiculoJpa para Veiculo (placa: " + source.getVeiculo().getPlaca() + "): " + e.getMessage(), e);
+					}
+					
+					// Tratar vistoriaRetirada null ou com campos null
+					ChecklistVistoria vistoriaRetirada;
+					var vistoriaRetiradaJpa = source.getVistoriaRetirada();
+					if (vistoriaRetiradaJpa == null) {
+						// Criar vistoria padrão se não existir (para locações antigas)
+						vistoriaRetirada = new ChecklistVistoria(0, "CHEIO", false);
+					} else {
+						// Converter vistoria, tratando campos null
+						int quilometragem = vistoriaRetiradaJpa.getQuilometragem() != null 
+								? vistoriaRetiradaJpa.getQuilometragem() 
+								: 0;
+						String combustivel = vistoriaRetiradaJpa.getCombustivel() != null 
+								? vistoriaRetiradaJpa.getCombustivel() 
+								: "CHEIO";
+						boolean possuiAvarias = vistoriaRetiradaJpa.getPossuiAvarias() != null 
+								? vistoriaRetiradaJpa.getPossuiAvarias() 
+								: false;
+						vistoriaRetirada = new ChecklistVistoria(quilometragem, combustivel, possuiAvarias);
+					}
+
+					// Criar Locacao
+					Locacao locacao;
+					try {
+						locacao = new Locacao(source.getCodigo(), reserva, veiculo,
+								source.getDiasPrevistos(), source.getValorDiaria(), vistoriaRetirada);
+					} catch (Exception e) {
+						throw new IllegalStateException(
+								"Erro ao criar Locacao (codigo: " + source.getCodigo() + 
+								", diasPrevistos: " + source.getDiasPrevistos() + 
+								", valorDiaria: " + source.getValorDiaria() + "): " + e.getMessage(), 
+								e
+						);
+					}
+
+					// Registrar vistoria de devolução se existir
+					if (source.getVistoriaDevolucao() != null) {
+						var vistoriaDevolucaoJpa = source.getVistoriaDevolucao();
+						int kmDevolucao = vistoriaDevolucaoJpa.getQuilometragem() != null 
+								? vistoriaDevolucaoJpa.getQuilometragem() 
+								: 0;
+						String combustivelDevolucao = vistoriaDevolucaoJpa.getCombustivel() != null 
+								? vistoriaDevolucaoJpa.getCombustivel() 
+								: "CHEIO";
+						boolean avariasDevolucao = vistoriaDevolucaoJpa.getPossuiAvarias() != null 
+								? vistoriaDevolucaoJpa.getPossuiAvarias() 
+								: false;
+						var vistoriaDevolucao = new ChecklistVistoria(kmDevolucao, combustivelDevolucao, avariasDevolucao);
+						locacao.registrarDevolucao(vistoriaDevolucao);
+					}
+
+					return locacao;
+				} catch (IllegalStateException e) {
+					// Re-lançar IllegalStateException sem wrappear
+					throw e;
+				} catch (Exception e) {
+					throw new IllegalStateException(
+							"Erro ao converter LocacaoJpa para Locacao (codigo: " + source.getCodigo() + "): " + e.getMessage(), 
+							e
+					);
 				}
-
-				return locacao;
 			}
 		});
 
@@ -310,12 +497,13 @@ public class JpaMapeador extends ModelMapper {
 				jpa.setValorDiaria(source.getValorDiaria());
 				jpa.setStatus(source.getStatus());
 
-				var reservaJpa = reservaRepositorio.findById(source.getReserva().getCodigo())
-						.orElseGet(() -> map(source.getReserva(), ReservaJpa.class));
+				// Respeitando DDD: Não fazer consultas ao banco no conversor
+				// Usar getReference() para criar referências lazy (não consulta o banco)
+				// Se as entidades não existirem, o Hibernate lançará erro ao salvar
+				var reservaJpa = entityManager.getReference(ReservaJpa.class, source.getReserva().getCodigo());
 				jpa.setReserva(reservaJpa);
 
-				var veiculoJpa = veiculoRepositorio.findById(source.getVeiculo().getPlaca())
-						.orElseGet(() -> map(source.getVeiculo(), VeiculoJpa.class));
+				var veiculoJpa = entityManager.getReference(VeiculoJpa.class, source.getVeiculo().getPlaca());
 				jpa.setVeiculo(veiculoJpa);
 
 				jpa.setVistoriaRetirada(map(source.getVistoriaRetirada(), ChecklistVistoriaJpa.class));

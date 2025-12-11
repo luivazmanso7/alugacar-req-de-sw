@@ -41,9 +41,9 @@ public abstract class AlugacarFuncionalidade {
 
 	protected AlugacarFuncionalidade() {
 		this.repositorio = REPOSITORIO;
-		this.catalogoServico = new CatalogoVeiculosServico(repositorio, repositorio);
+		this.catalogoServico = new CatalogoVeiculosServico(repositorio, repositorio, repositorio);
 		this.clienteServico = new ClienteServico(repositorio);
-		this.reservaServico = new ReservaServico(repositorio, repositorio, repositorio);
+		this.reservaServico = new ReservaServico(repositorio, repositorio, repositorio, repositorio, repositorio);
 		this.reservaReplanejamentoServico = new ReservaReplanejamentoServico(repositorio, repositorio, repositorio);
 		this.reservaCancelamentoServico = new ReservaCancelamentoServico(repositorio);
 		this.manutencaoServico = new ManutencaoServico(repositorio);
@@ -92,8 +92,10 @@ public abstract class AlugacarFuncionalidade {
 			StatusReserva status, Cliente cliente) {
 		Objects.requireNonNull(periodo, "O período da reserva é obrigatório");
 		var diaria = diariaDaCategoria(categoria);
+		// Usar uma placa fictícia para testes (formato: TEST-XXXX)
+		var placaVeiculo = "TEST-" + codigoReserva.substring(0, Math.min(4, codigoReserva.length()));
 		var reserva = new Reserva(codigoReserva, categoria, "São Paulo", periodo,
-				diaria.multiply(BigDecimal.valueOf(periodo.dias())), status, cliente);
+				diaria.multiply(BigDecimal.valueOf(periodo.dias())), status, cliente, placaVeiculo);
 		repositorio.salvar(reserva);
 		return reserva;
 	}

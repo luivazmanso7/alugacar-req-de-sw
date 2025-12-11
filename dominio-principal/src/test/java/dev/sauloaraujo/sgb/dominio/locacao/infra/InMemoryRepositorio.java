@@ -88,6 +88,13 @@ public class InMemoryRepositorio implements CategoriaRepositorio, VeiculoReposit
 				.filter(reserva -> reserva.getCliente().getCpfOuCnpj().equals(cpfOuCnpj))
 				.collect(java.util.stream.Collectors.toList());
 	}
+	
+	@Override
+	public List<Reserva> listarPorVeiculo(String placaVeiculo) {
+		return reservas.values().stream()
+				.filter(reserva -> reserva.getPlacaVeiculo().equals(placaVeiculo))
+				.collect(java.util.stream.Collectors.toList());
+	}
 
 	@Override
 	public void salvar(Locacao locacao) {

@@ -1,7 +1,6 @@
 package dev.sauloaraujo.sgb.apresentacao.locacao.catalogo;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,26 +45,51 @@ public class VeiculoController {
 
     /**
      * Busca veículos disponíveis por cidade e categoria.
+     * REGRA DE NEGÓCIO: Exclui veículos locados durante o período solicitado.
      */
     @GetMapping("/disponiveis")
     @Operation(summary = "Buscar veículos disponíveis",
-               description = "Retorna veículos disponíveis filtrados por cidade e categoria (opcional)")
+               description = "Retorna veículos disponíveis filtrados por cidade, categoria (opcional) e período. Exclui veículos locados no período.")
     public ResponseEntity<List<VeiculoResumo>> buscarDisponiveis(
             @Parameter(description = "Cidade para busca") @RequestParam String cidade,
             @Parameter(description = "Categoria do veículo (opcional)") 
-            @RequestParam(required = false) String categoria) {
+            @RequestParam(required = false) String categoria,
+            @Parameter(description = "Data de retirada (ISO 8601, opcional)") 
+            @RequestParam(required = false) String dataRetirada,
+            @Parameter(description = "Data de devolução (ISO 8601, opcional)") 
+            @RequestParam(required = false) String dataDevolucao) {
         
         List<VeiculoResumo> veiculos;
         
-        if (categoria != null && !categoria.isBlank()) {
+        // Se período foi informado, usar método que filtra veículos locados
+        if (dataRetirada != null && !dataRetirada.isBlank() 
+                && dataDevolucao != null && !dataDevolucao.isBlank()) {
             try {
-                var categoriaCodigo = CategoriaCodigo.valueOf(categoria.toUpperCase());
-                veiculos = veiculoServico.buscarDisponiveis(cidade, categoriaCodigo);
-            } catch (IllegalArgumentException e) {
+                var retirada = java.time.LocalDateTime.parse(dataRetirada);
+                var devolucao = java.time.LocalDateTime.parse(dataDevolucao);
+                
+                if (categoria != null && !categoria.isBlank()) {
+                    var categoriaCodigo = CategoriaCodigo.valueOf(categoria.toUpperCase());
+                    veiculos = veiculoServico.buscarDisponiveis(cidade, categoriaCodigo, retirada, devolucao);
+                } else {
+                    // Sem categoria, mas com período - usar método que filtra por período
+                    veiculos = veiculoServico.buscarDisponiveis(cidade, retirada, devolucao);
+                }
+            } catch (Exception e) {
                 return ResponseEntity.badRequest().build();
             }
         } else {
-            veiculos = veiculoServico.buscarDisponiveis(cidade);
+            // Método de compatibilidade: sem período, apenas verifica status
+            if (categoria != null && !categoria.isBlank()) {
+                try {
+                    var categoriaCodigo = CategoriaCodigo.valueOf(categoria.toUpperCase());
+                    veiculos = veiculoServico.buscarDisponiveis(cidade, categoriaCodigo);
+                } catch (IllegalArgumentException e) {
+                    return ResponseEntity.badRequest().build();
+                }
+            } else {
+                veiculos = veiculoServico.buscarDisponiveis(cidade);
+            }
         }
         
         return ResponseEntity.ok(veiculos);

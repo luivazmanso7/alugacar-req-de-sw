@@ -46,4 +46,13 @@ public interface LocacaoJpaRepository extends JpaRepository<LocacaoJpa, String> 
      * Busca locações por cliente (navega pelas propriedades: Reserva -> Cliente -> CpfOuCnpj).
      */
     List<LocacaoJpa> findByReserva_Cliente_CpfOuCnpj(String cpfOuCnpj);
+    
+    /**
+     * Busca uma locação pelo código da reserva associada.
+     * Usado para recuperar a placa do veículo quando a reserva não tem placa_veiculo preenchido.
+     */
+    @Query("SELECT l FROM LocacaoJpa l " +
+           "LEFT JOIN FETCH l.veiculo " +
+           "WHERE l.reserva.codigo = :codigoReserva")
+    Optional<LocacaoJpa> findByReservaCodigo(@Param("codigoReserva") String codigoReserva);
 }

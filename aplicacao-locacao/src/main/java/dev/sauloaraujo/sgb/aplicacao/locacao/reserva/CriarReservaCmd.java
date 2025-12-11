@@ -13,12 +13,14 @@ import dev.sauloaraujo.sgb.dominio.locacao.shared.PeriodoLocacao;
  * @param cidadeRetirada cidade onde o veículo será retirado
  * @param periodo período de locação (retirada e devolução)
  * @param cliente cliente que está fazendo a reserva
+ * @param placaVeiculo placa do veículo específico a ser reservado
  */
 public record CriarReservaCmd(
         CategoriaCodigo categoriaCodigo,
         String cidadeRetirada,
         PeriodoLocacao periodo,
-        Cliente cliente) {
+        Cliente cliente,
+        String placaVeiculo) {
 
     public CriarReservaCmd {
         Objects.requireNonNull(categoriaCodigo, "Categoria é obrigatória");
@@ -28,6 +30,10 @@ public record CriarReservaCmd(
         }
         Objects.requireNonNull(periodo, "Período é obrigatório");
         Objects.requireNonNull(cliente, "Cliente é obrigatório");
+        Objects.requireNonNull(placaVeiculo, "Placa do veículo é obrigatória");
+        if (placaVeiculo.isBlank()) {
+            throw new IllegalArgumentException("Placa do veículo não pode estar vazia");
+        }
     }
 }
 

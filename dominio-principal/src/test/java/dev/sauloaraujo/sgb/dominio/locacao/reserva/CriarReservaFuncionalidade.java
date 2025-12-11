@@ -91,9 +91,11 @@ public class CriarReservaFuncionalidade extends AlugacarFuncionalidade {
 
 		var cliente = clientePersonalizado(linha.get("nome"), linha.get("cpf"), linha.get("cnh"), linha.get("email"));
 		var cidade = linha.getOrDefault("cidade", "São Paulo");
+		// Para testes, usar uma placa fictícia baseada no código da reserva
+		var placaVeiculo = linha.getOrDefault("placaVeiculo", "TEST-" + categoria.name());
 
 		try {
-			reservaCriada = reservaServico.criarReserva("RES-" + System.nanoTime(), categoria, cidade, periodo, cliente);
+			reservaCriada = reservaServico.criarReserva("RES-" + System.nanoTime(), categoria, cidade, periodo, cliente, placaVeiculo);
 		} catch (RuntimeException ex) {
 			registrarErro(ex);
 		}

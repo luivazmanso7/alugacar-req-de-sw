@@ -17,15 +17,16 @@ public class Reserva {
 	private final Cliente cliente;
 	private BigDecimal valorEstimado;
 	private StatusReserva status;
+	private final String placaVeiculo;
 
 	public Reserva(CategoriaCodigo categoria, String cidadeRetirada, PeriodoLocacao periodo, BigDecimal valorEstimado,
-			Cliente cliente) {
+			Cliente cliente, String placaVeiculo) {
 		this(UUID.randomUUID().toString(), categoria, cidadeRetirada, periodo, valorEstimado, StatusReserva.ATIVA,
-				cliente);
+				cliente, placaVeiculo);
 	}
 
 	public Reserva(String codigo, CategoriaCodigo categoria, String cidadeRetirada, PeriodoLocacao periodo,
-			BigDecimal valorEstimado, StatusReserva status, Cliente cliente) {
+			BigDecimal valorEstimado, StatusReserva status, Cliente cliente, String placaVeiculo) {
 		this.codigo = Objects.requireNonNull(codigo, "O código da reserva é obrigatório");
 		this.categoria = Objects.requireNonNull(categoria, "A categoria é obrigatória");
 		this.cidadeRetirada = Objects.requireNonNull(cidadeRetirada, "A cidade de retirada é obrigatória");
@@ -36,6 +37,10 @@ public class Reserva {
 		}
 		this.status = Objects.requireNonNull(status, "O status é obrigatório");
 		this.cliente = Objects.requireNonNull(cliente, "O cliente da reserva é obrigatório");
+		this.placaVeiculo = Objects.requireNonNull(placaVeiculo, "A placa do veículo é obrigatória");
+		if (placaVeiculo.isBlank()) {
+			throw new IllegalArgumentException("A placa do veículo não pode estar vazia");
+		}
 	}
 
 	public String getCodigo() {
@@ -64,6 +69,10 @@ public class Reserva {
 
 	public StatusReserva getStatus() {
 		return status;
+	}
+
+	public String getPlacaVeiculo() {
+		return placaVeiculo;
 	}
 
 	public long diasReservados() {

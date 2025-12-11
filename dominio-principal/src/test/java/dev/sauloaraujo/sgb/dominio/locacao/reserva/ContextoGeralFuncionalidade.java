@@ -114,9 +114,11 @@ public class ContextoGeralFuncionalidade extends AlugacarFuncionalidade {
 		for (int indice = 0; indice < quantidade; indice++) {
 			var codigo = "ATV-" + codigoCategoria + "-" + cidade + "-" + indice;
 			var cliente = clientePadraoEmail("reserva-" + codigo + "@example.com");
+			// Usar uma placa fictícia para testes
+			var placaVeiculo = "TEST-" + codigoCategoria + "-" + indice;
 			var reserva = new Reserva(codigo, categoria, cidade, periodo(inicio, fim),
 					diariaDaCategoria(categoria).multiply(BigDecimal.valueOf(periodo(inicio, fim).dias())),
-					StatusReserva.ATIVA, cliente);
+					StatusReserva.ATIVA, cliente, placaVeiculo);
 			repositorio.salvar(reserva);
 		}
 	}
