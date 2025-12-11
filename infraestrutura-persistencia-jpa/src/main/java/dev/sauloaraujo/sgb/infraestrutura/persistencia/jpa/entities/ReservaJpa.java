@@ -1,16 +1,17 @@
-package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import dev.sauloaraujo.sgb.dominio.locacao.reserva.Reserva;
 import dev.sauloaraujo.sgb.dominio.locacao.reserva.ReservaRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusReserva;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.JpaMapeador;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.ReservaJpaRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -26,7 +27,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "RESERVA")
-class ReservaJpa {
+public class ReservaJpa {
 
 	@Id
 	@Column(name = "codigo", nullable = false, length = 50)
@@ -52,7 +53,7 @@ class ReservaJpa {
 	@JoinColumn(name = "cliente_cpf_cnpj", nullable = false)
 	private ClienteJpa cliente;
 
-	ReservaJpa() {
+	public ReservaJpa() {
 	}
 
 	public String getCodigo() {
@@ -110,9 +111,6 @@ class ReservaJpa {
 	public void setCliente(ClienteJpa cliente) {
 		this.cliente = cliente;
 	}
-}
-
-interface ReservaJpaRepository extends JpaRepository<ReservaJpa, String> {
 }
 
 @Repository("reservaRepositorioReal")

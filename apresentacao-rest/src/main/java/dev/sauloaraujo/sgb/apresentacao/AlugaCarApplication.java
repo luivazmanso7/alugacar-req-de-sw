@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
     "dev.sauloaraujo.sgb.infraestrutura",   // Repositórios e configs de infraestrutura
     "dev.sauloaraujo.sgb.dominio"           // Serviços de domínio
 })
-@EnableJpaRepositories(basePackages = "dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa")
-@EntityScan(basePackages = "dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa")
+@EnableJpaRepositories(basePackages = "dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository")
+@EntityScan(basePackages = "dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities")
 public class AlugaCarApplication {
 
     public static void main(String[] args) {

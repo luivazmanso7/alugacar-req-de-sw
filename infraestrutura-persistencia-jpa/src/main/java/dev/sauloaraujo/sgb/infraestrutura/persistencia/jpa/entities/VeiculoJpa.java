@@ -1,19 +1,11 @@
-package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
-import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
-import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Veiculo;
-import dev.sauloaraujo.sgb.dominio.locacao.catalogo.VeiculoRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusVeiculo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -28,7 +20,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "VEICULO")
-class VeiculoJpa {
+public class VeiculoJpa {
 
 	@Id
 	@Column(name = "placa", nullable = false, length = 10)
@@ -59,7 +51,7 @@ class VeiculoJpa {
 	@Embedded
 	private PatioJpa patio;
 
-	VeiculoJpa() {
+	public VeiculoJpa() {
 	}
 
 	public String getPlaca() {
@@ -132,61 +124,5 @@ class VeiculoJpa {
 
 	public void setPatio(PatioJpa patio) {
 		this.patio = patio;
-	}
-}
-
-interface VeiculoJpaRepository extends JpaRepository<VeiculoJpa, String> {
-
-	@Query("SELECT v FROM VeiculoJpa v WHERE v.cidade = :cidade " +
-			"AND v.categoria = :categoria AND v.status = :status")
-	List<VeiculoJpa> findDisponiveisPorCidadeECategoria(
-			@Param("cidade") String cidade,
-			@Param("categoria") String categoria,
-			@Param("status") StatusVeiculo status);
-
-	@Query("SELECT v FROM VeiculoJpa v WHERE v.cidade = :cidade AND v.status = :status")
-	List<VeiculoJpa> findDisponiveisPorCidade(
-			@Param("cidade") String cidade,
-			@Param("status") StatusVeiculo status);
-}
-
-@Repository
-class VeiculoRepositorioImpl implements VeiculoRepositorio {
-
-	@Autowired
-	VeiculoJpaRepository repositorio;
-
-	@Autowired
-	JpaMapeador mapeador;
-
-	@Override
-	public void salvar(Veiculo veiculo) {
-		var veiculoJpa = mapeador.map(veiculo, VeiculoJpa.class);
-		repositorio.save(veiculoJpa);
-	}
-
-	@Override
-	public Optional<Veiculo> buscarPorPlaca(String placa) {
-		return repositorio.findById(placa)
-				.map(jpa -> mapeador.map(jpa, Veiculo.class));
-	}
-
-	@Override
-	public List<Veiculo> buscarDisponiveis(String cidade, CategoriaCodigo categoria) {
-		var veiculosJpa = repositorio.findDisponiveisPorCidadeECategoria(
-				cidade,
-				categoria.name(),
-				StatusVeiculo.DISPONIVEL);
-
-		return mapeador.mapList(veiculosJpa, Veiculo.class);
-	}
-
-	@Override
-	public List<Veiculo> buscarDisponiveis(String cidade) {
-		var veiculosJpa = repositorio.findDisponiveisPorCidade(
-				cidade,
-				StatusVeiculo.DISPONIVEL);
-
-		return mapeador.mapList(veiculosJpa, Veiculo.class);
 	}
 }

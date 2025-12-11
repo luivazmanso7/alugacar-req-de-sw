@@ -1,4 +1,4 @@
-package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ import jakarta.persistence.Embeddable;
  * Value Object JPA para Período de Locação (embutido em Reserva).
  */
 @Embeddable
-class PeriodoLocacaoJpa {
+public class PeriodoLocacaoJpa {
 
 	@Column(name = "data_retirada", nullable = false)
 	private LocalDateTime retirada;

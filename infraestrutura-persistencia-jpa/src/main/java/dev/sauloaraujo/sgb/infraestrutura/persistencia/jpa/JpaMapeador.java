@@ -18,6 +18,17 @@ import dev.sauloaraujo.sgb.dominio.locacao.operacao.Locacao;
 import dev.sauloaraujo.sgb.dominio.locacao.patio.Patio;
 import dev.sauloaraujo.sgb.dominio.locacao.reserva.Reserva;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.PeriodoLocacao;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.CategoriaJpa;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.ChecklistVistoriaJpa;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.ClienteJpa;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.ClienteJpaRepository;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.LocacaoJpa;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.PatioJpa;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.PeriodoLocacaoJpa;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.ReservaJpa;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.ReservaJpaRepository;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.VeiculoJpa;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.VeiculoJpaRepository;
 
 /**
  * Componente responsável pelo mapeamento entre objetos de domínio e entidades JPA.

@@ -43,8 +43,9 @@ public class DevolucaoController {
                 .combustivel(request.combustivel())
                 .possuiAvarias(request.possuiAvarias())
                 .taxaCombustivel(request.taxaExtra())
-                // Opcionais: diasUtilizados e diasAtraso podem ser calculados automaticamente no domínio 
-                // ou passados aqui se o front-end calcular. Vamos assumir 0 para o domínio calcular.
+                .diasUtilizados(0)
+                .diasAtraso(0)
+                .percentualMultaAtraso(BigDecimal.ZERO)
                 .build();
 
         // 2. Chamar Aplicação

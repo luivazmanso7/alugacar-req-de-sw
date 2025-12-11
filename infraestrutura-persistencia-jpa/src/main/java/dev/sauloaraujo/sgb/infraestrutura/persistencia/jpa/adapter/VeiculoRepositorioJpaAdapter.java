@@ -6,10 +6,11 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import dev.sauloaraujo.alugacar.infraestrutura.persistencia.jpa.JpaMapeador;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Veiculo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.VeiculoRepositorio;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.JpaMapeador;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.VeiculoJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.VeiculoJpaRepository;
 
 
@@ -27,7 +28,7 @@ public class VeiculoRepositorioJpaAdapter implements VeiculoRepositorio {
     @Override
     @Transactional
     public void salvar(Veiculo veiculo) {
-        var veiculoJpa = mapeador.paraVeiculoJpa(veiculo);
+        var veiculoJpa = mapeador.map(veiculo, VeiculoJpa.class);
         jpaRepository.save(veiculoJpa);
     }
 
@@ -35,7 +36,7 @@ public class VeiculoRepositorioJpaAdapter implements VeiculoRepositorio {
     @Transactional(readOnly = true)
     public Optional<Veiculo> buscarPorPlaca(String placa) {
         return jpaRepository.findById(placa)
-                .map(mapeador::paraVeiculo);
+                .map(jpa -> mapeador.map(jpa, Veiculo.class));
     }
 
     @Override

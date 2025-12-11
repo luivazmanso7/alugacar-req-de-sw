@@ -1,14 +1,15 @@
-package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import dev.sauloaraujo.sgb.dominio.locacao.cliente.Cliente;
 import dev.sauloaraujo.sgb.dominio.locacao.cliente.ClienteRepositorio;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.JpaMapeador;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.ClienteJpaRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,7 +20,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "CLIENTE")
-class ClienteJpa {
+public class ClienteJpa {
 
 	@Id
 	@Column(name = "cpf_cnpj", nullable = false, length = 14)
@@ -43,7 +44,7 @@ class ClienteJpa {
 	@Column(name = "status", nullable = false, length = 20)
 	private String status;
 
-	ClienteJpa() {
+	public ClienteJpa() {
 	}
 
 	public String getCpfOuCnpj() {
@@ -101,10 +102,6 @@ class ClienteJpa {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-}
-
-interface ClienteJpaRepository extends JpaRepository<ClienteJpa, String> {
-	Optional<ClienteJpa> findByLogin(String login);
 }
 
 @Repository

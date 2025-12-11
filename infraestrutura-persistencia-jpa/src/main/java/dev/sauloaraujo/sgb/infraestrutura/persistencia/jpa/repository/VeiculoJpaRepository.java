@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
-import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusVeiculo;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.VeiculoJpa;
 
 /**

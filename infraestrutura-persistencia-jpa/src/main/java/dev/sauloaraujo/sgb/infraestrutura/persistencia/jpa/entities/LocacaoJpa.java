@@ -1,4 +1,4 @@
-package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import dev.sauloaraujo.sgb.aplicacao.locacao.operacao.LocacaoRepositorioAplicacao;
@@ -14,6 +13,7 @@ import dev.sauloaraujo.sgb.aplicacao.locacao.operacao.LocacaoResumo;
 import dev.sauloaraujo.sgb.dominio.locacao.operacao.Locacao;
 import dev.sauloaraujo.sgb.dominio.locacao.operacao.LocacaoRepositorio;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusLocacao;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.JpaMapeador;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
@@ -31,7 +31,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "LOCACAO")
-class LocacaoJpa {
+public class LocacaoJpa {
 
     @Id
     @Column(name = "codigo", nullable = false, length = 50)
@@ -66,7 +66,7 @@ class LocacaoJpa {
     })
     private ChecklistVistoriaJpa vistoriaDevolucao;
 
-    LocacaoJpa() {
+    public LocacaoJpa() {
     }
 
     // Getters e Setters
@@ -89,21 +89,6 @@ class LocacaoJpa {
 }
 
 /**
- * Interface Spring Data JPA.
- * Adicionados métodos de busca para suportar as queries da aplicação.
- */
-interface LocacaoJpaRepository extends JpaRepository<LocacaoJpa, String> {
-    
-    // Busca para listarAtivas()
-    List<LocacaoJpa> findByStatus(StatusLocacao status);
-    
-    // Busca para listarPorCliente() - Navega pelas propriedades: Reserva -> Cliente -> CpfOuCnpj
-    // O nome do campo na entidade ClienteJpa é 'cpfOuCnpj' (verifique se na sua entidade ClienteJpa é este o nome exato do atributo ID)
-    // Se o ID em ClienteJpa for 'cpfOuCnpj', o caminho é findByReserva_Cliente_CpfOuCnpj
-    List<LocacaoJpa> findByReserva_Cliente_CpfOuCnpj(String cpfOuCnpj);
-}
-
-/**
  * Implementação Unificada dos Repositórios.
  * CORREÇÃO: Implementa tanto a interface de Domínio quanto a de Aplicação.
  */
@@ -111,7 +96,7 @@ interface LocacaoJpaRepository extends JpaRepository<LocacaoJpa, String> {
 class LocacaoRepositorioImpl implements LocacaoRepositorio, LocacaoRepositorioAplicacao {
 
     @Autowired
-    LocacaoJpaRepository repositorio;
+    dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.repository.LocacaoJpaRepository repositorio;
 
     @Autowired
     JpaMapeador mapeador;

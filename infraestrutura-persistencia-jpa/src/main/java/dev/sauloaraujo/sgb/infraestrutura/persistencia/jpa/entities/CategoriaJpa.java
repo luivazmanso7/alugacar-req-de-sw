@@ -1,4 +1,4 @@
-package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Categoria;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaRepositorio;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.JpaMapeador;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -21,7 +22,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "CATEGORIA")
-class CategoriaJpa { // package-private
+public class CategoriaJpa {
 
 	@Id
 	@Column(name = "codigo", nullable = false, length = 20)
@@ -42,7 +43,7 @@ class CategoriaJpa { // package-private
 	@Column(name = "quantidade_disponivel", nullable = false)
 	private int quantidadeDisponivel;
 
-	CategoriaJpa() {
+	public CategoriaJpa() {
 	}
 
 	public String getCodigo() {

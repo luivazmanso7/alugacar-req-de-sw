@@ -54,7 +54,6 @@ public class ReservaRepositorioProxy implements ReservaRepositorio {
 
     @Override
     public java.util.List<Reserva> listar() {
-        // Para listagem, delegamos diretamente ao repositório real.
         return reservaRepositorioReal.listar();
     }
 }

@@ -1,4 +1,4 @@
-package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa;
+package dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -7,7 +7,7 @@ import jakarta.persistence.Embeddable;
  * Value Object JPA para Checklist de Vistoria (embutido em Locação).
  */
 @Embeddable
-class ChecklistVistoriaJpa {
+public class ChecklistVistoriaJpa {
 
 	@Column(name = "quilometragem")
 	private Integer quilometragem;
