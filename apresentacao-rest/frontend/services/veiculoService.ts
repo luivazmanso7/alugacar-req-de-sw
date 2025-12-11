@@ -1,41 +1,31 @@
-import api from '@/lib/api';
-import { Veiculo, StatusVeiculo, CategoriaVeiculo } from '@/types';
+import api from "@/lib/api";
+
+export interface VeiculoResumo {
+  placa: string;
+  modelo: string;
+  categoria: string;
+  cidade: string;
+  diaria: number;
+  status: string;
+}
 
 export const veiculoService = {
-  // Listar todos os veículos
-  async listar(): Promise<Veiculo[]> {
-    const response = await api.get('/veiculos');
-    return response.data;
-  },
-
-  // Buscar veículo por ID
-  async buscarPorId(id: string): Promise<Veiculo> {
-    const response = await api.get(`/veiculos/${id}`);
-    return response.data;
-  },
-
-  // Buscar veículos disponíveis por categoria
-  async buscarDisponiveis(categoria?: CategoriaVeiculo): Promise<Veiculo[]> {
-    const params = categoria ? { categoria } : {};
-    const response = await api.get('/veiculos/disponiveis', { params });
-    return response.data;
-  },
-
   // Buscar veículo por placa
-  async buscarPorPlaca(placa: string): Promise<Veiculo> {
-    const response = await api.get(`/veiculos/placa/${placa}`);
+  async buscarPorPlaca(placa: string): Promise<VeiculoResumo> {
+    const response = await api.get(`/veiculos/${placa}`);
     return response.data;
   },
 
-  // Atualizar status do veículo
-  async atualizarStatus(id: string, status: StatusVeiculo): Promise<Veiculo> {
-    const response = await api.patch(`/veiculos/${id}/status`, { status });
-    return response.data;
-  },
-
-  // Registrar quilometragem
-  async registrarQuilometragem(id: string, quilometragem: number): Promise<Veiculo> {
-    const response = await api.patch(`/veiculos/${id}/quilometragem`, { quilometragem });
+  // Buscar veículos disponíveis por cidade e categoria (opcional)
+  async buscarDisponiveis(
+    cidade: string,
+    categoria?: string
+  ): Promise<VeiculoResumo[]> {
+    const params: any = { cidade };
+    if (categoria) {
+      params.categoria = categoria;
+    }
+    const response = await api.get("/veiculos/disponiveis", { params });
     return response.data;
   },
 };

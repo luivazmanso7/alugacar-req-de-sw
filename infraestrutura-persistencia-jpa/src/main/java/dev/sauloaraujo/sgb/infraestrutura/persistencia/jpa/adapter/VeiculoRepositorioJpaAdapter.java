@@ -42,7 +42,9 @@ public class VeiculoRepositorioJpaAdapter implements VeiculoRepositorio {
     @Override
     @Transactional(readOnly = true)
     public List<Veiculo> buscarDisponiveis(String cidade, CategoriaCodigo categoria) {
-        var veiculosJpa = jpaRepository.findDisponiveisPorCidadeECategoria(cidade, categoria);
+        
+        var categoriaStr = categoria.name();
+        var veiculosJpa = jpaRepository.findDisponiveisPorCidadeECategoria(cidade, categoriaStr);
         return mapeador.mapList(veiculosJpa, Veiculo.class);
     }
 

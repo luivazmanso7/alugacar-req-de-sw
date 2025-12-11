@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Sidebar from "@/components/layout/Sidebar";
+import ConditionalLayout from "@/components/layout/ConditionalLayout";
 
 export const metadata: Metadata = {
   title: "RentaCar - Sistema de Locação de Veículos",
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className="antialiased">
-        <Sidebar>{children}</Sidebar>
+        <ConditionalLayout>{children}</ConditionalLayout>
       </body>
     </html>
   );

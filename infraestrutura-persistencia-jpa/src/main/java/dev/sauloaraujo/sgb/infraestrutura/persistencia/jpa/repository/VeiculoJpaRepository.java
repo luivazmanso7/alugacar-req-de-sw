@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.VeiculoJpa;
 
 /**
@@ -18,12 +17,13 @@ public interface VeiculoJpaRepository extends JpaRepository<VeiculoJpa, String> 
 
     /**
      * Busca veículos disponíveis por cidade e categoria.
+     * Usa query JPQL com função de string para garantir comparação correta.
      */
     @Query("SELECT v FROM VeiculoJpa v WHERE v.cidade = :cidade " +
-           "AND v.categoria = :categoria AND v.status = 'DISPONIVEL'")
+           "AND UPPER(v.categoria) = UPPER(:categoria) AND v.status = 'DISPONIVEL'")
     List<VeiculoJpa> findDisponiveisPorCidadeECategoria(
             @Param("cidade") String cidade,
-            @Param("categoria") CategoriaCodigo categoria);
+            @Param("categoria") String categoria);
 
     /**
      * Busca veículos disponíveis por cidade.
