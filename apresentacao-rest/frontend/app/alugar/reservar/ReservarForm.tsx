@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { reservaService, CriarReservaRequest } from "@/services/reservaService";
+import { authService } from "@/services/authService";
 import { ArrowLeft, Calendar, MapPin, Car, DollarSign } from "lucide-react";
 
 interface ReservarFormProps {
@@ -28,12 +29,6 @@ export default function ReservarForm({
 
   // Estado do formulário
   const [formData, setFormData] = useState({
-    nome: "",
-    cpfOuCnpj: "",
-    cnh: "",
-    email: "",
-    login: "",
-    senha: "",
     dataRetirada: dataRetiradaParam || "",
     dataDevolucao: dataDevolucaoParam || "",
   });
@@ -41,6 +36,35 @@ export default function ReservarForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [reservaCriada, setReservaCriada] = useState<any>(null);
+  const [clienteNome, setClienteNome] = useState<string | null>(null);
+
+  // Verificar se está logado ao montar o componente
+  useEffect(() => {
+    const verificarAutenticacao = async () => {
+      // Verificar se há nome do cliente no localStorage (indica login anterior)
+      const nome = authService.getClienteNome();
+      if (!nome) {
+        console.log(
+          "Nenhum nome encontrado no localStorage, redirecionando para login"
+        );
+        // Redirecionar para login se não houver nome no localStorage
+        router.push("/alugar/login");
+        return;
+      }
+
+      console.log("Nome encontrado no localStorage:", nome);
+
+      // Definir o nome do cliente imediatamente
+      setClienteNome(nome);
+
+      // NÃO verificar sessão aqui - apenas confiar no localStorage
+      // A verificação real será feita pelo backend quando criar a reserva
+      // Isso evita redirecionamentos desnecessários se o cookie não estiver sendo enviado corretamente
+      console.log("Autenticação verificada via localStorage, continuando...");
+    };
+
+    verificarAutenticacao();
+  }, [router]);
 
   const calcularValorTotal = () => {
     if (!formData.dataRetirada || !formData.dataDevolucao) return 0;
@@ -74,21 +98,13 @@ export default function ReservarForm({
         );
       }
 
-      // Criar requisição
+      // Criar requisição (cliente vem da sessão HTTP)
       const request: CriarReservaRequest = {
         categoriaCodigo: categoria.toUpperCase(),
         cidadeRetirada: cidade,
         periodo: {
           dataRetirada: dataRetirada.toISOString(),
           dataDevolucao: dataDevolucao.toISOString(),
-        },
-        cliente: {
-          nome: formData.nome,
-          cpfOuCnpj: formData.cpfOuCnpj,
-          cnh: formData.cnh,
-          email: formData.email,
-          login: formData.login,
-          senha: formData.senha,
         },
       };
 
@@ -296,9 +312,17 @@ export default function ReservarForm({
           {/* Formulário */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-md p-8">
-              <h1 className="text-2xl font-bold text-gray-900 mb-6">
-                Dados da Reserva
-              </h1>
+              <div className="mb-6">
+                <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                  Dados da Reserva
+                </h1>
+                {clienteNome && (
+                  <p className="text-sm text-gray-600">
+                    Reservando como:{" "}
+                    <span className="font-semibold">{clienteNome}</span>
+                  </p>
+                )}
+              </div>
 
               {error && (
                 <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
@@ -355,136 +379,6 @@ export default function ReservarForm({
                       required
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
-                  </div>
-                </div>
-
-                {/* Dados do Cliente */}
-                <div className="border-t border-gray-200 pt-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                    Dados do Cliente
-                  </h2>
-
-                  <div className="space-y-4">
-                    <div>
-                      <label
-                        htmlFor="nome"
-                        className="block text-sm font-medium text-gray-700 mb-2"
-                      >
-                        Nome Completo *
-                      </label>
-                      <input
-                        type="text"
-                        id="nome"
-                        value={formData.nome}
-                        onChange={(e) =>
-                          setFormData({ ...formData, nome: e.target.value })
-                        }
-                        required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label
-                          htmlFor="cpfOuCnpj"
-                          className="block text-sm font-medium text-gray-700 mb-2"
-                        >
-                          CPF/CNPJ *
-                        </label>
-                        <input
-                          type="text"
-                          id="cpfOuCnpj"
-                          value={formData.cpfOuCnpj}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              cpfOuCnpj: e.target.value,
-                            })
-                          }
-                          required
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                      </div>
-
-                      <div>
-                        <label
-                          htmlFor="cnh"
-                          className="block text-sm font-medium text-gray-700 mb-2"
-                        >
-                          CNH *
-                        </label>
-                        <input
-                          type="text"
-                          id="cnh"
-                          value={formData.cnh}
-                          onChange={(e) =>
-                            setFormData({ ...formData, cnh: e.target.value })
-                          }
-                          required
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium text-gray-700 mb-2"
-                      >
-                        E-mail *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                        required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label
-                          htmlFor="login"
-                          className="block text-sm font-medium text-gray-700 mb-2"
-                        >
-                          Login *
-                        </label>
-                        <input
-                          type="text"
-                          id="login"
-                          value={formData.login}
-                          onChange={(e) =>
-                            setFormData({ ...formData, login: e.target.value })
-                          }
-                          required
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                      </div>
-
-                      <div>
-                        <label
-                          htmlFor="senha"
-                          className="block text-sm font-medium text-gray-700 mb-2"
-                        >
-                          Senha *
-                        </label>
-                        <input
-                          type="password"
-                          id="senha"
-                          value={formData.senha}
-                          onChange={(e) =>
-                            setFormData({ ...formData, senha: e.target.value })
-                          }
-                          required
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                      </div>
-                    </div>
                   </div>
                 </div>
 

@@ -9,4 +9,12 @@ public interface ReservaRepositorio {
 	Optional<Reserva> buscarPorCodigo(String codigo);
 
 	List<Reserva> listar();
+	
+	/**
+	 * Lista todas as reservas de um cliente específico.
+	 * 
+	 * @param cpfOuCnpj CPF ou CNPJ do cliente
+	 * @return lista de reservas do cliente
+	 */
+	List<Reserva> listarPorCliente(String cpfOuCnpj);
 }

@@ -140,4 +140,10 @@ class ReservaRepositorioImpl implements ReservaRepositorio {
 		var reservasJpa = repositorio.findAll();
 		return mapeador.mapList(reservasJpa, Reserva.class);
 	}
+	
+	@Override
+	public List<Reserva> listarPorCliente(String cpfOuCnpj) {
+		var reservasJpa = repositorio.findByClienteCpfOuCnpj(cpfOuCnpj);
+		return mapeador.mapList(reservasJpa, Reserva.class);
+	}
 }

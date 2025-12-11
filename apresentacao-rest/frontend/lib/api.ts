@@ -5,21 +5,8 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // Importante para enviar/receber cookies de sessão
 });
-
-// Interceptor para adicionar token de autenticação
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
 
 // Interceptor para tratar erros
 api.interceptors.response.use(
@@ -27,8 +14,8 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       // Redirecionar para login se não autenticado
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+      localStorage.removeItem("clienteNome");
+      // Não redirecionar automaticamente, deixar o componente decidir
     }
     return Promise.reject(error);
   }

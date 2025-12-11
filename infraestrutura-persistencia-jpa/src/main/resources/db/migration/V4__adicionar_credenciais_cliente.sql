@@ -11,21 +11,22 @@ ALTER TABLE CLIENTE ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'ATIVO';
 CREATE UNIQUE INDEX idx_cliente_login ON CLIENTE(login);
 
 -- Atualizar clientes existentes com logins e senhas
+-- Hash calculado: "senha123".hashCode() = 1251475389
 UPDATE CLIENTE SET 
     login = 'joao.silva',
-    senha_hash = 'HASH_84970715',  -- senha: senha123
+    senha_hash = 'HASH_1251475389',  -- senha: senha123
     status = 'ATIVO'
 WHERE cpf_cnpj = '12345678901';
 
 UPDATE CLIENTE SET 
     login = 'maria.santos',
-    senha_hash = 'HASH_84970715',  -- senha: senha123
+    senha_hash = 'HASH_1251475389',  -- senha: senha123
     status = 'ATIVO'
 WHERE cpf_cnpj = '98765432100';
 
 UPDATE CLIENTE SET 
     login = 'carlos.oliveira',
-    senha_hash = 'HASH_84970715',  -- senha: senha123
+    senha_hash = 'HASH_1251475389',  -- senha: senha123
     status = 'ATIVO'
 WHERE cpf_cnpj = '45678912300';
 

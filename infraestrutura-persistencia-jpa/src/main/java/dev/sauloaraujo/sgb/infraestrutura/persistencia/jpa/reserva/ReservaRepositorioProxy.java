@@ -56,5 +56,10 @@ public class ReservaRepositorioProxy implements ReservaRepositorio {
     public java.util.List<Reserva> listar() {
         return reservaRepositorioReal.listar();
     }
+    
+    @Override
+    public java.util.List<Reserva> listarPorCliente(String cpfOuCnpj) {
+        return reservaRepositorioReal.listarPorCliente(cpfOuCnpj);
+    }
 }
 

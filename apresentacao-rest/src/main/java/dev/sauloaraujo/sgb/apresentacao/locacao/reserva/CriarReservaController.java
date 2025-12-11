@@ -15,6 +15,7 @@ import dev.sauloaraujo.sgb.dominio.locacao.cliente.Cliente;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.PeriodoLocacao;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,36 +33,34 @@ public class CriarReservaController {
 
     @PostMapping
     @Operation(summary = "Criar nova reserva",
-               description = "Cria uma nova reserva de veículo com validação de disponibilidade e cálculo de valor estimado")
-    public ResponseEntity<ReservaResponse> criar(@Valid @RequestBody CriarReservaRequest request) {
+               description = "Cria uma nova reserva de veículo com validação de disponibilidade e cálculo de valor estimado. Requer autenticação.")
+    public ResponseEntity<ReservaResponse> criar(
+            @Valid @RequestBody CriarReservaRequest request,
+            HttpServletRequest httpRequest) {
 
-        // 1. Converter Request (JSON) -> Command (Domínio)
+        // 1. Obter cliente autenticado do interceptor (já validado pelo interceptor)
+        Cliente cliente = (Cliente) httpRequest.getAttribute("clienteAutenticado");
+        if (cliente == null) {
+            return ResponseEntity.status(401).build();
+        }
+
+        // 2. Converter Request (JSON) -> Command (Domínio)
         var periodo = new PeriodoLocacao(
                 request.periodo().dataRetirada(),
                 request.periodo().dataDevolucao()
-        );
-
-        // Criar cliente (o serviço de domínio registra se necessário)
-        var cliente = new Cliente(
-                request.cliente().nome(),
-                request.cliente().cpfOuCnpj(),
-                request.cliente().cnh(),
-                request.cliente().email(),
-                request.cliente().login(),
-                request.cliente().senha()
         );
 
         var comando = new CriarReservaCmd(
                 CategoriaCodigo.valueOf(request.categoriaCodigo()),
                 request.cidadeRetirada(),
                 periodo,
-                cliente
+                cliente // Usar cliente autenticado
         );
 
-        // 2. Chamar Aplicação
+        // 3. Chamar Aplicação
         var resumo = servico.criar(comando);
 
-        // 3. Retornar Resposta
+        // 4. Retornar Resposta
         return ResponseEntity.status(201).body(new ReservaResponse(
                 resumo.codigo(),
                 resumo.categoria(),
@@ -87,11 +86,7 @@ record CriarReservaRequest(
 
         @NotNull(message = "Período é obrigatório")
         @Valid
-        PeriodoDto periodo,
-
-        @NotNull(message = "Cliente é obrigatório")
-        @Valid
-        ClienteDto cliente
+        PeriodoDto periodo
 ) {}
 
 record PeriodoDto(
@@ -102,25 +97,6 @@ record PeriodoDto(
         LocalDateTime dataDevolucao
 ) {}
 
-record ClienteDto(
-        @NotBlank(message = "Nome é obrigatório")
-        String nome,
-
-        @NotBlank(message = "CPF/CNPJ é obrigatório")
-        String cpfOuCnpj,
-
-        @NotBlank(message = "CNH é obrigatória")
-        String cnh,
-
-        @NotBlank(message = "E-mail é obrigatório")
-        String email,
-
-        @NotBlank(message = "Login é obrigatório")
-        String login,
-
-        @NotBlank(message = "Senha é obrigatória")
-        String senha
-) {}
 
 record ReservaResponse(
         String codigo,
