@@ -8,10 +8,12 @@ import java.util.Objects;
  * 
  * @param codigoReserva código da reserva a ser cancelada
  * @param dataSolicitacao data/hora da solicitação de cancelamento
+ * @param cpfOuCnpjCliente CPF ou CNPJ do cliente que está cancelando (para validação de autorização)
  */
 public record CancelarReservaCmd(
         String codigoReserva,
-        LocalDateTime dataSolicitacao) {
+        LocalDateTime dataSolicitacao,
+        String cpfOuCnpjCliente) {
 
     public CancelarReservaCmd {
         Objects.requireNonNull(codigoReserva, "Código da reserva é obrigatório");
@@ -19,6 +21,10 @@ public record CancelarReservaCmd(
             throw new IllegalArgumentException("Código da reserva não pode estar vazio");
         }
         Objects.requireNonNull(dataSolicitacao, "Data de solicitação é obrigatória");
+        Objects.requireNonNull(cpfOuCnpjCliente, "CPF/CNPJ do cliente é obrigatório");
+        if (cpfOuCnpjCliente.isBlank()) {
+            throw new IllegalArgumentException("CPF/CNPJ do cliente não pode estar vazio");
+        }
     }
 }
 

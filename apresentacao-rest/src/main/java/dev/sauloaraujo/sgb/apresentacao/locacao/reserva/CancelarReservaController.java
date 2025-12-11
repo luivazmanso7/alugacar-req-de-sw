@@ -11,9 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.sauloaraujo.sgb.aplicacao.locacao.reserva.CancelarReservaCmd;
 import dev.sauloaraujo.sgb.aplicacao.locacao.reserva.CancelarReservaResponse;
 import dev.sauloaraujo.sgb.aplicacao.locacao.reserva.ReservaServicoAplicacao;
+import dev.sauloaraujo.sgb.dominio.locacao.cliente.Cliente;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * Controller REST para cancelamento de reservas.
+ * Apenas coordena a requisição HTTP e delega para a camada de aplicação.
+ * A validação de propriedade (cliente só pode cancelar suas próprias reservas)
+ * é feita no DOMÍNIO (regra de negócio), respeitando DDD rigorosamente.
+ */
 @RestController
 @RequestMapping("/reservas")
 @Tag(name = "Reservas", description = "Operações de cancelamento de reservas")
@@ -27,16 +35,29 @@ public class CancelarReservaController {
 
     @DeleteMapping("/{codigoReserva}")
     @Operation(summary = "Cancelar reserva",
-               description = "Cancela uma reserva ativa. Requer pelo menos 12 horas antes da data de retirada.")
-    public ResponseEntity<CancelarReservaResponse> cancelar(@PathVariable String codigoReserva) {
+               description = "Cancela uma reserva ativa do cliente autenticado. Requer pelo menos 12 horas antes da data de retirada.")
+    public ResponseEntity<CancelarReservaResponse> cancelar(
+            @PathVariable String codigoReserva,
+            HttpServletRequest httpRequest) {
 
-        // Usa a data/hora atual como data de solicitação
-        var comando = new CancelarReservaCmd(codigoReserva, LocalDateTime.now());
+        // 1. Obter cliente autenticado do interceptor (já validado pelo interceptor)
+        Cliente cliente = (Cliente) httpRequest.getAttribute("clienteAutenticado");
+        if (cliente == null) {
+            return ResponseEntity.status(401).build();
+        }
 
-        // Chama o serviço de aplicação
+        // 2. Criar comando com dados do cancelamento
+        // A validação de propriedade será feita no domínio (regra de negócio)
+        var comando = new CancelarReservaCmd(
+                codigoReserva,
+                LocalDateTime.now(),
+                cliente.getCpfOuCnpj()
+        );
+
+        // 3. Chama o serviço de aplicação (que delega TODAS as regras para o domínio)
         var response = servico.cancelar(comando);
 
-        // Retorna resposta
+        // 4. Retorna resposta
         return ResponseEntity.ok(response);
     }
 }

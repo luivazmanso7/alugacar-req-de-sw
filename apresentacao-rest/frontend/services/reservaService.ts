@@ -65,4 +65,49 @@ export const reservaService = {
 
     return await response.json();
   },
+
+  // Cancelar reserva (do cliente logado) - usa API route do Next.js
+  async cancelar(codigoReserva: string): Promise<CancelarReservaResponse> {
+    const response = await fetch(`/api/reservas/${codigoReserva}`, {
+      method: "DELETE",
+      credentials: "include", // Importante para cookies
+    });
+
+    if (!response.ok) {
+      // Verificar se a resposta é JSON antes de tentar parsear
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const error = await response.json();
+        if (response.status === 401) {
+          throw new Error("Não autenticado");
+        }
+        if (response.status === 403) {
+          throw new Error("Você não tem permissão para cancelar esta reserva");
+        }
+        throw new Error(
+          error.message || error.error || "Erro ao cancelar reserva"
+        );
+      } else {
+        // Se não for JSON, ler como texto para ver o erro
+        const errorText = await response.text();
+        console.error(
+          "Erro não-JSON do servidor:",
+          errorText.substring(0, 200)
+        );
+        throw new Error(
+          `Erro ${response.status}: ${
+            response.statusText || "Erro ao cancelar reserva"
+          }`
+        );
+      }
+    }
+
+    return await response.json();
+  },
 };
+
+export interface CancelarReservaResponse {
+  codigoReserva: string;
+  status: string;
+  tarifaCancelamento: number;
+}

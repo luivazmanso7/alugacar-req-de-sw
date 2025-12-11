@@ -23,7 +23,14 @@ public class CancelarReservaFuncionalidade extends AlugacarFuncionalidade {
 	@Quando("eu solicito o cancelamento da reserva {string} em {string}")
 	public void eu_solicito_o_cancelamento_da_reserva_em(String codigoReserva, String data) {
 		try {
-			resultado = reservaCancelamentoServico.cancelar(codigoReserva, LocalDateTime.parse(data));
+			// Buscar a reserva para obter o CPF do cliente (regra de negócio: só o dono pode cancelar)
+			var reservaOpt = repositorio.buscarPorCodigo(codigoReserva);
+			if (reservaOpt.isEmpty()) {
+				registrarErro(new IllegalArgumentException("Reserva não encontrada"));
+				return;
+			}
+			var cpfCliente = reservaOpt.get().getCliente().getCpfOuCnpj();
+			resultado = reservaCancelamentoServico.cancelar(codigoReserva, cpfCliente, LocalDateTime.parse(data));
 		} catch (RuntimeException ex) {
 			registrarErro(ex);
 		}

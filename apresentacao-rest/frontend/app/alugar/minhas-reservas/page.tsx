@@ -2,7 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { reservaService, ReservaResponse } from "@/services/reservaService";
+import {
+  reservaService,
+  ReservaResponse,
+  CancelarReservaResponse,
+} from "@/services/reservaService";
 import { authService } from "@/services/authService";
 import {
   Calendar,
@@ -11,6 +15,8 @@ import {
   Tag,
   User,
   FileText,
+  X,
+  AlertCircle,
 } from "lucide-react";
 
 export default function MinhasReservasPage() {
@@ -18,6 +24,7 @@ export default function MinhasReservasPage() {
   const [reservas, setReservas] = useState<ReservaResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [cancelandoCodigo, setCancelandoCodigo] = useState<string | null>(null);
 
   useEffect(() => {
     const carregarReservas = async () => {
@@ -70,12 +77,14 @@ export default function MinhasReservasPage() {
   const getStatusColor = (status: string) => {
     switch (status.toUpperCase()) {
       case "CONFIRMADA":
+      case "ATIVA":
         return "bg-green-100 text-green-800";
       case "PENDENTE":
         return "bg-yellow-100 text-yellow-800";
       case "CANCELADA":
         return "bg-red-100 text-red-800";
       case "FINALIZADA":
+      case "CONCLUIDA":
         return "bg-blue-100 text-blue-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -85,15 +94,55 @@ export default function MinhasReservasPage() {
   const getStatusLabel = (status: string) => {
     switch (status.toUpperCase()) {
       case "CONFIRMADA":
+      case "ATIVA":
         return "Confirmada";
       case "PENDENTE":
         return "Pendente";
       case "CANCELADA":
         return "Cancelada";
       case "FINALIZADA":
+      case "CONCLUIDA":
         return "Finalizada";
       default:
         return status;
+    }
+  };
+
+  const podeCancelar = (reserva: ReservaResponse) => {
+    // Só pode cancelar reservas ATIVAS/CONFIRMADAS
+    const status = reserva.status.toUpperCase();
+    if (status !== "ATIVA" && status !== "CONFIRMADA") {
+      return false;
+    }
+
+    // Verificar se há pelo menos 12 horas antes da retirada
+    const dataRetirada = new Date(reserva.dataRetirada);
+    const agora = new Date();
+    const horasRestantes =
+      (dataRetirada.getTime() - agora.getTime()) / (1000 * 60 * 60);
+
+    return horasRestantes >= 12;
+  };
+
+  const handleCancelar = async (codigoReserva: string) => {
+    if (!confirm("Tem certeza que deseja cancelar esta reserva?")) {
+      return;
+    }
+
+    try {
+      setCancelandoCodigo(codigoReserva);
+      setError(null);
+
+      await reservaService.cancelar(codigoReserva);
+
+      // Recarregar lista de reservas
+      const minhasReservas = await reservaService.listarMinhas();
+      setReservas(minhasReservas);
+    } catch (err: any) {
+      console.error("Erro ao cancelar reserva:", err);
+      setError(err.message || "Erro ao cancelar reserva");
+    } finally {
+      setCancelandoCodigo(null);
     }
   };
 
@@ -229,7 +278,7 @@ export default function MinhasReservasPage() {
                   </div>
 
                   {/* Período */}
-                  <div className="border-t border-gray-200 pt-4">
+                  <div className="border-t border-gray-200 pt-4 mb-4">
                     <div className="flex items-center text-gray-700 mb-2">
                       <Calendar className="w-5 h-5 mr-2 text-blue-600" />
                       <span className="font-semibold">Período de Locação</span>
@@ -253,9 +302,56 @@ export default function MinhasReservasPage() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Botão de Cancelar */}
+                  {podeCancelar(reserva) ? (
+                    <div className="border-t border-gray-200 pt-4">
+                      <button
+                        onClick={() => handleCancelar(reserva.codigo)}
+                        disabled={cancelandoCodigo === reserva.codigo}
+                        className="w-full md:w-auto bg-red-600 hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                      >
+                        {cancelandoCodigo === reserva.codigo ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                            Cancelando...
+                          </>
+                        ) : (
+                          <>
+                            <X className="w-4 h-4" />
+                            Cancelar Reserva
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  ) : reserva.status.toUpperCase() !== "CANCELADA" &&
+                    reserva.status.toUpperCase() !== "CONCLUIDA" &&
+                    reserva.status.toUpperCase() !== "FINALIZADA" ? (
+                    <div className="border-t border-gray-200 pt-4">
+                      <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg flex items-start gap-2">
+                        <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-sm mb-1">
+                            Cancelamento não disponível
+                          </p>
+                          <p className="text-xs">
+                            O cancelamento só é permitido com pelo menos 12
+                            horas de antecedência antes da data de retirada.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Mensagem de erro global */}
+        {error && (
+          <div className="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            {error}
           </div>
         )}
       </div>

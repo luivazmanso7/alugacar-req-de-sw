@@ -69,18 +69,26 @@ public class ReservaServicoAplicacao {
 
     /**
      * Cancela uma reserva.
-     * Delega a lógica de negócio para o domínio e garante a transação.
+     * Delega TODAS as regras de negócio para o domínio.
+     * A camada de aplicação apenas coordena e converte DTOs.
      * 
      * @param comando comando contendo os dados do cancelamento
      * @return resposta com informações do cancelamento incluindo tarifa
+     * @throws IllegalArgumentException se a reserva não for encontrada ou não pertencer ao cliente
+     * @throws IllegalStateException se não houver 12 horas de antecedência ou reserva não estiver ativa
      */
     @Transactional
     public CancelarReservaResponse cancelar(CancelarReservaCmd comando) {
         Objects.requireNonNull(comando, "Comando de cancelamento é obrigatório");
 
-        // Delega para o serviço de domínio que executa toda a lógica de negócio
+        // Delega TODAS as regras de negócio para o domínio:
+        // - Validação de propriedade (reserva pertence ao cliente)
+        // - Validação de 12 horas de antecedência
+        // - Validação de status (reserva deve estar ativa)
+        // - Cálculo de tarifa
         var resultado = cancelamentoServico.cancelar(
                 comando.codigoReserva(),
+                comando.cpfOuCnpjCliente(),
                 comando.dataSolicitacao()
         );
 
