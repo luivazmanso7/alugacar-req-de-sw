@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dev.sauloaraujo.sgb.dominio.locacao.reserva.Reserva;
+import dev.sauloaraujo.sgb.dominio.locacao.reserva.ReservaCancelamentoServico;
+import dev.sauloaraujo.sgb.dominio.locacao.reserva.ReservaReplanejamentoServico;
 import dev.sauloaraujo.sgb.dominio.locacao.reserva.ReservaServico;
 
 /**
@@ -19,9 +21,16 @@ import dev.sauloaraujo.sgb.dominio.locacao.reserva.ReservaServico;
 public class ReservaServicoAplicacao {
 
     private final ReservaServico reservaServico;
+    private final ReservaCancelamentoServico cancelamentoServico;
+    private final ReservaReplanejamentoServico replanejamentoServico;
 
-    public ReservaServicoAplicacao(ReservaServico reservaServico) {
+    public ReservaServicoAplicacao(
+            ReservaServico reservaServico,
+            ReservaCancelamentoServico cancelamentoServico,
+            ReservaReplanejamentoServico replanejamentoServico) {
         this.reservaServico = notNull(reservaServico, "Serviço de reserva de domínio é obrigatório");
+        this.cancelamentoServico = notNull(cancelamentoServico, "Serviço de cancelamento é obrigatório");
+        this.replanejamentoServico = notNull(replanejamentoServico, "Serviço de replanejamento é obrigatório");
     }
 
     /**
@@ -56,6 +65,52 @@ public class ReservaServicoAplicacao {
      */
     private String gerarCodigoReserva() {
         return "RES-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
+    /**
+     * Cancela uma reserva.
+     * Delega a lógica de negócio para o domínio e garante a transação.
+     * 
+     * @param comando comando contendo os dados do cancelamento
+     * @return resposta com informações do cancelamento incluindo tarifa
+     */
+    @Transactional
+    public CancelarReservaResponse cancelar(CancelarReservaCmd comando) {
+        Objects.requireNonNull(comando, "Comando de cancelamento é obrigatório");
+
+        // Delega para o serviço de domínio que executa toda a lógica de negócio
+        var resultado = cancelamentoServico.cancelar(
+                comando.codigoReserva(),
+                comando.dataSolicitacao()
+        );
+
+        // Converte resultado de domínio para DTO de resposta
+        return new CancelarReservaResponse(
+                resultado.reserva().getCodigo(),
+                resultado.reserva().getStatus().name(),
+                resultado.tarifa()
+        );
+    }
+
+    /**
+     * Altera o período de uma reserva (replanejamento).
+     * Delega a lógica de negócio para o domínio e garante a transação.
+     * 
+     * @param comando comando contendo os dados da alteração
+     * @return resumo da reserva alterada
+     */
+    @Transactional
+    public ReservaResumo alterar(AlterarReservaCmd comando) {
+        Objects.requireNonNull(comando, "Comando de alteração é obrigatório");
+
+        // Delega para o serviço de domínio que executa toda a lógica de negócio
+        Reserva reserva = replanejamentoServico.replanejar(
+                comando.codigoReserva(),
+                comando.novoPeriodo()
+        );
+
+        // Converte entidade de domínio para DTO de resumo
+        return toResumo(reserva);
     }
 
     /**
