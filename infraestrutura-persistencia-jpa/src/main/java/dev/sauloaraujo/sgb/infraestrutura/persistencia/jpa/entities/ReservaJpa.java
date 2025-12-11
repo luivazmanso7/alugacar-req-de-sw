@@ -115,7 +115,7 @@ class ReservaJpa {
 interface ReservaJpaRepository extends JpaRepository<ReservaJpa, String> {
 }
 
-@Repository
+@Repository("reservaRepositorioReal")
 class ReservaRepositorioImpl implements ReservaRepositorio {
 
 	@Autowired
@@ -132,6 +132,7 @@ class ReservaRepositorioImpl implements ReservaRepositorio {
 
 	@Override
 	public Optional<Reserva> buscarPorCodigo(String codigo) {
+		System.out.println("[REAL] Buscando no banco...");
 		return repositorio.findById(codigo)
 				.map(jpa -> mapeador.map(jpa, Reserva.class));
 	}
