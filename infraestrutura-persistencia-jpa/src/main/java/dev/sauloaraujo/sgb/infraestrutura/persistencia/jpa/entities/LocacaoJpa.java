@@ -148,6 +148,13 @@ class LocacaoRepositorioImpl implements LocacaoRepositorio, LocacaoRepositorioAp
     }
 
     @Override
+    public List<LocacaoResumo> listarEmAndamento() {
+        return repositorio.findByStatus(StatusLocacao.EM_ANDAMENTO).stream()
+                .map(this::converterParaResumo)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<LocacaoResumo> listarPorCliente(String cpfOuCnpj) {
         return repositorio.findByReserva_Cliente_CpfOuCnpj(cpfOuCnpj).stream()
                 .map(this::converterParaResumo)

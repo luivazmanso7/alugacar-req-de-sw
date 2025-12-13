@@ -45,7 +45,7 @@ export default function Sidebar({ children }: SidebarProps) {
         {
           name: "Devolução",
           icon: RotateCcw,
-          href: "/devolucao",
+          href: "/admin/devolucao",
         },
       ],
     },

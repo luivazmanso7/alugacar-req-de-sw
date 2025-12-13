@@ -39,6 +39,10 @@ public class LocacaoServicoAplicacao {
         return repositorioLeitura.listarAtivas();
     }
     
+    public List<LocacaoResumo> listarEmAndamento() {
+        return repositorioLeitura.listarEmAndamento();
+    }
+    
     public List<LocacaoResumo> listarPorCliente(String cpfOuCnpj) {
         return repositorioLeitura.listarPorCliente(cpfOuCnpj);
     }

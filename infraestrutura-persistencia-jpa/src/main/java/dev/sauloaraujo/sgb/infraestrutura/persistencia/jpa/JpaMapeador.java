@@ -21,6 +21,7 @@ import dev.sauloaraujo.sgb.dominio.locacao.operacao.Locacao;
 import dev.sauloaraujo.sgb.dominio.locacao.patio.Patio;
 import dev.sauloaraujo.sgb.dominio.locacao.reserva.Reserva;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.PeriodoLocacao;
+import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusLocacao;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusReserva;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.AdministradorJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.CategoriaJpa;
@@ -566,16 +567,26 @@ public class JpaMapeador extends ModelMapper {
 						vistoriaRetirada = new ChecklistVistoria(quilometragem, combustivel, possuiAvarias);
 					}
 
-					// Criar Locacao
+					// Criar Locacao com o status do banco
 					Locacao locacao;
 					try {
-						locacao = new Locacao(source.getCodigo(), reserva, veiculo,
-								source.getDiasPrevistos(), source.getValorDiaria(), vistoriaRetirada);
+						var status = source.getStatus() != null ? source.getStatus() : StatusLocacao.ATIVA;
+						locacao = new Locacao(
+								source.getCodigo(), 
+								reserva, 
+								veiculo,
+								source.getDiasPrevistos(), 
+								source.getValorDiaria(), 
+								vistoriaRetirada,
+								new dev.sauloaraujo.sgb.dominio.locacao.operacao.MultaPadraoStrategy(),
+								status
+						);
 					} catch (Exception e) {
 						throw new IllegalStateException(
 								"Erro ao criar Locacao (codigo: " + source.getCodigo() + 
 								", diasPrevistos: " + source.getDiasPrevistos() + 
-								", valorDiaria: " + source.getValorDiaria() + "): " + e.getMessage(), 
+								", valorDiaria: " + source.getValorDiaria() + 
+								", status: " + source.getStatus() + "): " + e.getMessage(), 
 								e
 						);
 					}

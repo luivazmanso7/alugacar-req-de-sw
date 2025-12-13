@@ -33,6 +33,21 @@ public class Locacao {
 		this.status = StatusLocacao.ATIVA;
 	}
 
+	public Locacao(String codigo, Reserva reserva, Veiculo veiculo, int diasPrevistos, BigDecimal valorDiaria,
+			ChecklistVistoria vistoriaRetirada, CalculoMultaStrategy estrategiaMulta, StatusLocacao statusInicial) {
+		this.codigo = Objects.requireNonNull(codigo, "O código da locação é obrigatório");
+		this.reserva = Objects.requireNonNull(reserva, "A reserva é obrigatória");
+		this.veiculo = Objects.requireNonNull(veiculo, "O veículo é obrigatório");
+		if (diasPrevistos <= 0) {
+			throw new IllegalArgumentException("Dias previstos devem ser positivos");
+		}
+		this.diasPrevistos = diasPrevistos;
+		this.valorDiaria = Objects.requireNonNull(valorDiaria, "O valor da diária é obrigatório");
+		this.vistoriaRetirada = Objects.requireNonNull(vistoriaRetirada, "A vistoria de retirada é obrigatória");
+		this.estrategiaMulta = Objects.requireNonNull(estrategiaMulta, "A estratégia de cálculo de multa é obrigatória");
+		this.status = Objects.requireNonNull(statusInicial, "O status inicial é obrigatório");
+	}
+
 	/**
 	 * Construtor de conveniência que utiliza a estratégia de multa padrão.
 	 */
@@ -138,8 +153,8 @@ public class Locacao {
 		if (this.status == StatusLocacao.FINALIZADA) {
 			throw new IllegalStateException("Locação " + this.codigo + " já foi finalizada");
 		}
-		if (this.status != StatusLocacao.ATIVA) {
-			throw new IllegalStateException("Locação " + this.codigo + " não está ativa");
+		if (this.status != StatusLocacao.EM_ANDAMENTO) {
+			throw new IllegalStateException("Locação " + this.codigo + " não está em andamento. Status atual: " + this.status);
 		}
 	}
 	
@@ -164,8 +179,11 @@ public class Locacao {
 
 	public Faturamento finalizar(int diasUtilizados, int diasAtraso, BigDecimal percentualMultaAtraso,
 			BigDecimal taxaCombustivel, boolean enviarParaManutencao) {
-		if (!status.ativa()) {
+		if (status == StatusLocacao.FINALIZADA) {
 			throw new IllegalStateException("A locação já foi finalizada");
+		}
+		if (status != StatusLocacao.EM_ANDAMENTO) {
+			throw new IllegalStateException("A locação não está em andamento. Status atual: " + status);
 		}
 
 		var diarias = calcularDiarias(diasUtilizados);

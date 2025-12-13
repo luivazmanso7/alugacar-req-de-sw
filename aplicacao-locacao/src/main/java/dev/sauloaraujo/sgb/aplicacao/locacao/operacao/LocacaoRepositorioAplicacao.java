@@ -14,5 +14,7 @@ public interface LocacaoRepositorioAplicacao {
 	
 	List<LocacaoResumo> listarAtivas();
 	
+	List<LocacaoResumo> listarEmAndamento();
+	
 	List<LocacaoResumo> listarPorCliente(String cpfOuCnpj);
 }

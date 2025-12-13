@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.sauloaraujo.sgb.aplicacao.locacao.operacao.LocacaoServicoAplicacao;
-import dev.sauloaraujo.sgb.dominio.locacao.operacao.Faturamento;
 import dev.sauloaraujo.sgb.dominio.locacao.operacao.ProcessarDevolucaoCommand;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,8 +19,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/locacoes")
-@Tag(name = "Devoluções", description = "Operações de devolução de veículos")
+@RequestMapping("/admin/locacoes")
+@Tag(name = "Devoluções Admin", description = "Operações de devolução de veículos para administradores")
 public class DevolucaoController {
 
     private final LocacaoServicoAplicacao servico;
@@ -30,9 +29,9 @@ public class DevolucaoController {
         this.servico = servico;
     }
 
-    @PostMapping("/{codigo}/devolucao")
-    @Operation(summary = "Registrar Devolução", description = "Finaliza a locação e calcula o faturamento")
-    public ResponseEntity<FaturamentoResponse> registrarDevolucao(
+    @PostMapping("/{codigo}/processar-devolucao")
+    @Operation(summary = "Processar Devolução", description = "Processa a devolução de uma locação ativa e calcula o faturamento")
+    public ResponseEntity<FaturamentoResponse> processarDevolucao(
             @PathVariable String codigo,
             @Valid @RequestBody DevolucaoRequest request) {
 
@@ -42,7 +41,6 @@ public class DevolucaoController {
                 .quilometragem(request.quilometragem())
                 .combustivel(request.combustivel())
                 .possuiAvarias(request.possuiAvarias())
-                .taxaCombustivel(request.taxaExtra())
                 .diasUtilizados(0)
                 .diasAtraso(0)
                 .percentualMultaAtraso(BigDecimal.ZERO)
@@ -71,9 +69,7 @@ record DevolucaoRequest(
     String combustivel,
     
     @NotNull 
-    boolean possuiAvarias,
-    
-    BigDecimal taxaExtra
+    boolean possuiAvarias
 ) {}
 
 record FaturamentoResponse(
