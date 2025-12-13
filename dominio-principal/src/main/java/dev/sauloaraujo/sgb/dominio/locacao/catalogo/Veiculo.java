@@ -134,4 +134,12 @@ public class Veiculo {
 	public void removerDoPatio() {
 		patio = null;
 	}
+
+	public boolean precisaAgendarManutencao() {
+		return status == StatusVeiculo.EM_MANUTENCAO && manutencaoPrevista == null;
+	}
+
+	public boolean temManutencaoAgendada() {
+		return status == StatusVeiculo.EM_MANUTENCAO && manutencaoPrevista != null;
+	}
 }

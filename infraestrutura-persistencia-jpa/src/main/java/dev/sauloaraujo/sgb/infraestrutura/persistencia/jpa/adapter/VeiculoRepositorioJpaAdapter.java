@@ -54,4 +54,11 @@ public class VeiculoRepositorioJpaAdapter implements VeiculoRepositorio {
         var veiculosJpa = jpaRepository.findDisponiveisPorCidade(cidade);
         return mapeador.mapList(veiculosJpa, Veiculo.class);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Veiculo> buscarQuePrecisamManutencao() {
+        var veiculosJpa = jpaRepository.findQuePrecisamManutencao();
+        return mapeador.mapList(veiculosJpa, Veiculo.class);
+    }
 }

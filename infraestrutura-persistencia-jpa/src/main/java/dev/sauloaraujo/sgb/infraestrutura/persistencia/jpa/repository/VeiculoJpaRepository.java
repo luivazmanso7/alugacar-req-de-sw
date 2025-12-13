@@ -30,4 +30,12 @@ public interface VeiculoJpaRepository extends JpaRepository<VeiculoJpa, String> 
      */
     @Query("SELECT v FROM VeiculoJpa v WHERE v.cidade = :cidade AND v.status = 'DISPONIVEL'")
     List<VeiculoJpa> findDisponiveisPorCidade(@Param("cidade") String cidade);
+
+    /**
+     * Busca veículos que precisam de manutenção (EM_MANUTENCAO sem data prevista).
+     * Esses são veículos que foram enviados para manutenção devido a avarias,
+     * mas ainda não tiveram a manutenção agendada.
+     */
+    @Query("SELECT v FROM VeiculoJpa v WHERE v.status = 'EM_MANUTENCAO' AND v.manutencaoPrevista IS NULL")
+    List<VeiculoJpa> findQuePrecisamManutencao();
 }

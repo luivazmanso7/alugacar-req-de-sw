@@ -66,6 +66,13 @@ public class InMemoryRepositorio implements CategoriaRepositorio, VeiculoReposit
 	}
 
 	@Override
+	public List<Veiculo> buscarQuePrecisamManutencao() {
+		return veiculos.values().stream()
+				.filter(veiculo -> veiculo.precisaAgendarManutencao())
+				.toList();
+	}
+
+	@Override
 	public void salvar(Reserva reserva) {
 		reservas.put(reserva.getCodigo(), reserva);
 		var documento = reserva.getCliente().getCpfOuCnpj();

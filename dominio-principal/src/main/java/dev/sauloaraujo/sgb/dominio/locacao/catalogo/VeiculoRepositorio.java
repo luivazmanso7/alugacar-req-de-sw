@@ -11,4 +11,6 @@ public interface VeiculoRepositorio {
 	List<Veiculo> buscarDisponiveis(String cidade, CategoriaCodigo categoria);
 
 	List<Veiculo> buscarDisponiveis(String cidade);
+
+	List<Veiculo> buscarQuePrecisamManutencao();
 }

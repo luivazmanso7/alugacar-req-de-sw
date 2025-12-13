@@ -13,6 +13,7 @@ import {
   HelpCircle,
   ChevronLeft,
   Menu,
+  Wrench,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -46,6 +47,11 @@ export default function Sidebar({ children }: SidebarProps) {
           name: "Devolução",
           icon: RotateCcw,
           href: "/admin/devolucao",
+        },
+        {
+          name: "Manutenção",
+          icon: Wrench,
+          href: "/admin/manutencao",
         },
       ],
     },

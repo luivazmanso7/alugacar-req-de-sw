@@ -39,6 +39,7 @@ public class AutenticacaoAdminController {
         Administrador administrador = autenticacaoServico.autenticar(comando);
         
         session.setAttribute(SESSION_ADMIN, administrador);
+        session.setMaxInactiveInterval(60 * 60 * 8);
         
         var response = new LoginAdminResponse(
                 administrador.getNome(),

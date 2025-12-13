@@ -18,17 +18,25 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/veiculos")
-@Tag(name = "Manutenção de Veículos", description = "Operações de agendamento de manutenção de veículos")
-public class ManutencaoController {
+@RequestMapping("/admin/veiculos")
+@Tag(name = "Manutenção Admin", description = "Operações de manutenção de veículos para administradores")
+public class AdminManutencaoController {
 
     private final ManutencaoServicoAplicacao manutencaoServicoAplicacao;
 
-    public ManutencaoController(ManutencaoServicoAplicacao manutencaoServicoAplicacao) {
+    public AdminManutencaoController(ManutencaoServicoAplicacao manutencaoServicoAplicacao) {
         this.manutencaoServicoAplicacao = manutencaoServicoAplicacao;
     }
 
-    @PostMapping("/{placa}/manutencao")
+    @GetMapping("/precisam-manutencao")
+    @Operation(summary = "Listar veículos que precisam de manutenção",
+               description = "Retorna veículos que foram enviados para manutenção devido a avarias, mas ainda não tiveram a manutenção agendada")
+    public ResponseEntity<List<VeiculoManutencaoResumo>> listarQuePrecisamManutencao() {
+        var veiculos = manutencaoServicoAplicacao.listarQuePrecisamManutencao();
+        return ResponseEntity.ok(veiculos);
+    }
+
+    @PostMapping("/{placa}/agendar-manutencao")
     @Operation(summary = "Agendar manutenção de veículo",
                description = "Agenda manutenção para o veículo informado e publica evento de domínio")
     public ResponseEntity<Void> agendarManutencao(
@@ -44,12 +52,5 @@ public class ManutencaoController {
 
         return ResponseEntity.accepted().build();
     }
-
-    @GetMapping("/precisam-manutencao")
-    @Operation(summary = "Listar veículos que precisam de manutenção",
-               description = "Retorna veículos que foram enviados para manutenção devido a avarias, mas ainda não tiveram a manutenção agendada")
-    public ResponseEntity<List<VeiculoManutencaoResumo>> listarQuePrecisamManutencao() {
-        var veiculos = manutencaoServicoAplicacao.listarQuePrecisamManutencao();
-        return ResponseEntity.ok(veiculos);
-    }
 }
+

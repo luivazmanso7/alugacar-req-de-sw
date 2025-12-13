@@ -44,6 +44,8 @@ public class AdminInterceptor implements HandlerInterceptor {
             return false;
         }
         
+        session.setMaxInactiveInterval(60 * 60 * 8);
+        
         request.setAttribute("administradorAutenticado", administrador);
         return true;
     }
