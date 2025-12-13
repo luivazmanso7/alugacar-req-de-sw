@@ -35,19 +35,15 @@ public class RetiradaController {
             @PathVariable String codigoReserva,
             @Valid @RequestBody ConfirmarRetiradaRequest request) {
 
-        // 1. Converter Request (JSON) -> Command (Aplicação)
         var comando = new ConfirmarRetiradaCmd(
                 codigoReserva,
                 request.placaVeiculo(),
-                request.documentosValidos(),
+                request.documentosValidos() != null && request.documentosValidos(),
                 request.quilometragem(),
                 request.combustivel()
         );
 
-        // 2. Chamar Aplicação
         var contrato = servico.confirmar(comando);
-
-        // 3. Retornar Resposta
         return ResponseEntity.status(201).body(contrato);
     }
 }

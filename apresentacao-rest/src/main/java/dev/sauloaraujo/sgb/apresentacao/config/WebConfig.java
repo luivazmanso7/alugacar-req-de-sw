@@ -21,20 +21,15 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        System.out.println("🔧 Registrando AutenticacaoInterceptor...");
-        // IMPORTANTE: Como o context path é /api/v1, os path patterns são relativos ao context path
-        // Então /api/v1/reservas vira apenas /reservas no interceptor
         registry.addInterceptor(autenticacaoInterceptor)
-                .addPathPatterns("/**")  // Intercepta todas as rotas dentro do context path
+                .addPathPatterns("/**")
                 .excludePathPatterns(
-                    "/auth/login",        // Relativo ao context path
-                    "/veiculos/**",       // Relativo ao context path
-                    "/categorias/**",     // Relativo ao context path
-                    "/swagger-ui/**",     // Relativo ao context path
-                    "/api-docs/**",       // Relativo ao context path
-                    "/reservas"           // Endpoint público para listar reservas (admin)
+                    "/auth/login",
+                    "/veiculos/**",
+                    "/categorias/**",
+                    "/swagger-ui/**",
+                    "/api-docs/**"
                 );
-        System.out.println("✅ AutenticacaoInterceptor registrado com sucesso!");
     }
 }
 

@@ -38,13 +38,11 @@ public class CriarReservaController {
             @Valid @RequestBody CriarReservaRequest request,
             HttpServletRequest httpRequest) {
 
-        // 1. Obter cliente autenticado do interceptor (já validado pelo interceptor)
         Cliente cliente = (Cliente) httpRequest.getAttribute("clienteAutenticado");
         if (cliente == null) {
             return ResponseEntity.status(401).build();
         }
 
-        // 2. Converter Request (JSON) -> Command (Domínio)
         var periodo = new PeriodoLocacao(
                 request.periodo().dataRetirada(),
                 request.periodo().dataDevolucao()
@@ -54,14 +52,11 @@ public class CriarReservaController {
                 CategoriaCodigo.valueOf(request.categoriaCodigo()),
                 request.cidadeRetirada(),
                 periodo,
-                cliente, // Usar cliente autenticado
-                request.placaVeiculo() // Placa do veículo específico
+                cliente,
+                request.placaVeiculo()
         );
 
-        // 3. Chamar Aplicação
         var resumo = servico.criar(comando);
-
-        // 4. Retornar Resposta
         return ResponseEntity.status(201).body(new ReservaResponse(
                 resumo.codigo(),
                 resumo.categoria(),
