@@ -55,6 +55,9 @@ public class ReservaJpa {
 
 	@Column(name = "placa_veiculo", nullable = false, length = 10)
 	private String placaVeiculo;
+	
+	@Embedded
+	private RetiradaInfoJpa retiradaInfo;
 
 	public ReservaJpa() {
 	}
@@ -121,6 +124,14 @@ public class ReservaJpa {
 
 	public void setPlacaVeiculo(String placaVeiculo) {
 		this.placaVeiculo = placaVeiculo;
+	}
+	
+	public RetiradaInfoJpa getRetiradaInfo() {
+		return retiradaInfo;
+	}
+	
+	public void setRetiradaInfo(RetiradaInfoJpa retiradaInfo) {
+		this.retiradaInfo = retiradaInfo;
 	}
 }
 

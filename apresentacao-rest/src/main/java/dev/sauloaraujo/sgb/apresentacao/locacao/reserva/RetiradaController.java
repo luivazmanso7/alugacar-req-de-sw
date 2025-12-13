@@ -1,5 +1,7 @@
 package dev.sauloaraujo.sgb.apresentacao.locacao.reserva;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.sauloaraujo.sgb.aplicacao.locacao.operacao.ConfirmarRetiradaCmd;
-import dev.sauloaraujo.sgb.aplicacao.locacao.operacao.ContratoResponse;
-import dev.sauloaraujo.sgb.aplicacao.locacao.operacao.RetiradaServicoAplicacao;
+import dev.sauloaraujo.sgb.aplicacao.locacao.reserva.ConfirmarRetiradaCmd;
+import dev.sauloaraujo.sgb.aplicacao.locacao.reserva.ConfirmarRetiradaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -18,49 +19,54 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/reservas")
-@Tag(name = "Retirada de Veículos", description = "Operações de confirmação de retirada e geração de contrato")
+@RequestMapping("/admin/reservas")
+@Tag(name = "Retirada de Veículos", description = "Operações de confirmação de retirada")
 public class RetiradaController {
 
-    private final RetiradaServicoAplicacao servico;
+    private final ConfirmarRetiradaService servico;
 
-    public RetiradaController(RetiradaServicoAplicacao servico) {
+    public RetiradaController(ConfirmarRetiradaService servico) {
         this.servico = servico;
     }
 
     @PostMapping("/{codigoReserva}/confirmar-retirada")
     @Operation(summary = "Confirmar retirada de veículo",
-               description = "Confirma a retirada de um veículo, cria a locação e gera o contrato")
-    public ResponseEntity<ContratoResponse> confirmarRetirada(
+               description = "Confirma a retirada de um veículo, transformando a reserva em EM_ANDAMENTO")
+    public ResponseEntity<Void> confirmarRetirada(
             @PathVariable String codigoReserva,
             @Valid @RequestBody ConfirmarRetiradaRequest request) {
 
         var comando = new ConfirmarRetiradaCmd(
                 codigoReserva,
                 request.placaVeiculo(),
-                request.documentosValidos() != null && request.documentosValidos(),
-                request.quilometragem(),
-                request.combustivel()
+                request.cnhCondutor(),
+                request.dataHoraRetirada(),
+                request.quilometragemSaida(),
+                request.nivelTanqueSaida(),
+                request.observacoes()
         );
 
-        var contrato = servico.confirmar(comando);
-        return ResponseEntity.status(201).body(contrato);
+        servico.confirmarRetirada(comando);
+        return ResponseEntity.status(200).build();
     }
 }
-
-// DTOs de Request
 
 record ConfirmarRetiradaRequest(
         @NotBlank(message = "Placa do veículo é obrigatória")
         String placaVeiculo,
 
-        @NotNull(message = "Validação de documentos é obrigatória")
-        Boolean documentosValidos,
+        @NotBlank(message = "CNH do condutor é obrigatória")
+        String cnhCondutor,
 
-        @Min(value = 0, message = "Quilometragem não pode ser negativa")
-        int quilometragem,
+        @NotNull(message = "Data e hora da retirada são obrigatórias")
+        LocalDateTime dataHoraRetirada,
 
-        @NotBlank(message = "Nível de combustível é obrigatório")
-        String combustivel
+        @Min(value = 0, message = "Quilometragem de saída não pode ser negativa")
+        long quilometragemSaida,
+
+        @NotBlank(message = "Nível do tanque é obrigatório")
+        String nivelTanqueSaida,
+
+        String observacoes
 ) {}
 

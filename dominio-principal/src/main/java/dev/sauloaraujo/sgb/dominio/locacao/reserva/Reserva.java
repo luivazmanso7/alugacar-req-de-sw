@@ -5,7 +5,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
+import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Veiculo;
 import dev.sauloaraujo.sgb.dominio.locacao.cliente.Cliente;
+import dev.sauloaraujo.sgb.dominio.locacao.reserva.RetiradaInfo;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.PeriodoLocacao;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusReserva;
 
@@ -18,6 +20,7 @@ public class Reserva {
 	private BigDecimal valorEstimado;
 	private StatusReserva status;
 	private final String placaVeiculo;
+	private RetiradaInfo retiradaInfo;
 
 	public Reserva(CategoriaCodigo categoria, String cidadeRetirada, PeriodoLocacao periodo, BigDecimal valorEstimado,
 			Cliente cliente, String placaVeiculo) {
@@ -27,6 +30,11 @@ public class Reserva {
 
 	public Reserva(String codigo, CategoriaCodigo categoria, String cidadeRetirada, PeriodoLocacao periodo,
 			BigDecimal valorEstimado, StatusReserva status, Cliente cliente, String placaVeiculo) {
+		this(codigo, categoria, cidadeRetirada, periodo, valorEstimado, status, cliente, placaVeiculo, null);
+	}
+	
+	public Reserva(String codigo, CategoriaCodigo categoria, String cidadeRetirada, PeriodoLocacao periodo,
+			BigDecimal valorEstimado, StatusReserva status, Cliente cliente, String placaVeiculo, RetiradaInfo retiradaInfo) {
 		this.codigo = Objects.requireNonNull(codigo, "O código da reserva é obrigatório");
 		this.categoria = Objects.requireNonNull(categoria, "A categoria é obrigatória");
 		this.cidadeRetirada = Objects.requireNonNull(cidadeRetirada, "A cidade de retirada é obrigatória");
@@ -41,6 +49,7 @@ public class Reserva {
 		if (placaVeiculo.isBlank()) {
 			throw new IllegalArgumentException("A placa do veículo não pode estar vazia");
 		}
+		this.retiradaInfo = retiradaInfo;
 	}
 
 	public String getCodigo() {
@@ -74,6 +83,10 @@ public class Reserva {
 	public String getPlacaVeiculo() {
 		return placaVeiculo;
 	}
+	
+	public RetiradaInfo getRetiradaInfo() {
+		return retiradaInfo;
+	}
 
 	public long diasReservados() {
 		return periodo.dias();
@@ -101,13 +114,36 @@ public class Reserva {
 		status = StatusReserva.CANCELADA;
 	}
 	
-	public void confirmarRetirada() {
+	public void confirmarRetirada(Veiculo veiculo, RetiradaInfo info) {
 		if (status != StatusReserva.ATIVA) {
 			throw new IllegalStateException(
 				"Só é possível confirmar retirada de reservas ATIVAS. Status atual: " + status
 			);
 		}
-		status = StatusReserva.CONCLUIDA;
+		
+		Objects.requireNonNull(veiculo, "O veículo é obrigatório");
+		Objects.requireNonNull(info, "As informações da retirada são obrigatórias");
+		
+		if (!veiculo.getPlaca().equals(this.placaVeiculo)) {
+			throw new IllegalArgumentException(
+				"A placa do veículo não corresponde à placa da reserva"
+			);
+		}
+		
+		if (!info.placaVeiculo().equals(this.placaVeiculo)) {
+			throw new IllegalArgumentException(
+				"A placa informada nas informações da retirada não corresponde à placa da reserva"
+			);
+		}
+		
+		if (!veiculo.getCategoria().equals(this.categoria)) {
+			throw new IllegalArgumentException(
+				"A categoria do veículo não corresponde à categoria da reserva"
+			);
+		}
+		
+		this.retiradaInfo = info;
+		this.status = StatusReserva.EM_ANDAMENTO;
 	}
 
 	public void cancelarComTarifa(BigDecimal tarifa) {

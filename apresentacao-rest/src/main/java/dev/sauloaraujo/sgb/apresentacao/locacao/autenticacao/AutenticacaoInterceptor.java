@@ -47,6 +47,12 @@ public class AutenticacaoInterceptor implements HandlerInterceptor {
         
         Cliente cliente = (Cliente) session.getAttribute(SESSION_CLIENTE);
         
+        // Permitir acesso se for admin autenticado
+        Object admin = session.getAttribute("administradorAutenticado");
+        if (admin != null) {
+            return true;
+        }
+        
         if (cliente == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");

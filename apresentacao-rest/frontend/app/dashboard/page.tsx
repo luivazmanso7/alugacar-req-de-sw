@@ -121,7 +121,7 @@ export default function DashboardPage() {
               icon={<Key className="w-6 h-6" />}
               bgColor="bg-gray-100"
               textColor="text-gray-900"
-              href="/retirada"
+              href="/admin/retirada"
             />
             <QuickActionCard
               title="Processar Devolução"

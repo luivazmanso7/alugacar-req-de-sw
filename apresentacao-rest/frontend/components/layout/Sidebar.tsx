@@ -40,7 +40,7 @@ export default function Sidebar({ children }: SidebarProps) {
         {
           name: "Retirada",
           icon: Key,
-          href: "/retirada",
+          href: "/admin/retirada",
         },
         {
           name: "Devolução",

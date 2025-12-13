@@ -60,7 +60,8 @@ public class BuscarReservaServico {
                 reserva.getValorEstimado(),
                 reserva.getStatus().name(),
                 cliente.getNome(),
-                cliente.getCpfOuCnpj());
+                cliente.getCpfOuCnpj(),
+                reserva.getPlacaVeiculo());
     }
 }
 

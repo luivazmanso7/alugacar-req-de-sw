@@ -101,6 +101,10 @@ public class Veiculo {
 		status = StatusVeiculo.LOCADO;
 		removerDoPatio();
 	}
+	
+	public void marcarComoAlugado() {
+		locar();
+	}
 
 	public void devolver(Patio patioDestino) {
 		status = StatusVeiculo.DISPONIVEL;

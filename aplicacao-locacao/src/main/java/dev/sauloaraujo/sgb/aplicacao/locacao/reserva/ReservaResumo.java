@@ -15,6 +15,7 @@ public record ReservaResumo(
         BigDecimal valorEstimado,
         String status,
         String clienteNome,
-        String clienteDocumento) {
+        String clienteDocumento,
+        String placaVeiculo) {
 }
 

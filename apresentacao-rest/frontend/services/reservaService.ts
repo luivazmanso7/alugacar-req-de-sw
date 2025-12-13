@@ -10,6 +10,7 @@ export interface ReservaResponse {
   status: string;
   clienteNome: string;
   clienteDocumento: string;
+  placaVeiculo: string;
 }
 
 export interface CriarReservaRequest {
@@ -24,10 +25,19 @@ export interface CriarReservaRequest {
 }
 
 export const reservaService = {
-  // Buscar reserva por código
+  // Buscar reserva por código (usa API route do Next.js)
   async buscarPorCodigo(codigo: string): Promise<ReservaResponse> {
-    const response = await api.get(`/reservas/${codigo}`);
-    return response.data;
+    const response = await fetch(`/api/reservas/${codigo}`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.message || error.error || "Erro ao buscar reserva");
+    }
+
+    return await response.json();
   },
 
   // Criar nova reserva (usa API route do Next.js que faz proxy para o backend)

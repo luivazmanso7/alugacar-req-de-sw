@@ -135,7 +135,8 @@ public class ReservaServicoAplicacao {
                 reserva.getValorEstimado(),
                 reserva.getStatus().name(),
                 reserva.getCliente().getNome(),
-                reserva.getCliente().getCpfOuCnpj()
+                reserva.getCliente().getCpfOuCnpj(),
+                reserva.getPlacaVeiculo()
         );
     }
 }

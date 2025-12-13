@@ -3,6 +3,8 @@ package dev.sauloaraujo.sgb.dominio.locacao.cliente;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import dev.sauloaraujo.sgb.dominio.locacao.shared.Credenciais;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Credenciais - Value Object")

@@ -4,7 +4,8 @@ public enum StatusReserva {
 	ATIVA,
 	CANCELADA,
 	CONCLUIDA,
-	EXPIRADA;
+	EXPIRADA,
+	EM_ANDAMENTO;
 
 	public boolean ativa() {
 		return this == ATIVA;

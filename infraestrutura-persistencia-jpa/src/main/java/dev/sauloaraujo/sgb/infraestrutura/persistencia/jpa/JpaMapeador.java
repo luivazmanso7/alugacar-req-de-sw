@@ -30,6 +30,7 @@ import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.LocacaoJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.PatioJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.PeriodoLocacaoJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.ReservaJpa;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.RetiradaInfoJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.VeiculoJpa;
 
 /**
@@ -350,8 +351,21 @@ public class JpaMapeador extends ModelMapper {
 								"ReservaJpa sem valorEstimado (codigo: " + source.getCodigo() + ")");
 					}
 
+					dev.sauloaraujo.sgb.dominio.locacao.reserva.RetiradaInfo retiradaInfo = null;
+					if (source.getRetiradaInfo() != null) {
+						var infoJpa = source.getRetiradaInfo();
+						retiradaInfo = new dev.sauloaraujo.sgb.dominio.locacao.reserva.RetiradaInfo(
+							infoJpa.getPlacaVeiculo(),
+							infoJpa.getCnhCondutor(),
+							infoJpa.getDataHoraRetirada(),
+							infoJpa.getQuilometragemSaida() != null ? infoJpa.getQuilometragemSaida() : 0L,
+							infoJpa.getNivelTanqueSaida(),
+							infoJpa.getObservacoes()
+						);
+					}
+
 					return new Reserva(source.getCodigo(), categoria, source.getCidadeRetirada(),
-							periodo, source.getValorEstimado(), source.getStatus(), cliente, placaVeiculo);
+							periodo, source.getValorEstimado(), source.getStatus(), cliente, placaVeiculo, retiradaInfo);
 				} catch (IllegalStateException e) {
 					// Re-lançar IllegalStateException com contexto adicional
 					throw new IllegalStateException(
@@ -388,11 +402,20 @@ public class JpaMapeador extends ModelMapper {
 				periodoJpa.setDevolucao(source.getPeriodo().getDevolucao());
 				jpa.setPeriodo(periodoJpa);
 
-				// Respeitando DDD: Não fazer consultas ao banco no conversor
-				// Usar getReference() para criar referência lazy (não consulta o banco)
-				// Se a entidade não existir, o Hibernate lançará erro ao salvar
 				var clienteJpa = entityManager.getReference(ClienteJpa.class, source.getCliente().getCpfOuCnpj());
 				jpa.setCliente(clienteJpa);
+
+				if (source.getRetiradaInfo() != null) {
+					var retiradaInfo = source.getRetiradaInfo();
+					var retiradaInfoJpa = new RetiradaInfoJpa();
+					retiradaInfoJpa.setPlacaVeiculo(retiradaInfo.placaVeiculo());
+					retiradaInfoJpa.setCnhCondutor(retiradaInfo.cnhCondutor());
+					retiradaInfoJpa.setDataHoraRetirada(retiradaInfo.dataHoraRetirada());
+					retiradaInfoJpa.setQuilometragemSaida(retiradaInfo.quilometragemSaida());
+					retiradaInfoJpa.setNivelTanqueSaida(retiradaInfo.nivelTanqueSaida());
+					retiradaInfoJpa.setObservacoes(retiradaInfo.observacoes());
+					jpa.setRetiradaInfo(retiradaInfoJpa);
+				}
 
 				return jpa;
 			}
