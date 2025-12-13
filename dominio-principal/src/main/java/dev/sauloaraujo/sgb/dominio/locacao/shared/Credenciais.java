@@ -1,10 +1,10 @@
-package dev.sauloaraujo.sgb.dominio.locacao.cliente;
+package dev.sauloaraujo.sgb.dominio.locacao.shared;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
- * Value Object representando as credenciais de autenticação de um cliente.
+ * Value Object representando as credenciais de autenticação.
  * Imutável e com validação de senha segura.
  */
 public final class Credenciais {

@@ -108,7 +108,7 @@ public class JpaMapeador extends ModelMapper {
 					return null;
 				}
 				// Usar construtor de reconstrução com Credenciais e StatusCliente
-				var credenciais = new dev.sauloaraujo.sgb.dominio.locacao.cliente.Credenciais(
+				var credenciais = new dev.sauloaraujo.sgb.dominio.locacao.shared.Credenciais(
 					source.getLogin(), 
 					source.getSenhaHash()
 				);
@@ -151,7 +151,7 @@ public class JpaMapeador extends ModelMapper {
 				if (source == null) {
 					return null;
 				}
-				var credenciais = new dev.sauloaraujo.sgb.dominio.locacao.cliente.Credenciais(
+				var credenciais = new dev.sauloaraujo.sgb.dominio.locacao.shared.Credenciais(
 					source.getLogin(), 
 					source.getSenhaHash()
 				);

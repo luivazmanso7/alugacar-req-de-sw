@@ -2,7 +2,7 @@ package dev.sauloaraujo.sgb.dominio.locacao.admin;
 
 import java.util.Objects;
 
-import dev.sauloaraujo.sgb.dominio.locacao.cliente.Credenciais;
+import dev.sauloaraujo.sgb.dominio.locacao.shared.Credenciais;
 
 public class Administrador {
 	

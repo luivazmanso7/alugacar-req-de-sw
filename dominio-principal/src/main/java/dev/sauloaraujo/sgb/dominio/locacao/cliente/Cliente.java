@@ -3,6 +3,8 @@ package dev.sauloaraujo.sgb.dominio.locacao.cliente;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import dev.sauloaraujo.sgb.dominio.locacao.shared.Credenciais;
+
 public class Cliente {
 	private static final Pattern CPF_FORMATO = Pattern.compile("\\d{11}");
 	private static final Pattern CNH_FORMATO = Pattern.compile("\\d{11}");
