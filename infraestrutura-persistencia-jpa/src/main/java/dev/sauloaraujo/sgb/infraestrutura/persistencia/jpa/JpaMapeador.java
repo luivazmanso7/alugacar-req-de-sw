@@ -14,6 +14,7 @@ import jakarta.persistence.PersistenceContext;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Categoria;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.CategoriaCodigo;
 import dev.sauloaraujo.sgb.dominio.locacao.catalogo.Veiculo;
+import dev.sauloaraujo.sgb.dominio.locacao.admin.Administrador;
 import dev.sauloaraujo.sgb.dominio.locacao.cliente.Cliente;
 import dev.sauloaraujo.sgb.dominio.locacao.operacao.ChecklistVistoria;
 import dev.sauloaraujo.sgb.dominio.locacao.operacao.Locacao;
@@ -21,6 +22,7 @@ import dev.sauloaraujo.sgb.dominio.locacao.patio.Patio;
 import dev.sauloaraujo.sgb.dominio.locacao.reserva.Reserva;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.PeriodoLocacao;
 import dev.sauloaraujo.sgb.dominio.locacao.shared.StatusReserva;
+import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.AdministradorJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.CategoriaJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.ChecklistVistoriaJpa;
 import dev.sauloaraujo.sgb.infraestrutura.persistencia.jpa.entities.ClienteJpa;
@@ -50,11 +52,10 @@ public class JpaMapeador extends ModelMapper {
 
 		configurarConversoresAuditoria();
 		configurarConversoresCliente();
+		configurarConversoresAdministrador();
 		configurarConversoresCategoria();
 		configurarConversoresVeiculo();
 		configurarConversoresReserva();
-		// IMPORTANTE: Registrar conversor de Locacao ANTES de Reserva para garantir prioridade
-		// Mas na verdade, Reserva já está registrado antes, então Locacao vai sobrescrever
 		configurarConversoresLocacao();
 		configurarConversoresPatio();
 		configurarConversoresPeriodo();
@@ -134,6 +135,47 @@ public class JpaMapeador extends ModelMapper {
 				jpa.setCpfOuCnpj(source.getCpfOuCnpj());
 				jpa.setNome(source.getNome());
 				jpa.setCnh(source.getCnh());
+				jpa.setEmail(source.getEmail());
+				jpa.setLogin(source.getCredenciais().getLogin());
+				jpa.setSenhaHash(source.getCredenciais().getSenhaCriptografada());
+				jpa.setStatus(source.getStatus().name());
+				return jpa;
+			}
+		});
+	}
+
+	private void configurarConversoresAdministrador() {
+		addConverter(new AbstractConverter<AdministradorJpa, Administrador>() {
+			@Override
+			protected Administrador convert(AdministradorJpa source) {
+				if (source == null) {
+					return null;
+				}
+				var credenciais = new dev.sauloaraujo.sgb.dominio.locacao.cliente.Credenciais(
+					source.getLogin(), 
+					source.getSenhaHash()
+				);
+				var status = dev.sauloaraujo.sgb.dominio.locacao.admin.StatusAdministrador.valueOf(source.getStatus());
+				
+				return new Administrador(
+					source.getId(),
+					source.getNome(), 
+					source.getEmail(),
+					credenciais,
+					status
+				);
+			}
+		});
+
+		addConverter(new AbstractConverter<Administrador, AdministradorJpa>() {
+			@Override
+			protected AdministradorJpa convert(Administrador source) {
+				if (source == null) {
+					return null;
+				}
+				var jpa = new AdministradorJpa();
+				jpa.setId(source.getId());
+				jpa.setNome(source.getNome());
 				jpa.setEmail(source.getEmail());
 				jpa.setLogin(source.getCredenciais().getLogin());
 				jpa.setSenhaHash(source.getCredenciais().getSenhaCriptografada());
