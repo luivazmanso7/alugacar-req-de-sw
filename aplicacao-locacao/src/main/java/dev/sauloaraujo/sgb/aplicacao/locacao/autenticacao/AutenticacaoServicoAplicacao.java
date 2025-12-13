@@ -34,7 +34,6 @@ public class AutenticacaoServicoAplicacao {
         var cliente = clienteRepositorio.buscarPorLogin(comando.login())
                 .orElseThrow(() -> new IllegalArgumentException("Login ou senha inválidos"));
         
-        // Autenticar usando método do domínio
         if (!cliente.autenticar(comando.login(), comando.senha())) {
             throw new IllegalArgumentException("Login ou senha inválidos");
         }

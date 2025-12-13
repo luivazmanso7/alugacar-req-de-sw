@@ -26,18 +26,48 @@ public class AutenticacaoInterceptor implements HandlerInterceptor {
         
         String path = request.getRequestURI();
         
+        // Rotas públicas (não precisam autenticação)
         if (path.startsWith("/auth/login") || 
             path.startsWith("/veiculos") ||
             path.startsWith("/categorias") ||
             path.startsWith("/swagger-ui") ||
             path.startsWith("/api-docs") ||
-            path.equals("/auth/logout") ||
-            (path.equals("/reservas") && "GET".equalsIgnoreCase(request.getMethod()))) {
+            path.equals("/auth/logout")) {
             return true;
         }
         
+        // Verificar sessão
         HttpSession session = request.getSession(false);
         
+        // Permitir acesso se for admin autenticado (admin tem acesso a tudo)
+        if (session != null) {
+            Object admin = session.getAttribute("administradorAutenticado");
+            if (admin != null) {
+                return true; // Admin tem acesso a todas as rotas
+            }
+        }
+        
+        if (path.startsWith("/reservas")) {
+            if (session == null) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\":\"Sessão não encontrada. Faça login primeiro.\"}");
+                return false;
+            }
+            
+            Cliente cliente = (Cliente) session.getAttribute(SESSION_CLIENTE);
+            if (cliente == null) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\":\"Cliente não autenticado. Faça login primeiro.\"}");
+                return false;
+            }
+            
+            request.setAttribute("clienteAutenticado", cliente);
+            return true;
+        }
+        
+        // Para outras rotas protegidas
         if (session == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
@@ -46,13 +76,6 @@ public class AutenticacaoInterceptor implements HandlerInterceptor {
         }
         
         Cliente cliente = (Cliente) session.getAttribute(SESSION_CLIENTE);
-        
-        // Permitir acesso se for admin autenticado
-        Object admin = session.getAttribute("administradorAutenticado");
-        if (admin != null) {
-            return true;
-        }
-        
         if (cliente == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
@@ -62,18 +85,6 @@ public class AutenticacaoInterceptor implements HandlerInterceptor {
         
         request.setAttribute("clienteAutenticado", cliente);
         return true;
-    }
-    
-    private String getCookieValue(HttpServletRequest request, String cookieName) {
-        jakarta.servlet.http.Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (jakarta.servlet.http.Cookie cookie : cookies) {
-                if (cookieName.equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
     }
 }
 

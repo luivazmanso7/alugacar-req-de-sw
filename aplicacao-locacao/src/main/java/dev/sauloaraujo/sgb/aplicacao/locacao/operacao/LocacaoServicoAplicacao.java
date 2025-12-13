@@ -26,7 +26,6 @@ public class LocacaoServicoAplicacao {
         this.devolucaoServico = notNull(devolucaoServico, "Serviço de devolução não pode ser nulo");
     }
 
-    // --- Métodos de Leitura (Já existentes) ---
     public List<LocacaoResumo> pesquisarResumos() {
         return repositorioLeitura.pesquisarResumos();
     }
@@ -46,8 +45,6 @@ public class LocacaoServicoAplicacao {
     public List<LocacaoResumo> listarPorCliente(String cpfOuCnpj) {
         return repositorioLeitura.listarPorCliente(cpfOuCnpj);
     }
-
-    // --- NOVO: Método de Escrita (Processar Devolução) ---
     
     /**
      * Processa a devolução de uma locação.

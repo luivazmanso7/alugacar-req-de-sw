@@ -65,41 +65,6 @@ public class JpaMapeador extends ModelMapper {
 	}
 
 	private void configurarConversoresAuditoria() {
-		// TODO: Auditoria temporariamente desabilitada
-		/*
-		addConverter(new AbstractConverter<AuditoriaJpa, Auditoria>() {
-			@Override
-			protected Auditoria convert(AuditoriaJpa source) {
-				if (source == null) {
-					return null;
-				}
-				// Usa construtor de reconstrução (do banco)
-				return new Auditoria(
-					source.getId(),
-					source.getDataHora(),
-					source.getOperacao(),
-					source.getDetalhes(),
-					source.getUsuario()
-				);
-			}
-		});
-
-		addConverter(new AbstractConverter<Auditoria, AuditoriaJpa>() {
-			@Override
-			protected AuditoriaJpa convert(Auditoria source) {
-				if (source == null) {
-					return null;
-				}
-				var jpa = new AuditoriaJpa();
-				jpa.setId(source.getId());
-				jpa.setDataHora(source.getDataHora());
-				jpa.setOperacao(source.getOperacao());
-				jpa.setDetalhes(source.getDetalhes());
-				jpa.setUsuario(source.getUsuario());
-				return jpa;
-			}
-		});
-		*/
 	}
 
 	private void configurarConversoresCliente() {
@@ -424,7 +389,6 @@ public class JpaMapeador extends ModelMapper {
 	}
 
 	private void configurarConversoresLocacao() {
-		// IMPORTANTE: Registrar o conversor ANTES de qualquer outro para garantir prioridade
 		addConverter(new AbstractConverter<LocacaoJpa, Locacao>() {
 			@Override
 			protected Locacao convert(LocacaoJpa source) {
@@ -466,12 +430,8 @@ public class JpaMapeador extends ModelMapper {
 						throw new IllegalStateException("ReservaJpa sem cliente: " + reservaJpa.getCodigo());
 					}
 					
-					// IMPORTANTE: Se a reserva não tem placaVeiculo (reserva antiga), 
-					// usar a placa do veículo da locação ANTES de converter
 					String placaVeiculoReserva = reservaJpa.getPlacaVeiculo();
 					if (placaVeiculoReserva == null || placaVeiculoReserva.isBlank() || placaVeiculoReserva.equals("MIGRAR")) {
-						// Criar uma cópia da reserva JPA com a placa do veículo da locação
-						// Isso garante que o conversor de ReservaJpa -> Reserva receba uma placa válida
 						var reservaJpaComPlaca = new ReservaJpa();
 						reservaJpaComPlaca.setCodigo(reservaJpa.getCodigo());
 						reservaJpaComPlaca.setCategoria(reservaJpa.getCategoria());
@@ -481,14 +441,11 @@ public class JpaMapeador extends ModelMapper {
 						reservaJpaComPlaca.setStatus(reservaJpa.getStatus());
 						reservaJpaComPlaca.setCliente(reservaJpa.getCliente());
 						
-						// Usar placa do veículo da locação (garantir que não é null)
 						String placaVeiculoLocacao = source.getVeiculo().getPlaca();
 						if (placaVeiculoLocacao == null || placaVeiculoLocacao.isBlank()) {
 							throw new IllegalStateException("Veículo da locação sem placa: " + source.getCodigo());
 						}
 						reservaJpaComPlaca.setPlacaVeiculo(placaVeiculoLocacao);
-						
-						// Substituir a referência para usar a cópia com placa válida
 						reservaJpa = reservaJpaComPlaca;
 					}
 

@@ -1,20 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 
-/**
- * API Route para listar todas as reservas (admin).
- * Faz proxy para o backend Spring Boot.
- * Respeita DDD: apenas faz proxy, sem lógica de negócio.
- */
 export async function GET(request: NextRequest) {
   try {
     const backendUrl =
       process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
     const url = `${backendUrl}/api/v1/reservas`;
 
+    const sessionCookie = request.cookies.get("JSESSIONID");
+    const cookieHeader = sessionCookie
+      ? `JSESSIONID=${sessionCookie.value}`
+      : "";
+
+    if (!cookieHeader) {
+      return NextResponse.json(
+        { error: "Não autenticado. Faça login como administrador." },
+        { status: 401 }
+      );
+    }
+
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Cookie: cookieHeader,
       },
       credentials: "include",
     });
@@ -32,7 +40,6 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Erro ao listar reservas:", error);
     return NextResponse.json(
       { error: "Erro ao conectar com o servidor" },
       { status: 500 }

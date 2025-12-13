@@ -25,3 +25,30 @@ body {
         text-wrap: balance;
     }
 }
+
+/* Estilos globais para inputs - garantir texto preto */
+@layer base {
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="datetime-local"],
+    input[type="time"],
+    input[type="search"],
+    textarea,
+    select {
+        @apply text-gray-900;
+        color: #111827 !important;
+        /* Preto escuro para garantir contraste */
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        @apply text-gray-500;
+        color: #6b7280 !important;
+        /* Cinza médio para placeholders */
+    }
+}

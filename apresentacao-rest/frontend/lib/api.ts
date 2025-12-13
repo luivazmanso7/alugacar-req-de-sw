@@ -5,17 +5,14 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // Importante para enviar/receber cookies de sessão
+  withCredentials: true,
 });
 
-// Interceptor para tratar erros
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Redirecionar para login se não autenticado
       localStorage.removeItem("clienteNome");
-      // Não redirecionar automaticamente, deixar o componente decidir
     }
     return Promise.reject(error);
   }

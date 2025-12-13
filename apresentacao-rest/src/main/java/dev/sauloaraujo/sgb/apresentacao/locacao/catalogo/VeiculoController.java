@@ -61,7 +61,6 @@ public class VeiculoController {
         
         List<VeiculoResumo> veiculos;
         
-        // Se período foi informado, usar método que filtra veículos locados
         if (dataRetirada != null && !dataRetirada.isBlank() 
                 && dataDevolucao != null && !dataDevolucao.isBlank()) {
             try {
@@ -72,14 +71,12 @@ public class VeiculoController {
                     var categoriaCodigo = CategoriaCodigo.valueOf(categoria.toUpperCase());
                     veiculos = veiculoServico.buscarDisponiveis(cidade, categoriaCodigo, retirada, devolucao);
                 } else {
-                    // Sem categoria, mas com período - usar método que filtra por período
                     veiculos = veiculoServico.buscarDisponiveis(cidade, retirada, devolucao);
                 }
             } catch (Exception e) {
                 return ResponseEntity.badRequest().build();
             }
         } else {
-            // Método de compatibilidade: sem período, apenas verifica status
             if (categoria != null && !categoria.isBlank()) {
                 try {
                     var categoriaCodigo = CategoriaCodigo.valueOf(categoria.toUpperCase());

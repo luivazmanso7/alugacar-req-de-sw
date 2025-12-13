@@ -20,12 +20,10 @@ export interface CriarReservaRequest {
     dataRetirada: string;
     dataDevolucao: string;
   };
-  placaVeiculo: string; // Placa do veículo específico a ser reservado
-  // Cliente vem da sessão HTTP (não precisa enviar)
+  placaVeiculo: string;
 }
 
 export const reservaService = {
-  // Buscar reserva por código (usa API route do Next.js)
   async buscarPorCodigo(codigo: string): Promise<ReservaResponse> {
     const response = await fetch(`/api/reservas/${codigo}`, {
       method: "GET",
@@ -40,14 +38,13 @@ export const reservaService = {
     return await response.json();
   },
 
-  // Criar nova reserva (usa API route do Next.js que faz proxy para o backend)
   async criar(reserva: CriarReservaRequest): Promise<ReservaResponse> {
     const response = await fetch("/api/reservas", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include", // Importante para cookies
+      credentials: "include",
       body: JSON.stringify(reserva),
     });
 
@@ -59,11 +56,10 @@ export const reservaService = {
     return await response.json();
   },
 
-  // Listar minhas reservas (do cliente logado) - usa API route do Next.js
   async listarMinhas(): Promise<ReservaResponse[]> {
     const response = await fetch("/api/reservas/minhas", {
       method: "GET",
-      credentials: "include", // Importante para cookies
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -77,7 +73,6 @@ export const reservaService = {
     return await response.json();
   },
 
-  // Listar todas as reservas (admin) - usa API route do Next.js
   async listarTodas(): Promise<ReservaResponse[]> {
     const response = await fetch("/api/reservas/listar", {
       method: "GET",
@@ -92,15 +87,13 @@ export const reservaService = {
     return await response.json();
   },
 
-  // Cancelar reserva (do cliente logado) - usa API route do Next.js
   async cancelar(codigoReserva: string): Promise<CancelarReservaResponse> {
     const response = await fetch(`/api/reservas/${codigoReserva}`, {
       method: "DELETE",
-      credentials: "include", // Importante para cookies
+      credentials: "include",
     });
 
     if (!response.ok) {
-      // Verificar se a resposta é JSON antes de tentar parsear
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
         const error = await response.json();
@@ -114,15 +107,52 @@ export const reservaService = {
           error.message || error.error || "Erro ao cancelar reserva"
         );
       } else {
-        // Se não for JSON, ler como texto para ver o erro
         const errorText = await response.text();
-        console.error(
-          "Erro não-JSON do servidor:",
-          errorText.substring(0, 200)
-        );
         throw new Error(
           `Erro ${response.status}: ${
             response.statusText || "Erro ao cancelar reserva"
+          }`
+        );
+      }
+    }
+
+    return await response.json();
+  },
+
+  async alterarPeriodo(
+    codigoReserva: string,
+    novoPeriodo: { dataRetirada: string; dataDevolucao: string }
+  ): Promise<ReservaResponse> {
+    const response = await fetch(`/api/reservas/${codigoReserva}/periodo`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        dataRetirada: novoPeriodo.dataRetirada,
+        dataDevolucao: novoPeriodo.dataDevolucao,
+      }),
+    });
+
+    if (!response.ok) {
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const error = await response.json();
+        if (response.status === 401) {
+          throw new Error("Não autenticado");
+        }
+        if (response.status === 403) {
+          throw new Error("Você não tem permissão para alterar esta reserva");
+        }
+        throw new Error(
+          error.message || error.error || "Erro ao alterar reserva"
+        );
+      } else {
+        const errorText = await response.text();
+        throw new Error(
+          `Erro ${response.status}: ${
+            response.statusText || "Erro ao alterar reserva"
           }`
         );
       }

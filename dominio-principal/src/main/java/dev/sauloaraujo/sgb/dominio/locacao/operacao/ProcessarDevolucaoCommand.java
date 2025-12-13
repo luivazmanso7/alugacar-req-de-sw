@@ -1,6 +1,7 @@
 package dev.sauloaraujo.sgb.dominio.locacao.operacao;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class ProcessarDevolucaoCommand {
@@ -9,8 +10,7 @@ public class ProcessarDevolucaoCommand {
 	private final String combustivel;
 	private final boolean possuiAvarias;
 	private final BigDecimal taxaCombustivel;
-	private final int diasUtilizados;
-	private final int diasAtraso;
+	private final LocalDateTime dataDevolucao;
 	private final BigDecimal percentualMultaAtraso;
 
 	private ProcessarDevolucaoCommand(Builder builder) {
@@ -19,9 +19,8 @@ public class ProcessarDevolucaoCommand {
 		this.combustivel = Objects.requireNonNull(builder.combustivel, "O nível de combustível é obrigatório");
 		this.possuiAvarias = builder.possuiAvarias;
 		this.taxaCombustivel = builder.taxaCombustivel;
-		this.diasUtilizados = builder.diasUtilizados;
-		this.diasAtraso = builder.diasAtraso;
-		this.percentualMultaAtraso = builder.percentualMultaAtraso;
+		this.dataDevolucao = Objects.requireNonNull(builder.dataDevolucao, "A data de devolução é obrigatória");
+		this.percentualMultaAtraso = Objects.requireNonNull(builder.percentualMultaAtraso, "O percentual de multa por atraso é obrigatório");
 	}
 
 	public String getCodigoLocacao() {
@@ -44,12 +43,8 @@ public class ProcessarDevolucaoCommand {
 		return taxaCombustivel;
 	}
 
-	public int getDiasUtilizados() {
-		return diasUtilizados;
-	}
-
-	public int getDiasAtraso() {
-		return diasAtraso;
+	public LocalDateTime getDataDevolucao() {
+		return dataDevolucao;
 	}
 
 	public BigDecimal getPercentualMultaAtraso() {
@@ -66,9 +61,8 @@ public class ProcessarDevolucaoCommand {
 		private String combustivel = "CHEIO";
 		private boolean possuiAvarias;
 		private BigDecimal taxaCombustivel = BigDecimal.ZERO;
-		private int diasUtilizados = 0;
-		private int diasAtraso = 0;
-		private BigDecimal percentualMultaAtraso = BigDecimal.ZERO;
+		private LocalDateTime dataDevolucao = LocalDateTime.now();
+		private BigDecimal percentualMultaAtraso = new BigDecimal("0.10"); // 10% padrão
 
 		public Builder codigoLocacao(String codigoLocacao) {
 			this.codigoLocacao = codigoLocacao;
@@ -95,13 +89,8 @@ public class ProcessarDevolucaoCommand {
 			return this;
 		}
 
-		public Builder diasUtilizados(int diasUtilizados) {
-			this.diasUtilizados = diasUtilizados;
-			return this;
-		}
-
-		public Builder diasAtraso(int diasAtraso) {
-			this.diasAtraso = diasAtraso;
+		public Builder dataDevolucao(LocalDateTime dataDevolucao) {
+			this.dataDevolucao = dataDevolucao;
 			return this;
 		}
 

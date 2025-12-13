@@ -54,7 +54,6 @@ public class AutenticacaoController {
         return ResponseEntity.ok(response);
     }
     
-    // Método OPTIONS para suportar preflight CORS
     @org.springframework.web.bind.annotation.RequestMapping(value = "/login", method = org.springframework.web.bind.annotation.RequestMethod.OPTIONS)
     public ResponseEntity<Void> loginOptions(HttpServletResponse response) {
         // Adicionar headers CORS manualmente se necessário

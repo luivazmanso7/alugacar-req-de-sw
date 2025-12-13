@@ -100,37 +100,53 @@ public class Locacao {
 	 * Processa a devolução do veículo e calcula o faturamento.
 	 * Este é o método principal do Rich Domain Model para devolução.
 	 * 
+	 * <p>Este método encapsula toda a lógica de negócio da devolução:
+	 * - Calcula dias utilizados e dias de atraso baseado na data real de devolução
+	 * - Calcula todos os valores (diárias, atraso, multa, taxas)
+	 * - Atualiza o estado da locação e do veículo
+	 * </p>
+	 * 
 	 * @param vistoriaDevolucao Checklist da vistoria de devolução
-	 * @param diasUtilizados Quantidade de dias que o veículo foi utilizado
+	 * @param dataDevolucaoReal Data e hora real da devolução
+	 * @param percentualMultaAtraso Percentual de multa a ser aplicado sobre o valor do atraso
 	 * @return Faturamento calculado
 	 * @throws IllegalStateException se a locação já foi finalizada
 	 */
-	public Faturamento realizarDevolucao(ChecklistVistoria vistoriaDevolucao, int diasUtilizados) {
+	public Faturamento realizarDevolucao(ChecklistVistoria vistoriaDevolucao, java.time.LocalDateTime dataDevolucaoReal, BigDecimal percentualMultaAtraso) {
 		// 1. Validações de Negócio
 		validarPodeSerDevolvida();
 		
-		// 2. Registrar vistoria
+		// 2. Validar parâmetros
 		this.vistoriaDevolucao = Objects.requireNonNull(vistoriaDevolucao, "Vistoria de devolução é obrigatória");
+		Objects.requireNonNull(dataDevolucaoReal, "A data de devolução é obrigatória");
+		Objects.requireNonNull(percentualMultaAtraso, "O percentual de multa por atraso é obrigatório");
 		
-		// 3. Calcular atraso
-		int diasAtraso = Math.max(0, diasUtilizados - diasPrevistos);
+		// 3. Calcular dias utilizados (data real de devolução vs data de retirada)
+		var dataRetirada = reserva.getRetiradaInfo() != null 
+			? reserva.getRetiradaInfo().dataHoraRetirada() 
+			: reserva.getPeriodo().getRetirada();
+		int diasUtilizados = calcularDiasUtilizados(dataRetirada, dataDevolucaoReal);
 		
-		// 4. Calcular valores
+		// 4. Calcular dias de atraso (data real de devolução vs data prevista de devolução)
+		var dataDevolucaoPrevista = reserva.getPeriodo().getDevolucao();
+		int diasAtraso = calcularDiasAtraso(dataDevolucaoPrevista, dataDevolucaoReal);
+		
+		// 5. Calcular valores (regras de negócio na entidade)
 		BigDecimal valorDiarias = calcularDiarias(diasUtilizados);
 		BigDecimal valorAtraso = calcularValorAtraso(diasAtraso);
-		BigDecimal multaAtraso = calcularMultaAtraso(valorAtraso, new BigDecimal("0.10")); // 10% de multa
+		BigDecimal multaAtraso = calcularMultaAtraso(valorAtraso, percentualMultaAtraso);
 		BigDecimal taxasAdicionais = calcularTaxasAdicionais(vistoriaDevolucao);
 		
-		// 5. Calcular total
+		// 6. Calcular total
 		BigDecimal valorTotal = valorDiarias
 			.add(valorAtraso)
 			.add(multaAtraso)
 			.add(taxasAdicionais);
 		
-		// 6. Atualizar estado da locação
+		// 7. Atualizar estado da locação (regra de negócio)
 		this.status = StatusLocacao.FINALIZADA;
 		
-		// 7. Atualizar estado do veículo (Regra de Negócio)
+		// 8. Atualizar estado do veículo (regra de negócio)
 		if (vistoriaDevolucao.possuiAvarias()) {
 			veiculo.enviarParaManutencao();
 		} else {
@@ -142,9 +158,46 @@ public class Locacao {
 			veiculo.devolver(patioDestino);
 		}
 		
-		// 8. Retornar faturamento
+		// 9. Retornar faturamento
 		return new Faturamento(valorTotal, valorDiarias, valorAtraso, multaAtraso, taxasAdicionais);
 	}
+	
+	/**
+	 * Calcula a quantidade de dias utilizados baseado na data de retirada e data real de devolução.
+	 * 
+	 * @param dataRetirada Data e hora da retirada
+	 * @param dataDevolucaoReal Data e hora real da devolução
+	 * @return Quantidade de dias utilizados (mínimo 1 dia)
+	 */
+	private int calcularDiasUtilizados(java.time.LocalDateTime dataRetirada, java.time.LocalDateTime dataDevolucaoReal) {
+		var horasUtilizadas = java.time.Duration.between(dataRetirada, dataDevolucaoReal).toHours();
+		var diasCalculados = (int) (horasUtilizadas / 24);
+		if (horasUtilizadas % 24 != 0) {
+			diasCalculados++;
+		}
+		return Math.max(1, diasCalculados);
+	}
+	
+	/**
+	 * Calcula a quantidade de dias de atraso comparando a data prevista com a data real de devolução.
+	 * 
+	 * @param dataDevolucaoPrevista Data prevista de devolução (da reserva)
+	 * @param dataDevolucaoReal Data real de devolução
+	 * @return Quantidade de dias de atraso (0 se não houver atraso)
+	 */
+	private int calcularDiasAtraso(java.time.LocalDateTime dataDevolucaoPrevista, java.time.LocalDateTime dataDevolucaoReal) {
+		var horasAtraso = java.time.Duration.between(dataDevolucaoPrevista, dataDevolucaoReal).toHours();
+		if (horasAtraso <= 0) {
+			return 0; // Não há atraso
+		}
+		// Se a devolução real é posterior à prevista, há atraso
+		int diasAtraso = (int) (horasAtraso / 24);
+		if (horasAtraso % 24 != 0) {
+			diasAtraso++; // Arredondar para cima
+		}
+		return diasAtraso;
+	}
+	
 	
 	/**
 	 * Valida se a locação pode ser devolvida.

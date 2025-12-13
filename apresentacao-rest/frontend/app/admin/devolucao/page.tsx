@@ -18,6 +18,7 @@ interface LocacaoDetalhes {
 interface FaturamentoResponse {
   valorTotal: number;
   valorDiarias: number;
+  valorAtraso: number;
   valorMulta: number;
   valorTaxas: number;
 }
@@ -42,6 +43,7 @@ export default function AdminDevolucaoPage() {
   const [quilometragem, setQuilometragem] = useState("");
   const [combustivel, setCombustivel] = useState("CHEIO");
   const [possuiAvarias, setPossuiAvarias] = useState(false);
+  const [dataDevolucao, setDataDevolucao] = useState("");
 
   useEffect(() => {
     const adminNome = adminAuthService.getAdminNome();
@@ -128,6 +130,10 @@ export default function AdminDevolucaoPage() {
     setQuilometragem("");
     setCombustivel("CHEIO");
     setPossuiAvarias(false);
+    // Definir data/hora atual como padrão
+    const agora = new Date();
+    const dataHoraISO = agora.toISOString().slice(0, 16); // Formato: YYYY-MM-DDTHH:mm
+    setDataDevolucao(dataHoraISO);
   };
 
   const processarDevolucao = async () => {
@@ -148,12 +154,20 @@ export default function AdminDevolucaoPage() {
       return;
     }
 
+    if (!dataDevolucao.trim()) {
+      setError("A data e hora de devolução são obrigatórias");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setSuccess(null);
     setFaturamento(null);
 
     try {
+      // Converter data/hora local para ISO 8601
+      const dataDevolucaoISO = new Date(dataDevolucao).toISOString();
+
       const response = await fetch(
         `/api/locacoes/${locacaoSelecionada.codigo}/processar-devolucao`,
         {
@@ -166,6 +180,7 @@ export default function AdminDevolucaoPage() {
             quilometragem: parseInt(quilometragem),
             combustivel: combustivel,
             possuiAvarias: possuiAvarias,
+            dataDevolucao: dataDevolucaoISO,
           }),
         }
       );
@@ -477,6 +492,28 @@ export default function AdminDevolucaoPage() {
                     </select>
                   </div>
 
+                  <div>
+                    <label
+                      htmlFor="dataDevolucao"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
+                      Data e Hora de Devolução *
+                    </label>
+                    <input
+                      type="datetime-local"
+                      id="dataDevolucao"
+                      value={dataDevolucao}
+                      onChange={(e) => setDataDevolucao(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      required
+                    />
+                    <p className="mt-1 text-xs text-gray-500">
+                      A multa por atraso será calculada automaticamente
+                      comparando esta data com a data prevista de devolução da
+                      reserva.
+                    </p>
+                  </div>
+
                   <div className="md:col-span-2">
                     <label className="flex items-center gap-2">
                       <input
@@ -530,18 +567,32 @@ export default function AdminDevolucaoPage() {
                           R$ {faturamento.valorDiarias.toFixed(2)}
                         </span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-700">Multa:</span>
-                        <span className="text-gray-900 font-medium">
-                          R$ {faturamento.valorMulta.toFixed(2)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-700">Taxas:</span>
-                        <span className="text-gray-900 font-medium">
-                          R$ {faturamento.valorTaxas.toFixed(2)}
-                        </span>
-                      </div>
+                      {faturamento.valorAtraso > 0 && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-700">Atraso:</span>
+                          <span className="text-orange-600 font-medium">
+                            R$ {faturamento.valorAtraso.toFixed(2)}
+                          </span>
+                        </div>
+                      )}
+                      {faturamento.valorMulta > 0 && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-700">
+                            Multa por Atraso:
+                          </span>
+                          <span className="text-red-600 font-medium">
+                            R$ {faturamento.valorMulta.toFixed(2)}
+                          </span>
+                        </div>
+                      )}
+                      {faturamento.valorTaxas > 0 && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-700">Taxas:</span>
+                          <span className="text-gray-900 font-medium">
+                            R$ {faturamento.valorTaxas.toFixed(2)}
+                          </span>
+                        </div>
+                      )}
                       <div className="flex justify-between pt-2 border-t border-green-300 mt-3">
                         <span className="font-semibold text-gray-900 text-base">
                           Total:

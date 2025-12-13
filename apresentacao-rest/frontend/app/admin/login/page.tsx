@@ -18,7 +18,7 @@ export default function AdminLoginPage() {
 
     try {
       await adminAuthService.login(login, senha);
-      router.push("/admin");
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.message || "Login ou senha inválidos");
     } finally {

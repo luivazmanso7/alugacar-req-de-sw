@@ -1,4 +1,8 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { adminAuthService } from "@/services/adminAuthService";
 import { StatsCard } from "@/components/dashboard/StatsCard";
 import { QuickActionCard } from "@/components/dashboard/QuickActionCard";
 import { ReservasTable } from "@/components/dashboard/ReservasTable";
@@ -6,7 +10,35 @@ import { DevolucoesTable } from "@/components/dashboard/DevolucoesTable";
 import { Calendar, Key, RotateCcw, Car, Search } from "lucide-react";
 
 export default function DashboardPage() {
-  // Mock data - substituir por dados reais da API
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [adminNome, setAdminNome] = useState<string | null>(null);
+
+  useEffect(() => {
+    const nome = adminAuthService.getAdminNome();
+    if (!nome) {
+      router.push("/admin/login");
+      return;
+    }
+    setAdminNome(nome);
+    setLoading(false);
+  }, [router]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!adminNome) {
+    return null; // Será redirecionado pelo useEffect
+  }
+
   const stats = {
     reservasDoDia: 2,
     reservasDoDiaChange: "+12% vs ontem",
@@ -61,10 +93,23 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-8 py-6">
-        <h1 className="text-3xl font-semibold text-gray-900">
-          Olá, Carlos! 👋
-        </h1>
-        <p className="text-gray-500 mt-1">Aqui está o resumo do seu dia</p>
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-semibold text-gray-900">
+              Olá, {adminNome}!
+            </h1>
+            <p className="text-gray-500 mt-1">Aqui está o resumo do seu dia</p>
+          </div>
+          <button
+            onClick={async () => {
+              await adminAuthService.logout();
+              router.push("/admin/login");
+            }}
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+          >
+            Sair
+          </button>
+        </div>
       </header>
 
       {/* Main Content */}

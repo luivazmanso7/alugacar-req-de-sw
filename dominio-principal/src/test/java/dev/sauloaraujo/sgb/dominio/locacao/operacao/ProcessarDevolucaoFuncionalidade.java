@@ -91,13 +91,18 @@ public class ProcessarDevolucaoFuncionalidade extends AlugacarFuncionalidade {
         locacaoProcessada = locacao;
 
         var dataEntrega = LocalDateTime.parse(dataDevolucao);
+
+        var builder = ProcessarDevolucaoCommand.builder()
+                .codigoLocacao(locacao.getCodigo())
+                .quilometragem(odometro)
+                .combustivel(combustivel.toString())
+                .dataDevolucao(dataEntrega)
+                .taxaCombustivel(taxaAdicional)
+                .possuiAvarias(possuiAvarias);
+
+        // Se houver atraso, usar percentual maior
         var diasAtraso = Math.max(0,
                 (int) Duration.between(reservaProcessada.getPeriodo().getDevolucao(), dataEntrega).toDays());
-
-        var builder = ProcessarDevolucaoCommand.builder().codigoLocacao(locacao.getCodigo())
-                .quilometragem(odometro).combustivel(combustivel.toString()).diasUtilizados(locacao.getDiasPrevistos())
-                .diasAtraso(diasAtraso).taxaCombustivel(taxaAdicional).possuiAvarias(possuiAvarias);
-
         if (diasAtraso > 0) {
             builder.percentualMultaAtraso(new BigDecimal("0.30"));
         }

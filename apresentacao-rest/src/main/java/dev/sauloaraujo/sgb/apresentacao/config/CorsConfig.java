@@ -16,13 +16,12 @@ public class CorsConfig implements WebMvcConfigurer {
     
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        // IMPORTANTE: Como o context path é /api/v1, os patterns são relativos ao context path
-        registry.addMapping("/**")  // Todas as rotas dentro do context path
+        registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD")
                 .allowedHeaders("*")
                 .exposedHeaders("*")
-                .allowCredentials(true) // Importante para cookies de sessão
+                .allowCredentials(true)
                 .maxAge(3600);
     }
     
@@ -33,11 +32,10 @@ public class CorsConfig implements WebMvcConfigurer {
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setExposedHeaders(java.util.Arrays.asList("*"));
-        configuration.setAllowCredentials(true); // Importante para cookies de sessão
+        configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // IMPORTANTE: Como o context path é /api/v1, usar "/**" para todas as rotas dentro do context path
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }

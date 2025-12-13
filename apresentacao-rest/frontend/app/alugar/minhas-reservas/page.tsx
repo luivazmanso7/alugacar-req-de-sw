@@ -16,15 +16,24 @@ import {
   User,
   FileText,
   X,
-  AlertCircle,
+  Edit,
+  Filter,
 } from "lucide-react";
+
+type FiltroStatus =
+  | "TODAS"
+  | "ATIVA"
+  | "CONFIRMADA"
+  | "CANCELADA"
+  | "FINALIZADA"
+  | "CONCLUIDA";
 
 export default function MinhasReservasPage() {
   const router = useRouter();
   const [reservas, setReservas] = useState<ReservaResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [cancelandoCodigo, setCancelandoCodigo] = useState<string | null>(null);
+  const [filtroStatus, setFiltroStatus] = useState<FiltroStatus>("TODAS");
 
   useEffect(() => {
     const carregarReservas = async () => {
@@ -41,7 +50,6 @@ export default function MinhasReservasPage() {
         const minhasReservas = await reservaService.listarMinhas();
         setReservas(minhasReservas);
       } catch (err: any) {
-        console.error("Erro ao carregar reservas:", err);
         if (err.message === "Não autenticado" || err.message?.includes("401")) {
           router.push("/alugar/login");
         } else {
@@ -108,43 +116,54 @@ export default function MinhasReservasPage() {
     }
   };
 
-  const podeCancelar = (reserva: ReservaResponse) => {
-    // Só pode cancelar reservas ATIVAS/CONFIRMADAS
-    const status = reserva.status.toUpperCase();
-    if (status !== "ATIVA" && status !== "CONFIRMADA") {
-      return false;
-    }
+  // Função para ordenar reservas: ativas primeiro, depois por data de retirada
+  const ordenarReservas = (reservas: ReservaResponse[]): ReservaResponse[] => {
+    return [...reservas].sort((a, b) => {
+      const statusA = a.status.toUpperCase();
+      const statusB = b.status.toUpperCase();
 
-    // Verificar se há pelo menos 12 horas antes da retirada
-    const dataRetirada = new Date(reserva.dataRetirada);
-    const agora = new Date();
-    const horasRestantes =
-      (dataRetirada.getTime() - agora.getTime()) / (1000 * 60 * 60);
+      // Prioridade: ATIVA/CONFIRMADA primeiro
+      const isAtivaA = statusA === "ATIVA" || statusA === "CONFIRMADA";
+      const isAtivaB = statusB === "ATIVA" || statusB === "CONFIRMADA";
 
-    return horasRestantes >= 12;
+      if (isAtivaA && !isAtivaB) return -1;
+      if (!isAtivaA && isAtivaB) return 1;
+
+      // Se ambas são ativas ou ambas não são, ordenar por data de retirada (mais recente primeiro)
+      const dataRetiradaA = new Date(a.dataRetirada).getTime();
+      const dataRetiradaB = new Date(b.dataRetirada).getTime();
+      return dataRetiradaB - dataRetiradaA;
+    });
   };
 
-  const handleCancelar = async (codigoReserva: string) => {
-    if (!confirm("Tem certeza que deseja cancelar esta reserva?")) {
-      return;
+  // Função para filtrar reservas por status
+  const filtrarReservas = (reservas: ReservaResponse[]): ReservaResponse[] => {
+    if (filtroStatus === "TODAS") {
+      return ordenarReservas(reservas);
     }
 
-    try {
-      setCancelandoCodigo(codigoReserva);
-      setError(null);
+    const reservasFiltradas = reservas.filter((reserva) => {
+      const status = reserva.status.toUpperCase();
+      switch (filtroStatus) {
+        case "ATIVA":
+          return status === "ATIVA";
+        case "CONFIRMADA":
+          return status === "CONFIRMADA";
+        case "CANCELADA":
+          return status === "CANCELADA";
+        case "FINALIZADA":
+          return status === "FINALIZADA";
+        case "CONCLUIDA":
+          return status === "CONCLUIDA";
+        default:
+          return true;
+      }
+    });
 
-      await reservaService.cancelar(codigoReserva);
-
-      // Recarregar lista de reservas
-      const minhasReservas = await reservaService.listarMinhas();
-      setReservas(minhasReservas);
-    } catch (err: any) {
-      console.error("Erro ao cancelar reserva:", err);
-      setError(err.message || "Erro ao cancelar reserva");
-    } finally {
-      setCancelandoCodigo(null);
-    }
+    return ordenarReservas(reservasFiltradas);
   };
+
+  const reservasFiltradasEOrdenadas = filtrarReservas(reservas);
 
   if (loading) {
     return (
@@ -190,6 +209,46 @@ export default function MinhasReservasPage() {
           </p>
         </div>
 
+        {/* Filtro por Status */}
+        {reservas.length > 0 && (
+          <div className="mb-6 bg-white rounded-lg shadow-md p-4">
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex items-center gap-2 text-gray-700">
+                <Filter className="w-5 h-5" />
+                <span className="font-semibold">Filtrar por status:</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {(
+                  [
+                    "TODAS",
+                    "ATIVA",
+                    "CONFIRMADA",
+                    "CANCELADA",
+                    "FINALIZADA",
+                    "CONCLUIDA",
+                  ] as FiltroStatus[]
+                ).map((status) => (
+                  <button
+                    key={status}
+                    onClick={() => setFiltroStatus(status)}
+                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                      filtroStatus === status
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    }`}
+                  >
+                    {status === "TODAS" ? "Todas" : getStatusLabel(status)}
+                  </button>
+                ))}
+              </div>
+              <div className="ml-auto text-sm text-gray-600">
+                {reservasFiltradasEOrdenadas.length} de {reservas.length}{" "}
+                reserva(s)
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Lista de Reservas */}
         {reservas.length === 0 ? (
           <div className="bg-white rounded-lg shadow-md p-12 text-center">
@@ -207,9 +266,25 @@ export default function MinhasReservasPage() {
               Fazer uma Reserva
             </button>
           </div>
+        ) : reservasFiltradasEOrdenadas.length === 0 ? (
+          <div className="bg-white rounded-lg shadow-md p-12 text-center">
+            <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              Nenhuma reserva encontrada
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Não há reservas com o status selecionado.
+            </p>
+            <button
+              onClick={() => setFiltroStatus("TODAS")}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+            >
+              Ver Todas as Reservas
+            </button>
+          </div>
         ) : (
           <div className="space-y-4">
-            {reservas.map((reserva) => (
+            {reservasFiltradasEOrdenadas.map((reserva) => (
               <div
                 key={reserva.codigo}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
@@ -303,42 +378,33 @@ export default function MinhasReservasPage() {
                     </div>
                   </div>
 
-                  {/* Botão de Cancelar */}
-                  {podeCancelar(reserva) ? (
+                  {/* Botões de Ação */}
+                  {reserva.status.toUpperCase() === "ATIVA" ||
+                  reserva.status.toUpperCase() === "CONFIRMADA" ? (
                     <div className="border-t border-gray-200 pt-4">
-                      <button
-                        onClick={() => handleCancelar(reserva.codigo)}
-                        disabled={cancelandoCodigo === reserva.codigo}
-                        className="w-full md:w-auto bg-red-600 hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
-                      >
-                        {cancelandoCodigo === reserva.codigo ? (
-                          <>
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                            Cancelando...
-                          </>
-                        ) : (
-                          <>
-                            <X className="w-4 h-4" />
-                            Cancelar Reserva
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  ) : reserva.status.toUpperCase() !== "CANCELADA" &&
-                    reserva.status.toUpperCase() !== "CONCLUIDA" &&
-                    reserva.status.toUpperCase() !== "FINALIZADA" ? (
-                    <div className="border-t border-gray-200 pt-4">
-                      <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg flex items-start gap-2">
-                        <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                        <div>
-                          <p className="font-semibold text-sm mb-1">
-                            Cancelamento não disponível
-                          </p>
-                          <p className="text-xs">
-                            O cancelamento só é permitido com pelo menos 12
-                            horas de antecedência antes da data de retirada.
-                          </p>
-                        </div>
+                      <div className="flex flex-wrap gap-3">
+                        <button
+                          onClick={() =>
+                            router.push(
+                              `/alugar/reservas/${reserva.codigo}/alterar`
+                            )
+                          }
+                          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                        >
+                          <Edit className="w-4 h-4" />
+                          Alterar Período
+                        </button>
+                        <button
+                          onClick={() =>
+                            router.push(
+                              `/alugar/reservas/${reserva.codigo}/cancelar`
+                            )
+                          }
+                          className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                        >
+                          <X className="w-4 h-4" />
+                          Cancelar Reserva
+                        </button>
                       </div>
                     </div>
                   ) : null}
